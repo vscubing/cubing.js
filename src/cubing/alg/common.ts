@@ -42,7 +42,7 @@ export abstract class AlgCommon<T extends Alg | Unit>
     }
   }
 
-  abstract toString(): string;
+  abstract override toString(): string;
 
   abstract invert(): T;
 

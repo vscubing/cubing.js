@@ -8,6 +8,7 @@
     "lib": ["esnext", "dom"],
     "moduleResolution": "node",
     "noImplicitAny": true,
+    "noImplicitOverride": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "outDir": "./dist/tsc",

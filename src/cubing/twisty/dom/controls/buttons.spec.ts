@@ -11,7 +11,7 @@ import { TwistyControlButton } from "./buttons";
 
 class MockFullscreenElement extends ManagedCustomElement {
   public fullscreenRequested: boolean = false;
-  public async requestFullscreen(): Promise<void> {
+  public override async  requestFullscreen(): Promise<void> {
     this.fullscreenRequested = true;
   }
 }
