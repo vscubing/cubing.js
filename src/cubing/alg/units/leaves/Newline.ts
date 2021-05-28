@@ -3,7 +3,7 @@ import { IterationDirection } from "../../iteration";
 import type { LeafUnit } from "../Unit";
 
 export class Newline extends AlgCommon<Newline> {
-  toString(): string {
+  override toString(): string {
     return `\n`;
   }
 
