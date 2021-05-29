@@ -14,6 +14,10 @@ class MockFullscreenElement extends ManagedCustomElement {
   public override async  requestFullscreen(): Promise<void> {
     this.fullscreenRequested = true;
   }
+
+  override attachShadow(_init: ShadowRootInit): ShadowRoot {
+    return null as unknown as any; // TOdO
+  }
 }
 
 customElementsShim.define("mock-fullscreen-element", MockFullscreenElement);
