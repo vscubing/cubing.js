@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+*/
+
 import { Timeline } from "../../animation/Timeline";
 import { ManagedCustomElement } from "../element/ManagedCustomElement";
 import { customElementsShim } from "../element/node-custom-element-shims";
@@ -13,10 +17,6 @@ class MockFullscreenElement extends ManagedCustomElement {
   public fullscreenRequested: boolean = false;
   public override async  requestFullscreen(): Promise<void> {
     this.fullscreenRequested = true;
-  }
-
-  override attachShadow(_init: ShadowRootInit): ShadowRoot {
-    return null as unknown as any; // TOdO
   }
 }
 
