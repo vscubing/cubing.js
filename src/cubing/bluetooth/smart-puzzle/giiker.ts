@@ -188,7 +188,7 @@ export class GiiKERCube extends BluetoothPuzzle {
     this.server.disconnect();
   }
 
-  public async getState(): Promise<PuzzleState> {
+  public override async getState(): Promise<PuzzleState> {
     return this.toReid333(
       new Uint8Array((await this.cubeCharacteristic.readValue()).buffer),
     );
