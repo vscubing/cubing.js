@@ -150,7 +150,7 @@ export class HeykubeCube extends BluetoothPuzzle {
     };
   }
 
-  public async getState(): Promise<PuzzleState> {
+  public override async getState(): Promise<PuzzleState> {
     const b1 = await this.stateCharacteristic.readValue();
     return this.decodeState(b1).state;
   }

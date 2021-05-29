@@ -103,22 +103,22 @@ export abstract class TraversalUp<
   DataAlgUp,
   DataUnitUp = DataAlgUp
 > extends TraversalDownUp<undefined, DataAlgUp, DataUnitUp> {
-  public traverseUnit(unit: Unit): DataUnitUp {
+  public override traverseUnit(unit: Unit): DataUnitUp {
     return dispatch<unknown, DataAlgUp, DataUnitUp>(this, unit, undefined);
   }
 
-  public traverseIntoUnit(unit: Unit): Unit {
+  public override traverseIntoUnit(unit: Unit): Unit {
     return assertIsUnit(this.traverseUnit(unit) as any);
   }
 
-  public abstract traverseAlg(alg: Alg): DataAlgUp;
-  public abstract traverseGrouping(grouping: Grouping): DataUnitUp;
-  public abstract traverseMove(move: Move): DataUnitUp;
-  public abstract traverseCommutator(commutator: Commutator): DataUnitUp;
-  public abstract traverseConjugate(conjugate: Conjugate): DataUnitUp;
-  public abstract traversePause(pause: Pause): DataUnitUp;
-  public abstract traverseNewline(newline: Newline): DataUnitUp;
-  public abstract traverseLineComment(comment: LineComment): DataUnitUp;
+  public abstract override traverseAlg(alg: Alg): DataAlgUp;
+  public abstract override traverseGrouping(grouping: Grouping): DataUnitUp;
+  public abstract override traverseMove(move: Move): DataUnitUp;
+  public abstract override traverseCommutator(commutator: Commutator): DataUnitUp;
+  public abstract override traverseConjugate(conjugate: Conjugate): DataUnitUp;
+  public abstract override traversePause(pause: Pause): DataUnitUp;
+  public abstract override traverseNewline(newline: Newline): DataUnitUp;
+  public abstract override traverseLineComment(comment: LineComment): DataUnitUp;
 }
 
 export interface SimplifyOptions {
