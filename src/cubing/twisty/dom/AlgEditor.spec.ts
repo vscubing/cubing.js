@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import { AlgEditor } from "./AlgEditor";
 import { TwistyPlayer } from "./TwistyPlayer";
 import "../../alg/test/alg-comparison";
