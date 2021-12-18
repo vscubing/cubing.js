@@ -3,7 +3,6 @@
     "allowJs": true,
     "alwaysStrict": true,
     "declaration": true,
-    "declarationDir": "./dist/types",
     "declarationMap": true,
     "lib": ["esnext", "dom"],
     "moduleResolution": "node",
@@ -16,9 +15,12 @@
     "module": "esnext",
     "resolveJsonModule": true,
     "importsNotUsedAsValues": "error",
-    "rootDir": "./",
-    "outDir": "./dist"
+    "outDir": "dist"
   },
-  "include": ["src", "script"],
-  "exclude": ["src/static", "src/cubing/search/worker-inside-generated*"]
+  "include": ["src/**/*", "script/**/*"],
+  "exclude": [
+    "src/static",
+    "src/cubing/search/worker-inside-generated*",
+    "dist"
+  ]
 }
