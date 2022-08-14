@@ -1,6 +1,5 @@
 import { constructWorker, wrap } from "../vendor/comlink-everywhere/outside";
 import type { WorkerInsideAPI } from "./inside/api";
-import { getWorkerEntryFileURL } from "./inside/search-worker-ts-entry-path-getter";
 
 const MODULE_WORKER_TIMEOUT_MILLISECONDS = 5000;
 
@@ -21,7 +20,11 @@ export async function instantiateModuleWorker(): Promise<WorkerInsideAPI> {
     }, MODULE_WORKER_TIMEOUT_MILLISECONDS);
 
     try {
-      const workerEntryFileURL = await getWorkerEntryFileURL();
+      const workerEntryFileURL = new URL(
+        "./inside/search-worker-ts-entry",
+        import.meta.url,
+      );
+      console.log(workerEntryFileURL);
       if (!workerEntryFileURL) {
         // This happens in `bundle-global`.
         reject(new Error("Could not get worker entry file URL."));
@@ -86,9 +89,7 @@ export async function instantiateModuleWorker(): Promise<WorkerInsideAPI> {
 }
 
 async function instantiateClassicWorker(): Promise<WorkerInsideAPI> {
-  const { workerSource } = await import(
-    "./search-worker-inside-generated-string.js"
-  );
+  const workerSource = `console.log("working!)`;
   const worker = await constructWorker(workerSource, { eval: true });
   return wrap(worker);
 }
