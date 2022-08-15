@@ -21,10 +21,10 @@ export async function instantiateModuleWorker(): Promise<WorkerInsideAPI> {
 
     try {
       const workerEntryFileURL = new URL(
-        "./inside/search-worker-ts-entry",
+        "./inside/search-worker-ts-entry.ts",
         import.meta.url,
       );
-      console.log(workerEntryFileURL);
+      console.log(workerEntryFileURL.toString());
       if (!workerEntryFileURL) {
         // This happens in `bundle-global`.
         reject(new Error("Could not get worker entry file URL."));
