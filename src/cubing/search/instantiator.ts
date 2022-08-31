@@ -21,7 +21,7 @@ export async function instantiateModuleWorker(): Promise<WorkerInsideAPI> {
 
     try {
       const workerEntryFileURL = new URL(
-        "./inside/search-worker-ts-entry.ts",
+        "./inside/search-worker-ts-entry",
         import.meta.url,
       );
       console.log(workerEntryFileURL.toString());
