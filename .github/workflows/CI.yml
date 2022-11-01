@@ -11,19 +11,19 @@ jobs:
         node-version: [16.x, 18.x]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: rome/setup-rome@v0.4
         with:
           version: latest
       - name: Cache `~/.npm`
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-npm-cache
         with:
           path: ~/.npm # npm cache files are stored in `~/.npm` on by default
           key: ${{ env.cache-name }}-${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
       - name: Use `node` v${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
@@ -44,16 +44,16 @@ jobs:
         node-version: [16.x, 18.x]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Cache `~/.npm`
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-npm-cache
         with:
           path: ~/.npm # npm cache files are stored in `~/.npm` on by default
           key: ${{ env.cache-name }}-${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
       - name: Use `node` v${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
@@ -72,23 +72,23 @@ jobs:
         node-version: [16.x, 18.x]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Cache `~/.npm` # Only for the `test-dist` job.
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-npm-cache
         with:
           path: ~/.npm # npm cache files are stored in `~/.npm` on by default
           key: ${{ env.cache-name }}-${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
       - name: Cache `~/.cache/ms-playwright`
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-npm-cache
         with:
           path: ~/.npm # npm cache files are stored in `~/.npm` on by default
           key: ${{ env.cache-name }}-${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
       - name: Use `node` v${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
