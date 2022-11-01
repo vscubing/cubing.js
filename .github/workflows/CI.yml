@@ -21,7 +21,9 @@ jobs:
         env:
           cache-name: cache-ci
         with:
-          path: '**/node_modules'
+          path: |
+            '**/node_modules'
+            '~/.cache'
           key: ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-
@@ -57,7 +59,9 @@ jobs:
         env:
           cache-name: cache-ci
         with:
-          path: '**/node_modules'
+          path: |
+            '**/node_modules'
+            '~/.cache'
           key: ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-
@@ -91,7 +95,9 @@ jobs:
         env:
           cache-name: cache-ci
         with:
-          path: '**/node_modules'
+          path: |
+            '**/node_modules'
+            '~/.cache'
           key: ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-
