@@ -24,7 +24,7 @@ jobs:
             ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-
             ${{ env.cache-name }}-${{ matrix.node-version }}-
             ${{ env.cache-name }}-
-      - name: Cache node_modules
+      - name: Cache playwright-cache
         uses: actions/cache@v3
         env:
           cache-name: cache-playwright-cache
