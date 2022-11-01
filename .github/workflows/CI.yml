@@ -23,7 +23,7 @@ jobs:
         with:
           path: |
             '**/node_modules'
-            '~/.cache'
+            '~/.cache' # Playwright browser executables.
           key: ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-
@@ -61,7 +61,7 @@ jobs:
         with:
           path: |
             '**/node_modules'
-            '~/.cache'
+            '~/.cache' # Playwright browser executables.
           key: ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-
@@ -97,7 +97,7 @@ jobs:
         with:
           path: |
             '**/node_modules'
-            '~/.cache'
+            '~/.cache' # Playwright browser executables.
           key: ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-
