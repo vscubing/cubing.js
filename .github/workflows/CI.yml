@@ -32,7 +32,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install
+      - run: npm ci
       - run: make test-spec-with-coverage
       - run: make lint-ci
       - run: make test-src-tsc
@@ -68,7 +68,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install
+      - run: npm ci
       - run: make build-esm
       - run: make build-bin
       - run: make build-types
@@ -102,7 +102,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install
+      - run: npm ci
       - run: make build-esm
       - run: make test-dist-esm-node-import
       - run: make test-dist-esm-perf
