@@ -80,7 +80,7 @@ jobs:
         with:
           path: ~/.npm # npm cache files are stored in `~/.npm` on by default
           key: ${{ env.cache-name }}-${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
-      - name: Cache ~/.cache/ms-playwright
+      - name: Cache `~/.cache/ms-playwright`
         uses: actions/cache@v2
         env:
           cache-name: cache-npm-cache
