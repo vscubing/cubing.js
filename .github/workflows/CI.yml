@@ -3,83 +3,6 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  test-src:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x]
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: rome/setup-rome@v0.4
-        with:
-          version: latest
-      # From https://docs.github.com/en/free-pro-team@latest/actions/guides/caching-dependencies-to-speed-up-workflows#example-using-the-cache-action
-      - name: Cache node_modules
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-ci
-        with:
-          path: |
-            '**/node_modules'
-            '~/.cache' # Playwright browser executables.
-          key: ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-
-            ${{ env.cache-name }}-${{ matrix.node-version }}-
-            ${{ env.cache-name }}-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - if: steps.cache-ci.outputs.cache-hit != 'true'
-        run: npm install --verbose
-      - run: make test-spec-with-coverage
-      - run: make lint-ci
-      - run: make test-src-tsc
-      - run: make test-src-internal-import-restrictions
-      - run: make test-src-does-not-import-dist
-      - run: make test-src-scripts-consistency
-      - run: make format # note: not in `test-src` in `package.json`, only in CI
-      - run: make clean
-
-  test-build:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x]
-
-    steps:
-      - uses: actions/checkout@v3
-      # From https://docs.github.com/en/free-pro-team@latest/actions/guides/caching-dependencies-to-speed-up-workflows#example-using-the-cache-action
-      - name: Cache node_modules
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-ci
-        with:
-          path: |
-            '**/node_modules'
-            '~/.cache' # Playwright browser executables.
-          key: ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-
-            ${{ env.cache-name }}-${{ matrix.node-version }}-
-            ${{ env.cache-name }}-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - if: steps.cache-ci.outputs.cache-hit != 'true'
-        run: npm install --verbose
-      - run: make build-esm
-      - run: make build-bin
-      - run: make build-types
-      - run: make build-sites
-      - run: make build-site-docs
-      - run: make clean
-
   test-dist:
     runs-on: ubuntu-latest
 
@@ -93,11 +16,20 @@ jobs:
       - name: Cache node_modules
         uses: actions/cache@v3
         env:
-          cache-name: cache-ci
+          cache-name: cache-node_modules
         with:
-          path: |
-            '**/node_modules'
-            '~/.cache' # Playwright browser executables.
+          path: '**/node_modules'
+          key: ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-
+            ${{ env.cache-name }}-${{ matrix.node-version }}-
+            ${{ env.cache-name }}-
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-playwright-cache
+        with:
+          path: '~/.cache' # Playwright browser executables.
           key: ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-
@@ -107,7 +39,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - if: steps.cache-ci.outputs.cache-hit != 'true'
+      - if: steps.cache-node_modules.outputs.cache-hit != 'true' || steps.cache-playwright-cache.outputs.cache-hit != 'true'
         run: npm install --verbose
       - run: make build-esm
       - run: make test-dist-esm-node-import
