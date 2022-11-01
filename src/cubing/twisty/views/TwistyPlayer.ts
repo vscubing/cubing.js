@@ -179,7 +179,7 @@ const propOnly: Record<string, boolean> = {
  * @category TwistyPlayer
  */
 
-console.log("test2");
+console.log("test4");
 export class TwistyPlayer
   extends TwistyPlayerSettable
   implements TwistyAnimationControllerDelegate
