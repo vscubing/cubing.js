@@ -50,4 +50,5 @@ jobs:
       - run: make test-dist-esm-build-size
       - run: make build-sites
       - run: make test-dist-sites-experiments
+      - run: find ~/.cache
       - run: make clean
