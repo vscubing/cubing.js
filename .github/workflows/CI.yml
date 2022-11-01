@@ -22,17 +22,17 @@ jobs:
           cache-name: cache-node-modules
         with:
           path: '**/node_modules'
-          key: node_modules-${{ matrix.node-version }}-${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: node_modules-${{ matrix.node-version }}-${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            node_modules-${{ matrix.node-version }}-node_modules-${{ runner.os }}-build-${{ env.cache-name }}-
-            node_modules-${{ matrix.node-version }}-node_modules-${{ runner.os }}-build-
-            node_modules-${{ matrix.node-version }}-node_modules-${{ runner.os }}-
+            node_modules-${{ matrix.node-version }}-${{ runner.os }}-${{ env.cache-name }}-
+            node_modules-${{ matrix.node-version }}-${{ runner.os }}-
             node_modules-${{ matrix.node-version }}-
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install --verbose
+      - if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm install --verbose
       - run: make test-spec-with-coverage
       - run: make lint-ci
       - run: make test-src-tsc
@@ -58,17 +58,17 @@ jobs:
           cache-name: cache-node-modules
         with:
           path: '**/node_modules'
-          key: node_modules-${{ matrix.node-version }}-${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: node_modules-${{ matrix.node-version }}-${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            node_modules-${{ matrix.node-version }}-node_modules-${{ runner.os }}-build-${{ env.cache-name }}-
-            node_modules-${{ matrix.node-version }}-node_modules-${{ runner.os }}-build-
-            node_modules-${{ matrix.node-version }}-node_modules-${{ runner.os }}-
+            node_modules-${{ matrix.node-version }}-${{ runner.os }}-${{ env.cache-name }}-
+            node_modules-${{ matrix.node-version }}-${{ runner.os }}-
             node_modules-${{ matrix.node-version }}-
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install --verbose
+      - if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm install --verbose
       - run: make build-esm
       - run: make build-bin
       - run: make build-types
@@ -92,17 +92,17 @@ jobs:
           cache-name: cache-node-modules
         with:
           path: '**/node_modules'
-          key: node_modules-${{ matrix.node-version }}-${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: node_modules-${{ matrix.node-version }}-${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            node_modules-${{ matrix.node-version }}-node_modules-${{ runner.os }}-build-${{ env.cache-name }}-
-            node_modules-${{ matrix.node-version }}-node_modules-${{ runner.os }}-build-
-            node_modules-${{ matrix.node-version }}-node_modules-${{ runner.os }}-
+            node_modules-${{ matrix.node-version }}-${{ runner.os }}-${{ env.cache-name }}-
+            node_modules-${{ matrix.node-version }}-${{ runner.os }}-
             node_modules-${{ matrix.node-version }}-
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install --verbose
+      - if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm install --verbose
       - run: make build-esm
       - run: make test-dist-esm-node-import
       - run: make test-dist-esm-perf
