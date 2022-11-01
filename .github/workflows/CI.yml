@@ -32,8 +32,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: find ./node_nodules
-      - run: find node_modules
       - run: npm install --verbose
       - run: make test-spec-with-coverage
       - run: make lint-ci
@@ -70,8 +68,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: find ./node_nodules
-      - run: find node_modules
       - run: npm install --verbose
       - run: make build-esm
       - run: make build-bin
@@ -106,8 +102,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: find ./node_nodules
-      - run: find node_modules
       - run: npm install --verbose
       - run: make build-esm
       - run: make test-dist-esm-node-import
