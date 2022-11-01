@@ -16,9 +16,9 @@ jobs:
       - name: Cache node_modules
         uses: actions/cache@v3
         env:
-          cache-name: cache-node_modules
+          cache-name: cache-home-dot-npm
         with:
-          path: '**/node_modules'
+          path: '~/.npm'
           key: ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-
@@ -27,7 +27,7 @@ jobs:
       - name: Cache playwright-cache
         uses: actions/cache@v3
         env:
-          cache-name: cache-playwright-cache
+          cache-name: cache-home-dot-cache
         with:
           path: '~/.cache' # Playwright browser executables.
           key: ${{ env.cache-name }}-${{ matrix.node-version }}-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
@@ -39,7 +39,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - if: steps.cache-node_modules.outputs.cache-hit != 'true' || steps.cache-playwright-cache.outputs.cache-hit != 'true'
+      - if: steps.cache-home-dot-npm.outputs.cache-hit != 'true' || steps.cache-home-dot-cache.outputs.cache-hit != 'true'
         run: npm install --verbose
       - run: make build-esm
       - run: make test-dist-esm-node-import
