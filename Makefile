@@ -1,5 +1,5 @@
 # TODO: see if we can make everything compatible with `bun`
-NODE=node
+NODE=bun
 ROME=./node_modules/.bin/rome
 WEB_TEST_RUNNER=./node_modules/.bin/wtr
 
@@ -191,7 +191,7 @@ roll-vendored-twsearch:
 	cd ../twsearch/ && make clean build/esm
 	rm -rf src/cubing/vendor/mpl/twsearch/*
 	cp -R ../twsearch/build/esm/* src/cubing/vendor/mpl/twsearch/
-	node script/fix-vendored-twsearch.js
+	bun script/fix-vendored-twsearch.js
 .PHONY: update-create-cubing-app
 update-create-cubing-app:
 	cd ../create-cubing-app && make roll-cubing-commit && git push
