@@ -114,6 +114,7 @@ async function writeVersionJSON(siteFolder) {
 export async function build(target, dev) {
   const startDeps = Date.now();
   const depPromises = [];
+  console.log("Building deps:", target.name);
   for (const dependency of target.dependencies) {
     const depPromise = build(dependency, dev);
     depPromises.push(depPromise);
@@ -295,7 +296,7 @@ export const typesTarget = {
 export const allTarget = {
   name: "all",
   builtYet: false,
-  dependencies: [esmTarget, typesTarget, binTarget],
+  dependencies: [esmTarget, binTarget, typesTarget],
   buildSelf: async (dev) => {
     if (dev) {
       throw new Error("Cannot build `types` target in dev mode.");
@@ -309,7 +310,7 @@ export const targets /*: Record<String, SolverWorker>*/ = {
   experiments: experimentsTarget,
   "static-package-metadata": staticPackageMetadataTarget,
   esm: esmTarget,
-  types: typesTarget,
   bin: binTarget,
+  types: typesTarget,
   all: allTarget,
 };
