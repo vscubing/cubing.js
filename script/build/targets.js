@@ -9,18 +9,19 @@
 // short commandline commands. But maybe this file will stick around because it
 // turns out to be too useful.
 
-import { barelyServe } from "barely-a-dev-server";
-import * as esbuild from "esbuild";
 import { exec } from "node:child_process";
-import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { basename, join } from "node:path";
+
+import { barelyServe } from "barely-a-dev-server";
+import * as esbuild from "esbuild";
 import { execPromise, spawnPromise } from "../lib/execPromise.js";
 import {
   packageEntryPoints,
   packageEntryPointsWithSearchWorkerEntry,
   searchWorkerEsbuildWorkaroundEntry,
 } from "../lib/packages.js";
+import { pathExists } from "../lib/need-folder.js";
 
 const PARALLEL = false;
 const PUBLISH_WITH_PRIVATE_FIELDS = true;
@@ -144,7 +145,7 @@ export const staticPackageMetadataTarget = {
     // TODO: use `fs/promises` once we can use a recent enough version of `node`.
     const exports = JSON.parse(await readFile("./package.json")).exports;
     for (const folder of Object.keys(exports)) {
-      if (!(await existsSync(folder))) {
+      if (!(await pathExists(folder))) {
         await mkdir(folder);
       }
       const folderBasename = basename(folder);
@@ -163,7 +164,7 @@ export const staticPackageMetadataTarget = {
         const typesJS = `export * from "../../types/${folderBasename}";\n`;
         const typesJSFolder = join("./dist/esm/", folder);
         const typesJSFilePath = join(typesJSFolder, "index.d.ts");
-        if (!(await existsSync(typesJSFolder))) {
+        if (!(await pathExists(typesJSFolder))) {
           await mkdir(typesJSFolder, { recursive: true });
         }
         console.log(`Writing: ${typesJSFilePath}`);

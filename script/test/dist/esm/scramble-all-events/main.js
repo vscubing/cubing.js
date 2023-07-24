@@ -1,6 +1,6 @@
 import { needFolder } from "../../../../lib/need-folder.js";
 
-needFolder(
+await needFolder(
   new URL("../../../../../dist/esm/scramble", import.meta.url).pathname,
   "make build-esm",
 );

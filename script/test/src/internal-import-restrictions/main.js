@@ -1,9 +1,10 @@
 import { build } from "esbuild";
-import { resolve } from "path";
-import { existsSync } from "fs";
+import { resolve } from "node:path";
+import { access } from "node:fs/promises";
 
 import { targetInfos } from "./target-infos.js";
 import { execPromise } from "../../../lib/execPromise.js";
+import { pathExists } from "../../../lib/need-folder.js";
 
 const TARGET_INFOS_PATH = resolve(
   new URL(".", import.meta.url).pathname,
@@ -31,11 +32,14 @@ class Target {
     this.deps = targetInfo.deps;
 
     this.dirPath = resolve(PATH_TO_SRC_CUBING, this.name);
-    if (!existsSync(this.dirPath)) {
-      throw new Error(`Folder doesn't exist: ${this.name}`);
-    }
 
     this.regExp = new RegExp(this.name);
+  }
+
+  async validateFolder() {
+    if (!(await pathExists(this.dirPath))) {
+      throw new Error(`Folder doesn't exist: ${this.name} (${this.dirPath})`);
+    }
   }
 
   checkImportable(args, forTarget) {
@@ -119,7 +123,9 @@ class Target {
 
 const targets = [];
 for (const [name, targetInfo] of Object.entries(targetInfos)) {
-  targets.push(new Target(name, targetInfo));
+  const target = new Target(name, targetInfo);
+  await target.validateFolder();
+  targets.push(target);
 }
 
 // targets.map(a => console.log(a.dirPath))

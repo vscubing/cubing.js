@@ -1,9 +1,9 @@
 import { needFolder } from "../../../../lib/need-folder.js";
-needFolder(
+await needFolder(
   new URL("../../../../../kpuzzle", import.meta.url).pathname,
   "make build-esm",
 );
-needFolder(
+await needFolder(
   new URL("../../../../../dist/esm/kpuzzle", import.meta.url).pathname,
   "make build-esm",
 );
@@ -56,21 +56,19 @@ async function runTest() {
   }
 }
 
-(async () => {
-  try {
-    console.log("Installing Vite server dependencies.");
-    await installServer();
-    console.log("Starting Vite server.");
-    // TODO: show zombie process info only on child process failure.
-    startServer();
-    console.log("Running test.\n");
-    await runTest();
-    console.log("Finished test.");
-  } catch (e) {
-    console.error(e);
-    exitCode = 1;
-  } finally {
-    killAllChildProcesses();
-    process.exit(exitCode);
-  }
-})();
+try {
+  console.log("Installing Vite server dependencies.");
+  await installServer();
+  console.log("Starting Vite server.");
+  // TODO: show zombie process info only on child process failure.
+  startServer();
+  console.log("Running test.\n");
+  await runTest();
+  console.log("Finished test.");
+} catch (e) {
+  console.error(e);
+  exitCode = 1;
+} finally {
+  killAllChildProcesses();
+  process.exit(exitCode);
+}

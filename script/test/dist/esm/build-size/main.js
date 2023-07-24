@@ -1,6 +1,6 @@
 import { build } from "esbuild";
 import { mkdtemp, readFile, stat } from "fs/promises";
-import { join } from "path";
+import { join } from "node:path";
 import { promisify } from "util";
 import { gzip } from "zlib";
 import { needFolder } from "../../../../lib/need-folder.js";

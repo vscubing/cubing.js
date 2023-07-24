@@ -1,17 +1,12 @@
-import {
-  existsSync,
-  mkdirSync,
-  readFileSync,
-  renameSync,
-  writeFileSync,
-} from "fs";
-import { join } from "path";
+import { exists, mkdir, readFile, rename, writeFile } from "node:fs/promises";
+import { join } from "node:path";
+
 import { execPromise } from "../lib/execPromise.js";
 
 const TEMP_ROOT = "./.temp/initial-setup";
 const TARGET_NODE_MODULES_PATH = "./node_modules";
 
-if (existsSync(TARGET_NODE_MODULES_PATH)) {
+if (await exists(TARGET_NODE_MODULES_PATH)) {
   process.exit(0);
 }
 
@@ -22,16 +17,16 @@ Automatically installing a subset of dependencies.
 Note that you have to run \`npm install\` manually if you pull new code or want to run any tests.`,
 );
 
-const json = JSON.parse(readFileSync("package.json", "utf8"));
+const json = JSON.parse(await readFile("package.json", "utf8"));
 const oldDevDependencies = json.devDependencies;
 json.devDependencies = {};
 for (const name of json.minimalDevDependencies) {
   json.devDependencies[name] = oldDevDependencies[name];
 }
-mkdirSync(TEMP_ROOT, { recursive: true });
-writeFileSync(
+await mkdir(TEMP_ROOT, { recursive: true });
+await writeFile(
   join(TEMP_ROOT, "package.json"),
   JSON.stringify(json, null, "  "),
 );
 console.log(await execPromise(`cd ${TEMP_ROOT} && npm ci`));
-renameSync(join(TEMP_ROOT, "node_modules"), TARGET_NODE_MODULES_PATH);
+await rename(join(TEMP_ROOT, "node_modules"), TARGET_NODE_MODULES_PATH);
