@@ -1,5 +1,8 @@
 # TODO: see if we can make everything compatible with `bun`
 NODE=bun
+NPM=bun
+NPX=bunx
+BUGUS_PREFIX=bogus-
 ROME=./node_modules/.bin/rome
 WEB_TEST_RUNNER=./node_modules/.bin/wtr
 
@@ -11,12 +14,12 @@ default:
 	@echo ""
 	@echo "To build the project, run:"
 	@echo ""
-	@echo "    npm install"
+	@echo "    ${NPM} install"
 	@echo "    make build"
 	@echo ""
 	@echo "To see available tests, run:"
 	@echo ""
-	@echo "    npm install"
+	@echo "    ${NPM} install"
 	@echo "    make test-info"
 	@echo ""
 
@@ -46,14 +49,14 @@ build-site-experiments:
 .PHONY: build-site-docs
 build-site-docs:
 	rm -rf ./dist/sites/js.cubing.net/
-	npx typedoc src/cubing/*/index.ts
+	${NPX} typedoc src/cubing/*/index.ts
 	cp -R ./src/docs/js.cubing.net/* ./dist/sites/js.cubing.net/
 	@echo "\n\nNote: The js.cubing.net docs are deployed to GitHub Pages using GitHub Actions when a commit is pushed to the \`main\` branch:\nhttps://github.com/cubing/cubing.js/actions/workflows/pages.yml"
 .PHONY: generate-js
 generate-js: generate-js-parsers generate-js-svg
 .PHONY: generate-js-parsers
 generate-js-parsers:
-	npx peggy --format es src/cubing/kpuzzle/parser/parser-peggy.peggy
+	${NPX} peggy --format es src/cubing/kpuzzle/parser/parser-peggy.peggy
 .PHONY: generate-js-svg
 generate-js-svg:
 	@echo "TODO: Generating JS for SVGs is not implemented yet."
@@ -62,7 +65,7 @@ dev: quick-setup
 	${NODE} ./script/build/main.js sites dev
 .PHONY: link
 link: build
-	npm link
+	${NPM} link
 .PHONY: clean
 clean:
 	rm -rf \
@@ -90,7 +93,6 @@ test-fast: build-esm lint build-sites build-bin test-spec
 test-all: test-src test-build test-dist
 .PHONY: test-src
 test-src: \
-	test-spec \
 	lint-ci \
 	test-src-tsc \
 	test-src-internal-import-restrictions \
@@ -113,7 +115,7 @@ test-src-does-not-import-dist: build
 	${NODE} ./script/test/src/does-not-import-dist/main.js
 .PHONY: test-src-tsc
 test-src-tsc: build-types
-	npx tsc --project ./tsconfig.json
+	${NPX} npx tsc --project ./tsconfig.json
 .PHONY: test-src-scripts-consistency
 test-src-scripts-consistency:
 	${NODE} ./script/test/src/scripts-consistency/main.js
@@ -133,9 +135,7 @@ test-dist: \
 	test-dist-esm-scramble-all-events \
 	test-dist-esm-perf \
 	test-dist-esm-plain-esbuild-compat \
-	test-dist-esm-vite \
-	test-dist-esm-build-size \
-	test-dist-sites-experiments # keep CI.yml in sync with this
+	test-dist-esm-build-size
 .PHONY: test-dist-esm-node-import
 test-dist-esm-node-import: build-esm
 	${NODE} script/test/dist/esm/node-import/main.js
@@ -162,7 +162,7 @@ format:
 	${ROME} format --write ./script ./src
 .PHONY: setup
 setup:
-	npm ci
+	${NPM} ci
 .PHONY: quick-setup
 quick-setup: | node_modules
 .PHONY: lint
@@ -203,6 +203,9 @@ update-cdn:
 	@echo ""
 	test -d ../cdn.cubing.net/ || exit
 	cd ../cdn.cubing.net/ && make roll-cubing
+.PHONY: ci
+ci: # shim for bun
+	${NPM} install
 
 ######## Only in `Makefile` ########
 

@@ -14,7 +14,7 @@ for (const folder of ["bin", "esm", "types"]) {
 // Test that the `dist` dir is not imported from the source (which causes unwanted autocompletion in VSCode).
 // In theory we could test this together with import restrictions, but `npx tsc --explainFiles` lets us test directly against the completions.
 
-console.log("Testing the import graph from: npx tsc --explainFiles");
+console.log(`Testing the import graph from: ${NPX} tsc --explainFiles`);
 
 console.log("Building...");
 await execPromise("make build"); // TODO: check for full expected build without compiling from scratch.
@@ -22,10 +22,10 @@ await execPromise("make build"); // TODO: check for full expected build without 
 let output;
 try {
   console.log("Getting graph...");
-  output = await execPromise("npx tsc --explainFiles -p ./tsconfig.json");
+  output = await execPromise(`${NPX} tsc --explainFiles -p ./tsconfig.json`);
 } catch (e) {
   stderr.write(
-    "`npx tsc --explainFiles` failed. Please run `make test-src-tsc` to debug.",
+    `\`${NPX} tsc --explainFiles\` failed. Please run \`make test-src-tsc\` to debug.`,
   );
   exit(1);
 }

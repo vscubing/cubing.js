@@ -1,19 +1,19 @@
-import "cubing/alg";
-import "cubing/bluetooth";
-import "cubing/kpuzzle";
-import "cubing/notation";
-import "cubing/protocol";
-import "cubing/puzzle-geometry";
-import "cubing/puzzles";
-import "cubing/scramble";
-import "cubing/search";
-import "cubing/stream";
-import "cubing/twisty";
+import "../../../../../dist/esm/alg";
+import "../../../../../dist/esm/bluetooth";
+import "../../../../../dist/esm/kpuzzle";
+import "../../../../../dist/esm/notation";
+import "../../../../../dist/esm/protocol";
+import "../../../../../dist/esm/puzzle-geometry";
+import "../../../../../dist/esm/puzzles";
+import "../../../../../dist/esm/scramble";
+import "../../../../../dist/esm/search";
+import "../../../../../dist/esm/stream";
+import "../../../../../dist/esm/twisty";
 
-import { setSearchDebug } from "cubing/search";
+import { setSearchDebug } from "../../../../../dist/esm/search";
 setSearchDebug({ disableStringWorker: true, scramblePrefetchLevel: "none" });
 
-import { randomScrambleForEvent } from "cubing/scramble";
+import { randomScrambleForEvent } from "../../../../../dist/esm/scramble";
 
 const eventsOrdered = [
   "333",

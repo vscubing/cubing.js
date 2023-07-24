@@ -1,7 +1,8 @@
 import { join } from "node:path";
-import { cp, mkdir } from "node:fs/promises";
+import { mkdir } from "node:fs/promises";
 
 import { execPromise } from "../../../../lib/execPromise.js";
+import { NPX } from "../../../../config/runtime.js";
 
 export const port = 1236;
 
@@ -12,12 +13,12 @@ const packageTempPath = join(packageTempRoot, "vite-package");
 
 export async function installServer() {
   await mkdir(packageTempRoot, { recursive: true });
-  await cp(packageSrcPath, packageTempRoot, { recursive: true }); // TODO: cpSync?
-  await execPromise("npm install", { cwd: packageTempPath });
+  await execPromise(`cp -R ${packageSrcPath} ${packageTempRoot}`);
+  await execPromise("bun install", { cwd: packageTempPath });
 }
 
 export function startServer() {
-  execPromise(`npx vite serve --port ${port}`, {
+  execPromise(`${NPX} vite serve --port ${port}`, {
     cwd: packageTempPath,
   }).then(console.error);
 }

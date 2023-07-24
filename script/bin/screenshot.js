@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 
 import { build } from "esbuild";
 import { execPromise } from "../lib/execPromise.js";

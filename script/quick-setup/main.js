@@ -3,6 +3,7 @@ import { join } from "node:path";
 
 import { execPromise } from "../lib/execPromise.js";
 import { pathExists } from "../lib/need-folder.js";
+import { NPM } from "../config/runtime.js";
 
 const TEMP_ROOT = "./.temp/initial-setup";
 const TARGET_NODE_MODULES_PATH = "./node_modules";
@@ -15,7 +16,7 @@ console.log(
   `
 Automatically installing a subset of dependencies.
 
-Note that you have to run \`npm install\` (or \`npm ci\`) manually if you pull new code or want to run any tests.`,
+Note that you have to run \`${NPM} install\` (or \`${NPM} ci\`) manually if you pull new code or want to run any tests.`,
 );
 
 const json = JSON.parse(await readFile("package.json", "utf8"));
@@ -29,5 +30,5 @@ await writeFile(
   join(TEMP_ROOT, "package.json"),
   JSON.stringify(json, null, "  "),
 );
-console.log(await execPromise(`cd ${TEMP_ROOT} && npm install`));
+console.log(await execPromise(`cd ${TEMP_ROOT} && ${NPM} install`));
 await rename(join(TEMP_ROOT, "node_modules"), TARGET_NODE_MODULES_PATH);

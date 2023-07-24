@@ -22,6 +22,7 @@ import {
   searchWorkerEsbuildWorkaroundEntry,
 } from "../lib/packages.js";
 import { pathExists } from "../lib/need-folder.js";
+import { NPX } from "../config/runtime.js";
 
 const PARALLEL = false;
 const PUBLISH_WITH_PRIVATE_FIELDS = true;
@@ -283,7 +284,7 @@ export const typesTarget = {
     if (dev) {
       throw new Error("Cannot build `types` target in dev mode.");
     }
-    await spawnPromise("npx", [
+    await spawnPromise(NPX, [
       "tsup",
       ...packageEntryPoints,
       "--dts-only",

@@ -5,8 +5,8 @@ await needFolder(
 );
 
 (async () => {
-  const { Alg } = await import("cubing/alg");
-  const { cube3x3x3 } = await import("cubing/puzzles");
+  const { Alg } = await import("../../../../../dist/esm/alg");
+  const { cube3x3x3 } = await import("../../../../../dist/esm/puzzles");
 
   if (!globalThis.performance) {
     console.log("Setting `globalThis.performance = Date;`");

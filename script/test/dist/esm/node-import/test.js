@@ -1,20 +1,23 @@
-import "cubing/alg";
-import "cubing/bluetooth";
-import "cubing/kpuzzle";
-import "cubing/notation";
-import "cubing/protocol";
-import "cubing/puzzle-geometry";
-import "cubing/puzzles";
-import "cubing/scramble";
-import "cubing/search";
-import "cubing/stream";
-import "cubing/twisty";
+import "../../../../../dist/esm/alg";
+import "../../../../../dist/esm/bluetooth";
+import "../../../../../dist/esm/kpuzzle";
+import "../../../../../dist/esm/notation";
+import "../../../../../dist/esm/protocol";
+import "../../../../../dist/esm/puzzle-geometry";
+import "../../../../../dist/esm/puzzles";
+import "../../../../../dist/esm/scramble";
+import "../../../../../dist/esm/search";
+import "../../../../../dist/esm/stream";
+import "../../../../../dist/esm/twisty";
 
-import { Alg } from "cubing/alg";
-import { KState } from "cubing/kpuzzle";
-import { cube2x2x2 } from "cubing/puzzles";
-import { randomScrambleForEvent } from "cubing/scramble";
-import { experimentalSolveTwsearch, setSearchDebug } from "cubing/search";
+import { Alg } from "../../../../../dist/esm/alg";
+import { KState } from "../../../../../dist/esm/kpuzzle";
+import { cube2x2x2 } from "../../../../../dist/esm/puzzles";
+import { randomScrambleForEvent } from "../../../../../dist/esm/scramble";
+import {
+  experimentalSolveTwsearch,
+  setSearchDebug,
+} from "../../../../../dist/esm/search";
 
 setSearchDebug({ disableStringWorker: true });
 
