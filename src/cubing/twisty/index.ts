@@ -26,6 +26,7 @@ export type { VisualizationFormat } from "./model/props/viewer/VisualizationProp
 export { TwizzleLink } from "./views/twizzle/TwizzleLink";
 
 export type { MillisecondTimestamp as ExperimentalMillisecondTimestamp } from "./controllers/AnimationTypes";
+export { BoundaryType } from "./controllers/AnimationTypes";
 
 // Older
 // export { Cube3D } from "./views/3D/puzzles/Cube3D";
