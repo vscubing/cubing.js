@@ -1,20 +1,23 @@
-import "cubing/alg";
-import "cubing/bluetooth";
-import "cubing/kpuzzle";
-import "cubing/notation";
-import "cubing/protocol";
-import "cubing/puzzle-geometry";
-import "cubing/puzzles";
-import "cubing/scramble";
-import "cubing/search";
-import "cubing/stream";
-import "cubing/twisty";
+import "@vscubing/cubing/alg";
+import "@vscubing/cubing/bluetooth";
+import "@vscubing/cubing/kpuzzle";
+import "@vscubing/cubing/notation";
+import "@vscubing/cubing/protocol";
+import "@vscubing/cubing/puzzle-geometry";
+import "@vscubing/cubing/puzzles";
+import "@vscubing/cubing/scramble";
+import "@vscubing/cubing/search";
+import "@vscubing/cubing/stream";
+import "@vscubing/cubing/twisty";
 
-import { Alg } from "cubing/alg";
-import { KPattern } from "cubing/kpuzzle";
-import { cube2x2x2 } from "cubing/puzzles";
-import { randomScrambleForEvent } from "cubing/scramble";
-import { experimentalSolveTwsearch, setSearchDebug } from "cubing/search";
+import { Alg } from "@vscubing/cubing/alg";
+import { KPattern } from "@vscubing/cubing/kpuzzle";
+import { cube2x2x2 } from "@vscubing/cubing/puzzles";
+import { randomScrambleForEvent } from "@vscubing/cubing/scramble";
+import {
+  experimentalSolveTwsearch,
+  setSearchDebug,
+} from "@vscubing/cubing/search";
 
 setSearchDebug({ disableStringWorker: true });
 

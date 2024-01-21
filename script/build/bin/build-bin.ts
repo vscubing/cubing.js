@@ -11,7 +11,7 @@ await build({
   sourcemap: true,
   splitting: true,
   packages: "external",
-  external: ["cubing/*"],
+  external: ["@vscubing/cubing/*"],
   supported: {
     "top-level-await": true,
   },

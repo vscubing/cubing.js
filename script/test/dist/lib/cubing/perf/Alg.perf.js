@@ -5,8 +5,8 @@ needPath(
 );
 
 (async () => {
-  const { Alg } = await import("cubing/alg");
-  const { cube3x3x3 } = await import("cubing/puzzles");
+  const { Alg } = await import("@vscubing/cubing/alg");
+  const { cube3x3x3 } = await import("@vscubing/cubing/puzzles");
 
   if (!globalThis.performance) {
     console.log("Setting `globalThis.performance = Date;`");

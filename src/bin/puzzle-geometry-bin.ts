@@ -8,12 +8,12 @@ import {
   parsePuzzleDescription,
   PuzzleGeometry,
   type ExperimentalPuzzleGeometryOptions,
-} from "cubing/puzzle-geometry";
-import type { PuzzleDescriptionString } from "cubing/puzzle-geometry/PGPuzzles";
+} from "@vscubing/cubing/puzzle-geometry";
+import type { PuzzleDescriptionString } from "@vscubing/cubing/puzzle-geometry/PGPuzzles";
 import type {
   PuzzleCutDescription,
   PuzzleDescription,
-} from "cubing/puzzle-geometry/PuzzleGeometry";
+} from "@vscubing/cubing/puzzle-geometry/PuzzleGeometry";
 
 export function asstructured(v: any): any {
   if (typeof v === "string") {

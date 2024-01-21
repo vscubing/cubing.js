@@ -14,7 +14,7 @@ for (const fileName of await readdir(DIR)) {
       break;
     }
     case "index.js": {
-      contents = contents.replace(`"cubing/alg"`, `"../../../alg"`);
+      contents = contents.replace(`"@vscubing/cubing/alg"`, `"../../../alg"`);
       break;
     }
     default: {

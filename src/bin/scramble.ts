@@ -1,10 +1,10 @@
 // To run this file directly:
 // bun run src/bin/scramble.ts -- 333
 
-import { eventInfo } from "cubing/puzzles";
-import { randomScrambleForEvent } from "cubing/scramble";
-import { setSearchDebug } from "cubing/search";
-import type { Alg } from "cubing/alg";
+import { eventInfo } from "@vscubing/cubing/puzzles";
+import { randomScrambleForEvent } from "@vscubing/cubing/scramble";
+import { setSearchDebug } from "@vscubing/cubing/search";
+import type { Alg } from "@vscubing/cubing/alg";
 
 // TODO: completions for `bash`, `zsh`, and `fish`: https://github.com/loilo/completarr
 

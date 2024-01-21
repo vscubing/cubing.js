@@ -27,7 +27,7 @@ export const mainAllowedImports: AllowedImports = {
       "node:util",
 
       "package.json",
-      "cubing",
+      "@vscubing/cubing",
 
       "barely-a-dev-server",
       "esbuild",
@@ -36,11 +36,11 @@ export const mainAllowedImports: AllowedImports = {
       "zlib",
       "yargs",
     ],
-    dynamic: ["cubing", "node:repl"],
+    dynamic: ["@vscubing/cubing", "node:repl"],
   },
   // src/bin
   "src/bin": {
-    static: ["cubing"],
+    static: ["@vscubing/cubing"],
   },
   "src/bin/scramble.ts": {
     static: ["src/cubing"],
