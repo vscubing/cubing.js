@@ -63,8 +63,9 @@ export class TwistyScrubber extends ManagedCustomElement {
   constructor(
     public model?: TwistyPlayerModel,
     public controller?: TwistyPlayerController,
+    options?: { mode: "open" | "closed" },
   ) {
-    super();
+    super(options);
   }
 
   async onDetailedTimelineInfo(
