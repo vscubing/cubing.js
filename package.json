@@ -1,11 +1,11 @@
 {
-  "name": "cubing",
+  "name": "@vscubing/cubing",
   "version": "0.46.1",
   "description": "A collection of JavaScript cubing libraries.",
   "author": "The js.cubing.net team",
   "type": "module",
   "license": "GPL-3.0-or-later",
-  "repository": "github:cubing/cubing.js",
+  "repository": "github:vscubing/cubing.js",
   "exports": {
     "./alg": {
       "import": "./dist/lib/cubing/alg/index.js",
