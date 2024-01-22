@@ -13,6 +13,7 @@ export { TwistyAlgViewer } from "./views/TwistyAlgViewer";
 export { TwistyAlgEditor } from "./views/TwistyAlgEditor/TwistyAlgEditor";
 export { TwistyScrubber } from "./views/control-panel/TwistyScrubber";
 export type { TwistyPlayerConfig } from "./views/TwistyPlayer";
+export { CSSSource } from "./views/ManagedCustomElement";
 
 export { NO_VALUE as EXPERIMENTAL_PROP_NO_VALUE } from "./model/props/TwistyProp";
 export type { ExperimentalStickering } from "./model/props/puzzle/display/StickeringRequestProp";
