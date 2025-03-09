@@ -1,3 +1,5 @@
+# Forked by @vscubing to power the reconstructions simulator
+
 <img src="cubing.js.png" alt="cubing.js" width="512">
 
 `cubing.js` is a collection of JavaScript libraries, still under development.
