@@ -30,12 +30,16 @@ twisty-alg-leaf-elem.twisty-alg-comment {
 
 @media(hover: hover) {
   a:hover {
-    background: #8F8FFE;
+    background: #7272CB;
   }
 }
 
 a:active {
   background: #565698;
+}
+
+.twisty-alg-line-comment__span {
+  color: grey;
 }
 
 `,

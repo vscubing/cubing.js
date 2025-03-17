@@ -37,3 +37,7 @@ export { SimpleAlgIndexer } from "./controllers/indexer/SimpleAlgIndexer";
 export { TreeAlgIndexer } from "./controllers/indexer/tree/TreeAlgIndexer";
 
 export { TwistyAnimatedSVG as ExperimentalSVGAnimator } from "./views/2D/TwistyAnimatedSVG";
+
+// NOTE: @vscubing
+export { Alg, LineComment, Newline } from "../alg";
+export { getMultiCheck } from "./patternChecker";

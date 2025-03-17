@@ -110,6 +110,7 @@ export const mainAllowedImports: AllowedImports = {
       "src/cubing/puzzles",
       "src/cubing/notation",
       "src/cubing/vendor/mit/p-lazy",
+      "src/cubing/kpuzzle",
       // TODO: denylist `src/cubing/twisty/heavy-code-imports`
     ],
     dynamic: [
