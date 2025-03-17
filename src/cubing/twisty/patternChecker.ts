@@ -1,11 +1,11 @@
-import { Alg, Move, AlgBuilder } from "../alg";
+import { type Alg, Move, AlgBuilder } from "../alg";
 import {
   KPattern,
   type KPatternData,
   type KPatternOrbitData,
-  KTransformation,
+  type KTransformation,
 } from "../kpuzzle";
-import { type PuzzleLoader } from "../puzzles";
+import type { PuzzleLoader } from "../puzzles";
 import {
   PieceStickering,
   PuzzleStickering,
