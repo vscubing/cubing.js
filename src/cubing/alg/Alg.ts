@@ -277,21 +277,21 @@ export class Alg extends AlgCommon<Alg> {
    * `experimentalSimplify` can perform several mostly-syntactic simplifications on an alg:
    *
    *     // Logs: R' U3
-   *     import { Alg } from "cubing/alg";
+   *     import { Alg } from "@vscubing/cubing/alg";
    *     new Alg("R R2' U U2").experimentalSimplify({ cancel: true }).log()
    *
    * You can pass in a `PuzzleLoader` (currently only for 3x3x3) for puzzle-specific simplifications:
    *
    *     // Logs: R' U'
-   *     import { Alg } from "cubing/alg";
-   *     import { cube3x3x3 } from "cubing/puzzles";
+   *     import { Alg } from "@vscubing/cubing/alg";
+   *     import { cube3x3x3 } from "@vscubing/cubing/puzzles";
    *     new Alg("R R2' U U2").experimentalSimplify({ cancel: true, puzzleLoader: cube3x3x3 }).log()
    *
    * You can also cancel only moves that are in the same direction:
    *
    *     // Logs: R R2' U'
-   *     import { Alg } from "cubing/alg";
-   *     import { cube3x3x3 } from "cubing/puzzles";
+   *     import { Alg } from "@vscubing/cubing/alg";
+   *     import { cube3x3x3 } from "@vscubing/cubing/puzzles";
    *     new Alg("R R2' U U2").experimentalSimplify({
    *       cancel: { directional: "same-direction" },
    *       puzzleLoader: cube3x3x3
@@ -299,8 +299,8 @@ export class Alg extends AlgCommon<Alg> {
    *
    * Additionally, you can specify how moves are "wrapped":
    *
-   *     import { Alg } from "cubing/alg";
-   *     import { cube3x3x3 } from "cubing/puzzles";
+   *     import { Alg } from "@vscubing/cubing/alg";
+   *     import { cube3x3x3 } from "@vscubing/cubing/puzzles";
    *
    *     function example(puzzleSpecificModWrap) {
    *       alg.experimentalSimplify({
@@ -319,8 +319,8 @@ export class Alg extends AlgCommon<Alg> {
    * Same-axis and simultaneous move canonicalization is not implemented yet:
    *
    *     // Logs: R L R
-   *     import { Alg } from "cubing/alg";
-   *     import { cube3x3x3 } from "cubing/puzzles";
+   *     import { Alg } from "@vscubing/cubing/alg";
+   *     import { cube3x3x3 } from "@vscubing/cubing/puzzles";
    *     new Alg("R L R").experimentalSimplify({ cancel: true, puzzleLoader: cube3x3x3 }).log()
    */
   experimentalSimplify(options?: SimplifyOptions): Alg {

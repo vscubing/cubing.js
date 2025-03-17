@@ -18,10 +18,10 @@ import {
   run,
   type Type,
 } from "cmd-ts-too";
-import { Alg } from "cubing/alg";
+import { Alg } from "@vscubing/cubing/alg";
 
 // We would use named imports, but that doesn't seem to be an option.
-import { visualizationFormats } from "cubing/twisty/model/props/viewer/VisualizationProp.js";
+import { visualizationFormats } from "@vscubing/cubing/twisty/model/props/viewer/VisualizationProp.js";
 import { chromium } from "playwright";
 import type {
   PuzzleID,

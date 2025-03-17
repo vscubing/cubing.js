@@ -1,4 +1,4 @@
-import type { ExperimentalSerializationOptions } from "cubing/alg/SerializationOptions";
+import type { ExperimentalSerializationOptions } from "@vscubing/cubing/alg/SerializationOptions";
 import { AlgCommon, Comparable } from "../../common";
 import { IterationDirection } from "../../iteration";
 import { MAX_INT, MAX_INT_DESCRIPTION } from "../../limits";

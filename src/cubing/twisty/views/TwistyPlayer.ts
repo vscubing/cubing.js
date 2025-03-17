@@ -104,7 +104,7 @@ const configKeys: Record<TwistyPlayerAttribute, true> = Object.fromEntries(
  * configs.
  *
  * ```js
- * import { TwistyPlayer, type TwistyPlayerConfig } from "cubing/twisty";
+ * import { TwistyPlayer, type TwistyPlayerConfig } from "@vscubing/cubing/twisty";
  *
  * const MY_DEFAULT_CONFIG: TwistyPlayerConfig = {
  *   puzzle: "megaminx",
@@ -178,7 +178,7 @@ const propOnly: Record<string, boolean> = {
  * You can also construct it directly in JavaScript:
  *
  * ```js
- * import { TwistyPlayer } from "cubing/twisty";
+ * import { TwistyPlayer } from "@vscubing/cubing/twisty";
  * const twistyPlayer = new TwistyPlayer({alg: "R U R'"});
  * // Once the page has loaded, you can do this:
  * document.body.appendChild(twistyPlayer);

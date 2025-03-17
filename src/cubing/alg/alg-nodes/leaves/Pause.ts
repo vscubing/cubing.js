@@ -1,4 +1,4 @@
-import type { ExperimentalSerializationOptions } from "cubing/alg/SerializationOptions";
+import type { ExperimentalSerializationOptions } from "@vscubing/cubing/alg/SerializationOptions";
 import { AlgCommon, type Comparable } from "../../common";
 import { IterationDirection } from "../../iteration";
 import type { AlgLeaf } from "../AlgNode";

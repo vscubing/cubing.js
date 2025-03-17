@@ -1,7 +1,10 @@
-import { Alg } from "cubing/alg";
-import { cube2x2x2 } from "cubing/puzzles";
-import { randomScrambleForEvent } from "cubing/scramble";
-import { experimentalSolveTwsearch, setSearchDebug } from "cubing/search";
+import { Alg } from "@vscubing/cubing/alg";
+import { cube2x2x2 } from "@vscubing/cubing/puzzles";
+import { randomScrambleForEvent } from "@vscubing/cubing/scramble";
+import {
+  experimentalSolveTwsearch,
+  setSearchDebug,
+} from "@vscubing/cubing/search";
 
 setSearchDebug({ disableStringWorker: true });
 

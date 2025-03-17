@@ -1,4 +1,4 @@
-import type { ExperimentalSerializationOptions } from "cubing/alg/SerializationOptions";
+import type { ExperimentalSerializationOptions } from "@vscubing/cubing/alg/SerializationOptions";
 import { Commutator, Conjugate } from "..";
 import { Alg, experimentalEnsureAlg, type FlexibleAlgSource } from "../../Alg";
 import { AlgCommon, type Comparable } from "../../common";

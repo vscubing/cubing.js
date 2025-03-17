@@ -32,8 +32,8 @@ npm install cubing
 Then you can use modules like this:
 
 ```js
-import { Alg } from "cubing/alg";
-import { TwistyPlayer } from "cubing/twisty";
+import { Alg } from "@vscubing/cubing/alg";
+import { TwistyPlayer } from "@vscubing/cubing/twisty";
 ```
 
 Please note that `cubing.js` requires ES2022 module compatibility. See [here](https://js.cubing.net/cubing/#javascript).

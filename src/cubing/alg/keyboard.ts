@@ -1,4 +1,4 @@
-import type { KeyMapping } from "cubing/puzzles/PuzzleLoader";
+import type { KeyMapping } from "@vscubing/cubing/puzzles/PuzzleLoader";
 import type { AlgLeaf } from "./alg-nodes/AlgNode";
 
 // TODO: options about whether to ignore modifier keys (e.g. alt, ctrl).
