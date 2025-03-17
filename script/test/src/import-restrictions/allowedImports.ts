@@ -25,6 +25,8 @@ export const mainAllowedImports: AllowedImports = {
       "node:path",
       "node:process",
       "node:util",
+      "node:url",
+      "node:zlib",
 
       "package.json",
       "@vscubing/cubing",
@@ -33,18 +35,18 @@ export const mainAllowedImports: AllowedImports = {
       "esbuild",
       "node-fetch",
       "playwright",
-      "zlib",
-      "yargs",
+      "cmd-ts-too",
     ],
     dynamic: ["@vscubing/cubing", "node:repl"],
   },
   // src/bin
   "src/bin": {
     static: ["@vscubing/cubing"],
+    dynamic: ["cmd-ts-too"],
   },
-  "src/bin/scramble.ts": {
-    static: ["src/cubing"],
-    dynamic: ["yargs"],
+  "src/bin/guards/cmd-ts-too-guard.ts": {
+    static: ["node:process"],
+    dynamic: ["cmd-ts-too"],
   },
   // src/lib
   "src/cubing/alg": {},
@@ -57,6 +59,7 @@ export const mainAllowedImports: AllowedImports = {
       "src/cubing/vendor/public-domain/unsafe-raw-aes",
       "three",
     ],
+    dynamic: ["src/cubing/puzzles"],
   },
   "src/cubing/kpuzzle": { static: ["src/cubing/alg", "src/cubing/kpuzzle"] },
   "src/cubing/notation": {
@@ -88,9 +91,10 @@ export const mainAllowedImports: AllowedImports = {
     static: [
       "src/cubing/kpuzzle",
       "src/cubing/puzzles",
-      "src/cubing/vendor/gpl/cs0x7f/cstimer/src/js/scramble",
-      "src/cubing/vendor/gpl/cs0x7f/min2phase",
-      "src/cubing/vendor/gpl/cs0x7f/sq12phase",
+      "src/cubing/vendor/mit/cs0x7f/cstimer/src/js/scramble",
+      "src/cubing/vendor/mit/cs0x7f/min2phase",
+      "src/cubing/vendor/mit/cs0x7f/fto",
+      "src/cubing/vendor/mit/cs0x7f/sq12phase",
       "src/cubing/vendor/mit/p-lazy",
       "src/cubing/vendor/mpl/xyzzy",
       "random-uint-below",
@@ -127,17 +131,27 @@ export const mainAllowedImports: AllowedImports = {
     static: ["three", "src/cubing/vendor/mit/three"],
   },
   "src/cubing/vendor": {
-    static: ["src/cubing/alg", "random-uint-below"],
+    static: [
+      "src/cubing/alg",
+      "random-uint-below",
+      "getbuiltinmodule-ponyfill",
+    ],
   },
   "src/cubing/vendor/apache/comlink-everywhere": {
-    static: ["comlink"],
+    static: ["comlink", "getbuiltinmodule-ponyfill"],
   },
-  "src/cubing/vendor/gpl/cs0x7f/cstimer/src/js/scramble/444-solver.ts": {
+  "src/cubing/vendor/mit/cs0x7f/cstimer/src/js/scramble/444-solver.ts": {
     static: ["src/cubing/search/cubing-private"],
   },
   // src/sites
   "src/sites": {
     static: ["src/cubing", "jszip", "three"],
+  },
+  "src/sites/experiments.cubing.net/cubing.js/rust/wasm": {
+    static: ["getbuiltinmodule-ponyfill"],
+  },
+  "src/sites/alpha.twizzle.net/explore": {
+    static: ["src/cubing/puzzle-geometry/cubing-private"],
   },
 };
 
@@ -152,6 +166,7 @@ export const specAllowedImports: AllowedImports = {
       "comlink",
       "three",
       "random-uint-below",
+      "getbuiltinmodule-ponyfill",
     ],
   },
   "src/test/chai-workarounds": {

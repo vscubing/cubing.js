@@ -23,6 +23,7 @@ export function demo(visualization: VisualizationFormat): void {
 
   addAlg("full", "y L' U R' F' U L2 U2' L' U' L U2' D R' D' F2 R2 U'");
   addAlg("centers-only", "(x y)3");
+  addAlg("opposite-centers", "r2 f2 r2"); // 4x4x4
   addAlg("PLL", "R U R' U' R' F R2 U' R' U' R U R' F'");
   addAlg("CLS", "R U R' U' R U R' U R U' R'");
   addAlg("OLL", "r U R' U R U2 r'");
@@ -39,6 +40,8 @@ export function demo(visualization: VisualizationFormat): void {
   addAlg("VLS", "x' R2 U' R' U l'");
   addAlg("WVLS", "R' F2 R F2' L' U2 L");
   addAlg("LS", "U' R U' R' U R U R'");
+  addAlg("LSOLL", "R' F R F'");
+  addAlg("LSOCLL", "R' F' R U R U' R' F");
   addAlg("EO", "R' F R");
   addAlg("EOline", "B U B' D F R' L D'");
   addAlg("EOcross", "B U B' D F R' L D'");

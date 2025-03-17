@@ -6,12 +6,12 @@ import {
   Euler,
   FrontSide,
   Group,
-  Material,
   Mesh,
   MeshBasicMaterial,
   Object3D,
-  Texture,
   Vector3,
+  type Material,
+  type Texture,
 } from "three";
 import { Move } from "../../../../alg";
 import type { KPuzzle, KTransformation } from "../../../../kpuzzle";
@@ -22,8 +22,8 @@ import type {
 } from "../../../../puzzle-geometry";
 import type { TextureMapper } from "../../../../puzzle-geometry/PuzzleGeometry";
 import {
-  type ExperimentalFaceletMeshStickeringMask,
   experimentalGetFaceletStickeringMask,
+  type ExperimentalFaceletMeshStickeringMask,
   type ExperimentalStickeringMask,
 } from "../../../../puzzles/cubing-private";
 import type { PuzzlePosition } from "../../../controllers/AnimationTypes";
@@ -274,7 +274,7 @@ class StickerDef {
   private foundationCoords(coords: number[]): number[] {
     const ncoords = coords.slice();
     for (let i = 0; i < coords.length; i++) {
-      ncoords[i] = coords[i] * 0.999;
+      ncoords[i] = coords[i] * 0.995;
     }
     return ncoords;
   }
@@ -339,11 +339,19 @@ class StickerDef {
         break;
       }
       case "oriented": {
-        c = 0xff88ff;
+        c = 0x44ddcc;
+        break;
+      }
+      case "experimentalOriented2": {
+        c = 0xfffdaa;
         break;
       }
       case "ignored": {
         c = 0x444444;
+        break;
+      }
+      case "mystery": {
+        c = 0xf2cbcb;
         break;
       }
       case "invisible":

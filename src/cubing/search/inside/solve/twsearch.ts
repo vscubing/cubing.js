@@ -1,8 +1,8 @@
 import type { Alg } from "../../../alg";
-import {
-  type KPuzzleDefinition,
-  type KTransformationData,
+import type {
   KPattern,
+  KPatternData,
+  KPuzzleDefinition,
 } from "../../../kpuzzle";
 import { from } from "../../../vendor/mit/p-lazy/p-lazy";
 
@@ -13,7 +13,7 @@ export const twsearchPromise: Promise<
 export interface TwsearchOptions {
   // TODO: start prune depth?
   generatorMoves?: string[];
-  targetPattern?: KTransformationData;
+  targetPattern?: KPatternData;
   minDepth?: number;
   maxDepth?: number;
 }

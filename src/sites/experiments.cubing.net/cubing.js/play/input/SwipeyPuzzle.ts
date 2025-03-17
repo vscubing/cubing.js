@@ -3,12 +3,13 @@ import type { AlgLeaf } from "../../../../../cubing/alg/alg-nodes/AlgNode";
 import { puzzles } from "../../../../../cubing/puzzles";
 // import { BackViewLayout } from "../../../../../cubing/twisty";
 import {
-  type BackViewLayout,
   TwistyPlayer,
+  type BackViewLayout,
+  type ExperimentalStickering,
   type TwistyPlayerConfig,
   type VisualizationFormat,
 } from "../../../../../cubing/twisty";
-import { getSetup, type PuzzleID, getCancel } from "../url-params";
+import { getCancel, getSetup, type PuzzleID } from "../url-params";
 import { SwipeGrid, themes, type ThemeType } from "./SwipeGrid";
 
 const DEFAULT_THEME: ThemeType = "transparent-grid";
@@ -83,6 +84,17 @@ export const moveMaps: Record<PuzzleID, string[][]> = {
   ],
   megaminx: megaminxAndKilominx,
   kilominx: megaminxAndKilominx,
+  tri_quad: [
+    ["", "U'", "U2'", "", "", "", "", "", "/enter"],
+    ["U", "", "U'", "", "", "", "", "", ""],
+    ["U2", "U", "", "", "", "R'", "/backspace", "", "R2'"],
+    ["", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", ""],
+    ["", "", "R", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", ""],
+    ["/space", "", "R2", "", "", "", "", "", ""],
+  ],
 };
 
 export type Action = "space" | "enter" | "backspace";
@@ -98,6 +110,7 @@ export function actionToUIText(action: Action): string {
 function constructTwistyPlayer(
   puzzleName: PuzzleID,
   visualization: VisualizationFormat,
+  experimentalStickering: ExperimentalStickering | null,
   tempoScale: number,
 ): TwistyPlayer {
   const config: TwistyPlayerConfig = {
@@ -105,6 +118,7 @@ function constructTwistyPlayer(
     puzzle: puzzleName,
     controlPanel: "none",
     background: "none",
+    experimentalStickering: experimentalStickering ?? undefined,
     visualization,
     tempoScale,
     experimentalSetupAlg: getSetup(),
@@ -126,6 +140,7 @@ export class SwipeyPuzzle extends HTMLElement {
   constructor(
     private puzzleName: PuzzleID,
     visualization: VisualizationFormat,
+    stickering: ExperimentalStickering | null,
     tempoScale: number,
     private actionListener: (action: Action) => void,
     private algListener: () => void,
@@ -134,6 +149,7 @@ export class SwipeyPuzzle extends HTMLElement {
     this.twistyPlayer = constructTwistyPlayer(
       puzzleName,
       visualization,
+      stickering,
       tempoScale,
     );
 

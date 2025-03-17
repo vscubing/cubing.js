@@ -1,5 +1,10 @@
-import { Alg, experimentalEnsureAlg, type FlexibleAlgSource } from "../../Alg";
-import { AlgCommon, Comparable } from "../../common";
+import type { ExperimentalSerializationOptions } from "cubing/alg/SerializationOptions";
+import {
+  experimentalEnsureAlg,
+  type Alg,
+  type FlexibleAlgSource,
+} from "../../Alg";
+import { AlgCommon, type Comparable } from "../../common";
 import { IterationDirection } from "../../iteration";
 import type { AlgLeaf } from "../AlgNode";
 
@@ -80,7 +85,9 @@ export class Commutator extends AlgCommon<Commutator> {
     }
   }
 
-  toString(): string {
-    return `[${this.#A.toString()}, ${this.#B.toString()}]`;
+  toString(
+    experimentalSerializationOptions?: ExperimentalSerializationOptions,
+  ): string {
+    return `[${this.#A.toString(experimentalSerializationOptions)}, ${this.#B.toString(experimentalSerializationOptions)}]`;
   }
 }

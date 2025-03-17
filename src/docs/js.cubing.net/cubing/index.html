@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#4285f4">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../main.css">
-  <script src="https://cdn.cubing.net/js/cubing/twisty" type="module"></script>
+  <script src="https://cdn.cubing.net/v0/js/cubing/twisty" type="module"></script>
 </head>
 
 <body>
@@ -23,25 +23,23 @@
     <section class="no-header">
       <p>
         <code>cubing.js</code> is a library for showing and playing with twisty
-        puzzles.
+        puzzles. You may use it for free in any website or app.
       </p>
-      <p>You may use it for free in any website or app, for any personal use or if you <a
-          href="https://github.com/cubing/cubing.js/blob/main/LICENSE.md">publicly
-          share any code that uses it</a>.</p>
     </section>
 
     <section id="twisty">
-      <h1><a href="./twisty/" class="separate-page">cubing/twisty</a></h1>
+      <h1><code><a href="./twisty/" class="separate-page">cubing/twisty</a></code></h1>
       <p>The main feature of <code>cubing.js</code> is the <code>&lt;twisty-player&gt;</code> element that can be used
         on any website:</p>
 
       <div class="code-demo">
         <code class="sample">
           &lt;script
-            src=&quot;https://cdn.cubing.net/js/cubing/twisty&quot;
-            type=&quot;module&quot;&gt;&lt;/script&gt;<br>
-<br>
-<span>&lt;twisty-player alg=&quot;R U R&#x27; U R U2&#x27; R&#x27;&quot;&gt;&lt;/twisty-player&gt;</span>
+            src=&quot;<code class="boilerplate"
+            title="Remove this part of the import path if you are using `npm`.">https://cdn.cubing.net/v0/js/</code>cubing/twisty&quot;
+        type=&quot;module&quot;&gt;&lt;/script&gt;<br>
+        <br>
+        <span>&lt;twisty-player alg=&quot;R U R&#x27; U R U2&#x27; R&#x27;&quot;&gt;&lt;/twisty-player&gt;</span>
         </code>
         <twisty-player alg="R U R' U R U2' R'">
         </twisty-player>
@@ -52,7 +50,7 @@
     </section>
 
     <section id="alg">
-      <h1><a href="./alg/" class="separate-page">cubing/alg</a></h1>
+      <h1><code><a href="./alg/" class="separate-page">cubing/alg</a></code></h1>
       <p>At the core of <code>cubing.js</code> is a powerful <code>Alg</code> class that is compatible with all SiGN and
         WCA notation.</p>
 
@@ -61,7 +59,7 @@
           <code class="sample">
 <code class="boilerplate">&lt;script type=&quot;module&quot;&gt;</code><br>
           import { Alg } from &quot;<code class="boilerplate"
-            title="Remove this part of the import path if you are using `npm`.">https://cdn.cubing.net/js/</code>cubing/alg&quot;;<br>
+            title="Remove this part of the import path if you are using `npm`.">https://cdn.cubing.net/v0/js/</code>cubing/alg&quot;;<br>
           <br>
           const commutator = new Alg(&quot;[R, [U': L']]&quot;);<br>
           commutator.invert().expand().log();<br>
@@ -78,7 +76,7 @@
     </section>
 
     <section id="scramble">
-      <h1><a href="./scramble/" class="separate-page">cubing/scramble</a></h1>
+      <h1><code><a href="./scramble/" class="separate-page">cubing/scramble</a></code></h1>
       <p><code>cubing.js</code> makes it easy to generate fair random-state scrambles.</p>
 
       <div class="code-demo">
@@ -86,7 +84,7 @@
           <code class="sample">
 <code class="boilerplate">&lt;script type=&quot;module&quot;&gt;</code><br>
           import { randomScrambleForEvent } from &quot;<code class="boilerplate"
-            title="Remove this part of the import path if you are using `npm`.">https://cdn.cubing.net/js/</code>cubing/scramble&quot;;<br>
+            title="Remove this part of the import path if you are using `npm`.">https://cdn.cubing.net/v0/js/</code>cubing/scramble&quot;;<br>
           <br>
           const scramble = await randomScrambleForEvent("333");<br>
           scramble.log();<br>
@@ -127,7 +125,7 @@ import { randomScrambleForEvent } from &quot;cubing/scramble&quot;;
       </code>
       <p>
         Most examples on this site use CDN import paths for convenient copy-and-pasting. To import from
-        <code>npm</code>, remove the <code class="boilerplate">https://cdn.cubing.net/js/</code> prefix from any
+        <code>npm</code>, remove the <code class="boilerplate">https://cdn.cubing.net/v0/js/</code> prefix from any
         relevant imports.
       </p>
       <section id="create-cubing-app" class="inline no-header">
@@ -150,19 +148,8 @@ import { randomScrambleForEvent } from &quot;cubing/scramble&quot;;
         find <a href="https://github.com/cubing/cubing-app-template">this project template</a> a helpful start.
       </p>
       <p>
-        If you are using TypeScript and/or VS Code, you may need to specify a module resolution in a <a
-          href="https://www.typescriptlang.org/docs/handbook/tsconfig-json.html"><code>tsconfig.json</code> file</a> for
-        your project in order to use the TypeScript types. We recommend using at least the following settings:
-        <code class="sample">
-{<br>
-&nbsp;&nbsp;&quot;compilerOptions&quot;: {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&quot;target&quot;: &quot;es2022&quot;,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&quot;module&quot;: &quot;es2022&quot;,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&quot;moduleResolution&quot;: &quot;bundler&quot;<br>
-&nbsp;&nbsp;}<br>
-}
-</span>
-        </code>
+        If you are having issues using <code>cubing.js</code> with a bundler, please refer to <a
+          href="https://github.com/cubing/cubing.js/issues/323">this issue</a> with the latest compatibility details.
       </p>
     </section>
 

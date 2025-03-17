@@ -28,6 +28,8 @@ export const experimentalStickerings: Record<
   ELL: { groups: megaAnd3x3x3LL },
   ZBLL: { groups: megaAnd3x3x3LL },
   LS: { groups: megaAnd3x3x3LS },
+  LSOLL: { groups: megaAnd3x3x3LS },
+  LSOCLL: { groups: megaAnd3x3x3LS },
   ELS: { groups: megaAnd3x3x3LS },
   CLS: { groups: megaAnd3x3x3LS },
   ZBLS: { groups: megaAnd3x3x3LS },
@@ -39,12 +41,15 @@ export const experimentalStickerings: Record<
   EO: { groups: { "3x3x3": "ZZ" } },
   EOline: { groups: { "3x3x3": "ZZ" } },
   EOcross: { groups: { "3x3x3": "ZZ" } },
+  FirstBlock: { groups: { "3x3x3": "Roux" } },
+  SecondBlock: { groups: { "3x3x3": "Roux" } },
   CMLL: { groups: { "3x3x3": "Roux" } },
   L10P: { groups: { "3x3x3": "Roux" } },
   L6E: { groups: { "3x3x3": "Roux" } },
   L6EO: { groups: { "3x3x3": "Roux" } },
   "2x2x2": { groups: { "3x3x3": "Petrus" } },
   "2x2x3": { groups: { "3x3x3": "Petrus" } },
+  EODF: { groups: { "3x3x3": "Nautilus" } },
   G1: { groups: { "3x3x3": "FMC" } },
   L2C: {
     groups: {
@@ -62,6 +67,7 @@ export const experimentalStickerings: Record<
   invisible: { groups: { "3x3x3": "Miscellaneous" } },
   picture: { groups: { "3x3x3": "Miscellaneous" } },
   "centers-only": { groups: { "3x3x3": "Miscellaneous" } }, // TODO
+  "opposite-centers": { groups: { "4x4x4": "Reduction" } }, // TODO
   "experimental-centers-U": {},
   "experimental-centers-U-D": {},
   "experimental-centers-U-L-D": {},

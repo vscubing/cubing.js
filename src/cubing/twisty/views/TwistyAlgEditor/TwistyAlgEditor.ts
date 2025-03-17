@@ -12,8 +12,12 @@
  */
 
 import type { ExperimentalParsed } from "../../../alg";
-import { Alg, Move, Pause } from "../../../alg";
-import type { Parsed } from "../../../alg/parseAlg";
+import { Alg, type Move, type Pause } from "../../../alg";
+import {
+  endCharIndexKey,
+  startCharIndexKey,
+  type Parsed,
+} from "../../../alg/parseAlg";
 import type {
   AlgProp,
   AlgWithIssues,
@@ -23,7 +27,7 @@ import { ClassListManager } from "../ClassListManager";
 import { ManagedCustomElement } from "../ManagedCustomElement";
 import { customElementsShim } from "../node-custom-element-shims";
 import { TwistyPlayer } from "../TwistyPlayer";
-import { type HighlightInfo, TwistyAlgEditorModel } from "./model";
+import { TwistyAlgEditorModel, type HighlightInfo } from "./model";
 import { pasteIntoTextArea } from "./paste";
 import { twistyAlgEditorCSS } from "./TwistyAlgEditor.css";
 
@@ -201,9 +205,10 @@ export class TwistyAlgEditor extends ManagedCustomElement {
   #highlightedLeaf: ExperimentalParsed<Move | Pause> | null = null;
   // TODO: support a primary highlighted move and secondary ones.
   highlightLeaf(leaf: ExperimentalParsed<Move | Pause> | null): void {
-    if (this.#twistyPlayerProp !== "alg") {
-      return;
-    }
+    // if (this.#twistyPlayerProp !== "alg") {
+    //   // TODO: make this configurable
+    //   return;
+    // }
     if (leaf === null) {
       this.#carbonCopyPrefix.textContent = "";
       this.#carbonCopyHighlight.textContent = "";
@@ -218,14 +223,14 @@ export class TwistyAlgEditor extends ManagedCustomElement {
     this.#highlightedLeaf = leaf;
     this.#carbonCopyPrefix.textContent = this.#textarea.value.slice(
       0,
-      leaf.startCharIndex,
+      leaf[startCharIndexKey],
     );
     this.#carbonCopyHighlight.textContent = this.#textarea.value.slice(
-      leaf.startCharIndex,
-      leaf.endCharIndex,
+      leaf[startCharIndexKey],
+      leaf[endCharIndexKey],
     );
     this.#carbonCopySuffix.textContent = this.#padSuffix(
-      this.#textarea.value.slice(leaf.endCharIndex),
+      this.#textarea.value.slice(leaf[endCharIndexKey]),
     );
     this.#carbonCopyHighlight.hidden = false;
   }
@@ -251,6 +256,14 @@ export class TwistyAlgEditor extends ManagedCustomElement {
         : "";
     })();
 
+    // if (this.#twistyPlayerProp === "setupAlg") {
+    //   console.log("Setupppety!");
+    //   this.#twistyPlayer?.experimentalModel.puzzleSetupAlg.addFreshListener(
+    //     () => {
+    //       this.highlightLeaf(null);
+    //     },
+    //   );
+    // }
     if (this.#twistyPlayerProp === "alg") {
       // this.model.leafToHighlight.addFreshListener(
       //   this.highlightLeaf.bind(this),

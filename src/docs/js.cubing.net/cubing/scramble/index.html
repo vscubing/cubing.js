@@ -34,7 +34,7 @@
           <code class="sample">
             <span><code class="boilerplate">&lt;script type=&quot;module&quot;&gt;</code><br>
           import { randomScrambleForEvent } from &quot;<code class="boilerplate"
-            title="Remove this part of the import path if you are using `npm`.">https://cdn.cubing.net/js/</code>cubing/scramble&quot;;<br>
+            title="Remove this part of the import path if you are using `npm`.">https://cdn.cubing.net/v0/js/</code>cubing/scramble&quot;;<br>
           <br>
           const scramble = await randomScrambleForEvent("333");
           console.log(scramble.toString());<br>
@@ -51,7 +51,7 @@
           <code class="sample">
             <span><code class="boilerplate">&lt;script type=&quot;module&quot;&gt;</code><br>
           import { randomScrambleForEvent } from &quot;<code class="boilerplate"
-            title="Remove this part of the import path if you are using `npm`.">https://cdn.cubing.net/js/</code>cubing/scramble&quot;;<br>
+            title="Remove this part of the import path if you are using `npm`.">https://cdn.cubing.net/v0/js/</code>cubing/scramble&quot;;<br>
           <br>
           (await randomScrambleForEvent("333")).log();<br>
           (await randomScrambleForEvent("333bf")).log();<br>
@@ -83,7 +83,7 @@
           <code class="sample">
             <span><code class="boilerplate">&lt;script type=&quot;module&quot;&gt;</code><br>
           import { randomScrambleForEvent } from &quot;<code class="boilerplate"
-            title="Remove this part of the import path if you are using `npm`.">https://cdn.cubing.net/js/</code>cubing/scramble&quot;;<br>
+            title="Remove this part of the import path if you are using `npm`.">https://cdn.cubing.net/v0/js/</code>cubing/scramble&quot;;<br>
           <br>
           (await randomScrambleForEvent("fto")).log();<br>
           (await randomScrambleForEvent("master_tetraminx")).log();<br>
@@ -111,7 +111,7 @@
           </ul>
         </li>
         <li>Scrambles for 3x3x3 Fewest Moves include <code>R' U' F</code> at the beginning and end, matching TNoodle.
-          However, these added moves can currently produce cancellations. This will be fixed in the future.</li>
+        </li>
         <li>2x2x2 scrambles may include &lt;D, B, L&gt; moves so that there is no fixed piece in the resulting scramble.
           This is compatible with the WCA Regulations, but be aware that it does not match TNoodle (which only uses
           &lt;U, F, R&gt; moves).</li>
@@ -156,7 +156,7 @@
       <code class="sample"><code class="boilerplate">&lt;script type=&quot;module&quot;&gt;</code><br>
       // Note that this is `cubing/search`, not `cubing/scramble`.<br>
       import { setSearchDebug } from &quot;<code class="boilerplate"
-        title="Remove this part of the import path if you are using `npm`.">https://cdn.cubing.net/js/</code>cubing/search&quot;;<br>
+        title="Remove this part of the import path if you are using `npm`.">https://cdn.cubing.net/v0/js/</code>cubing/search&quot;;<br>
       <br>
       // You can specify any subset of debug options.<br>
       setSearchDebug({<br>
@@ -197,9 +197,9 @@
 <br>
 <code class="boilerplate">&lt;script type=&quot;module&quot;&gt;</code><br>
           &nbsp;&nbsp;import &quot;<code class="boilerplate"
-            title="Remove this part of the import path if you are using `npm`.">https://cdn.cubing.net/js/</code>cubing/twisty&quot;;<br>
+            title="Remove this part of the import path if you are using `npm`.">https://cdn.cubing.net/v0/js/</code>cubing/twisty&quot;;<br>
           &nbsp;&nbsp;import { randomScrambleForEvent } from &quot;<code class="boilerplate"
-            title="Remove this part of the import path if you are using `npm`.">https://cdn.cubing.net/js/</code>cubing/scramble&quot;;<br>
+            title="Remove this part of the import path if you are using `npm`.">https://cdn.cubing.net/v0/js/</code>cubing/scramble&quot;;<br>
           &nbsp;&nbsp;<br>
           &nbsp;&nbsp;const scramblePromise = randomScrambleForEvent(&quot;333&quot;);<br>
           &nbsp;&nbsp;document.querySelector(&quot;#main-player&quot;).alg = scramblePromise;<br>
@@ -211,8 +211,8 @@
 <twisty-player id="main-player" style="height: 256px;"></twisty-player>
 
 <script type="module">
-  import "https://cdn.cubing.net/js/cubing/twisty";
-  import { randomScrambleForEvent } from "https://cdn.cubing.net/js/cubing/scramble";
+  import "https://cdn.cubing.net/v0/js/cubing/twisty";
+  import { randomScrambleForEvent } from "https://cdn.cubing.net/v0/js/cubing/scramble";
 
   const scramblePromise = randomScrambleForEvent("333");
   document.querySelector("#main-player").alg = scramblePromise;

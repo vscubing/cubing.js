@@ -1,23 +1,24 @@
 import { Move, QuantumMove } from "../alg";
 import type { KPuzzleDefinition, KTransformationData } from "../kpuzzle";
+import { defaultPlatonicColorSchemes } from "./colors";
 import { FaceNameSwizzler } from "./FaceNameSwizzler";
 import {
   FaceRenamingMapper,
   FTONotationMapper,
   MegaminxScramblingNotationMapper,
-  type NotationMapper,
   NullMapper,
   NxNxNCubeMapper,
   PyraminxNotationMapper,
   SkewbNotationMapper,
   TetraminxNotationMapper,
+  type NotationMapper,
 } from "./notation-mapping";
 import { remapKPuzzleDefinition } from "./notation-mapping/NotationMapper";
 import {
+  PuzzleGeometryFullOptions,
   type BaseFaceCount,
   type FaceBasedOrientationDescription,
   type FaceBasedOrientationDescriptionLookup,
-  PuzzleGeometryFullOptions,
   type PuzzleGeometryOptions,
 } from "./Options";
 import { iota, Perm, zeros } from "./Perm";
@@ -266,92 +267,6 @@ function defaultnets(): any {
       ["O", "K", "P", "N"],
       ["P", "O", "Q", ""],
     ],
-  };
-}
-
-enum PGColors {
-  White = "#ffffff",
-  Orange = "#ff8000",
-  Green = "#44ee00",
-  Red = "#ff0000",
-  Blue = "#2266ff",
-  Yellow = "#f4f400",
-
-  Purple = "#8800dd",
-  Gray = "#aaaaaa",
-  Cream = "#e8d0a0",
-  Pink = "#ff66cc",
-
-  DarkBlue = "#0000ff",
-  Aqua = "#3399ff",
-  DarkGreen = "#008800",
-  Lime = "#99ff00",
-}
-
-// TODO: change this back to a const JSON definition.
-function defaultcolors(): any {
-  return {
-    // the colors should use the same naming convention as the nets, above.
-    4: {
-      F: PGColors.Green,
-      D: PGColors.Yellow,
-      L: PGColors.Red,
-      R: PGColors.Blue,
-    },
-    6: {
-      U: PGColors.White,
-      F: PGColors.Green,
-      R: PGColors.Red,
-      D: PGColors.Yellow,
-      B: PGColors.Blue,
-      L: PGColors.Orange,
-    },
-    8: {
-      U: PGColors.White,
-      F: PGColors.Red,
-      R: PGColors.Green,
-      D: PGColors.Yellow,
-      BB: PGColors.Blue,
-      L: PGColors.Purple,
-      BL: PGColors.Orange,
-      BR: PGColors.Gray,
-    },
-    12: {
-      U: PGColors.White,
-      F: PGColors.DarkGreen,
-      R: PGColors.Red,
-      C: PGColors.Cream,
-      A: PGColors.Aqua,
-      L: PGColors.Purple,
-      E: PGColors.Pink,
-      BF: PGColors.Lime,
-      BR: PGColors.DarkBlue,
-      BL: PGColors.Yellow,
-      I: PGColors.Orange,
-      D: PGColors.Gray,
-    },
-    20: {
-      R: "#db69f0",
-      C: "#178fde",
-      F: "#23238b",
-      E: "#9cc726",
-      L: "#2c212d",
-      U: "#177fa7",
-      A: "#e0de7f",
-      G: "#2b57c0",
-      I: "#41126b",
-      S: "#4b8c28",
-      H: "#7c098d",
-      J: "#7fe7b4",
-      B: "#85fb74",
-      K: "#3f4bc3",
-      D: "#0ff555",
-      M: "#f1c2c8",
-      O: "#58d340",
-      P: "#c514f2",
-      N: "#14494e",
-      Q: "#8b1be1",
-    },
   };
 }
 
@@ -862,7 +777,7 @@ export class PuzzleGeometry {
     this.baseFaceCount = baseplanes.length as BaseFaceCount;
     const net = defaultnets()[baseplanes.length];
     this.net = net;
-    this.colors = defaultcolors()[baseplanes.length];
+    this.colors = defaultPlatonicColorSchemes()[baseplanes.length];
     if (this.options.verbosity > 0) {
       console.log(`# Base planes: ${baseplanes.length}`);
     }
@@ -2133,8 +2048,9 @@ export class PuzzleGeometry {
         // in this case we add duplicate stickers
         // so that we can make it animate properly in a 3D world.
         if (b.length === 2 && this.options.orientCenters) {
+          const dir = this.facecentermass[i].dot(this.moveplanenormals[k]);
           for (let ii = 1; ii < this.movesetorders[k]; ii++) {
-            if (sc === 0) {
+            if (dir > 0) {
               b.push(b[0], ii);
             } else {
               b.push(

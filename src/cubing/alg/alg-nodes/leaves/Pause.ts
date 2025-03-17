@@ -1,13 +1,16 @@
-import type { Grouping } from "../containers/Grouping";
-import { AlgCommon, Comparable } from "../../common";
+import type { ExperimentalSerializationOptions } from "cubing/alg/SerializationOptions";
+import { AlgCommon, type Comparable } from "../../common";
 import { IterationDirection } from "../../iteration";
 import type { AlgLeaf } from "../AlgNode";
+import type { Grouping } from "../containers/Grouping";
 
 /** @category Alg Nodes */
 export class Pause extends AlgCommon<Pause> {
   experimentalNISSGrouping?: Grouping; // TODO: tie this to the alg
 
-  toString(): string {
+  toString(
+    experimentalSerializationOptions?: ExperimentalSerializationOptions,
+  ): string {
     return ".";
   }
 

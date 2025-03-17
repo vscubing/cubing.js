@@ -13,10 +13,10 @@ import {
   MeshBasicMaterial,
   Object3D,
   Quaternion,
-  Texture,
   TextureLoader,
   Vector2,
   Vector3,
+  type Texture,
 } from "three";
 import type { KPuzzle } from "../../../../kpuzzle";
 import type { ExperimentalStickeringMask } from "../../../../puzzles/cubing-private";
@@ -29,12 +29,12 @@ import type {
   PuzzlePosition,
 } from "../../../controllers/AnimationTypes";
 import { smootherStep } from "../../../controllers/easing";
+import type { FaceletScale } from "../../../model/props/puzzle/display/FaceletScaleProp";
 import {
-  type HintFaceletStyle,
   hintFaceletStyles,
+  type HintFaceletStyle,
 } from "../../../model/props/puzzle/display/HintFaceletProp";
 import type { InitialHintFaceletsAnimation } from "../../../model/props/puzzle/display/InitialHintFaceletsAnimationProp";
-import type { FaceletScale } from "../../../model/props/puzzle/display/FaceletScaleProp";
 import { TAU } from "../TAU";
 import { haveStartedSharingRenderers } from "../Twisty3DVantage";
 import type { Twisty3DPuzzle } from "./Twisty3DPuzzle";
@@ -60,10 +60,6 @@ const orientedMaterial = new MeshBasicMaterial({
   color: 0x44ddcc,
 });
 
-const experimentalOriented2Material = new MeshBasicMaterial({
-  color: 0xfffdaa,
-});
-
 const orientedMaterialHint = new MeshBasicMaterial({
   color: 0x44ddcc,
   side: BackSide,
@@ -71,8 +67,23 @@ const orientedMaterialHint = new MeshBasicMaterial({
   opacity: 0.5,
 });
 
+const experimentalOriented2Material = new MeshBasicMaterial({
+  color: 0xfffdaa,
+});
+
 const experimentalOriented2MaterialHint = new MeshBasicMaterial({
   color: 0xfff979,
+  side: BackSide,
+  transparent: true,
+  opacity: 0.5,
+});
+
+const mysteryMaterial = new MeshBasicMaterial({
+  color: 0xf2cbcb,
+});
+
+const mysterMaterialHint = new MeshBasicMaterial({
+  color: 0xf2cbcb,
   side: BackSide,
   transparent: true,
   opacity: 0.5,
@@ -113,6 +124,7 @@ class AxisInfo {
       experimentalOriented2: experimentalOriented2Material,
       ignored: ignoredMaterial,
       invisible: invisibleMaterial,
+      mystery: mysteryMaterial,
     };
     this.hintStickerMaterial = {
       regular: new MeshBasicMaterial({
@@ -133,6 +145,7 @@ class AxisInfo {
       experimentalOriented2: experimentalOriented2MaterialHint,
       ignored: ignoredMaterialHint,
       invisible: invisibleMaterial,
+      mystery: mysterMaterialHint,
     };
   }
 }
@@ -749,7 +762,7 @@ export class Cube3D extends Object3D implements Twisty3DPuzzle {
               const hintStickeringMask =
                 typeof faceletStickeringMask === "string"
                   ? stickeringMask
-                  : faceletStickeringMask.hintMask ?? stickeringMask;
+                  : (faceletStickeringMask.hintMask ?? stickeringMask);
               if (faceletInfo.hintFacelet) {
                 faceletInfo.hintFacelet.material =
                   axesInfo[faceletInfo.faceIdx].hintStickerMaterial[

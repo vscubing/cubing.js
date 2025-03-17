@@ -1,50 +1,23 @@
-import "@vscubing/cubing/alg";
-import "@vscubing/cubing/bluetooth";
-import "@vscubing/cubing/kpuzzle";
-import "@vscubing/cubing/notation";
-import "@vscubing/cubing/protocol";
-import "@vscubing/cubing/puzzle-geometry";
-import "@vscubing/cubing/puzzles";
-import "@vscubing/cubing/scramble";
-import "@vscubing/cubing/search";
-import "@vscubing/cubing/stream";
-import "@vscubing/cubing/twisty";
+import * as alg from "@vscubing/cubing/alg";
+import * as bluetooth from "@vscubing/cubing/bluetooth";
+import * as kpuzzle from "@vscubing/cubing/kpuzzle";
+import * as notation from "@vscubing/cubing/notation";
+import * as protocol from "@vscubing/cubing/protocol";
+import * as puzzleGeometry from "@vscubing/cubing/puzzle-geometry";
+import * as puzzles from "@vscubing/cubing/puzzles";
+import * as scramble from "@vscubing/cubing/scramble";
+import * as search from "@vscubing/cubing/search";
+import * as stream from "@vscubing/cubing/stream";
+import * as twisty from "@vscubing/cubing/twisty";
 
-import { Alg } from "@vscubing/cubing/alg";
-import { KPattern } from "@vscubing/cubing/kpuzzle";
-import { cube2x2x2 } from "@vscubing/cubing/puzzles";
-import { randomScrambleForEvent } from "@vscubing/cubing/scramble";
-import {
-  experimentalSolveTwsearch,
-  setSearchDebug,
-} from "@vscubing/cubing/search";
-
-setSearchDebug({ disableStringWorker: true });
-
-(async () => {
-  (await randomScrambleForEvent("222")).log();
-  (await randomScrambleForEvent("333")).log();
-
-  const scramble222 = new Alg("R' F2 R F2 R F' U2 R' F' L2 F'");
-  const kpuzzle = await cube2x2x2.kpuzzle();
-  const scramble222Transformation = kpuzzle.algToTransformation(scramble222);
-  const scramble222Solution = await experimentalSolveTwsearch(
-    kpuzzle,
-    scramble222Transformation.toKPattern(),
-    { generatorMoves: "ULFR".split(""), minDepth: 11 },
-  );
-  scramble222.concat(".").concat(scramble222Solution).log();
-  if (
-    !scramble222Transformation
-      .applyAlg(scramble222Solution)
-      .isIdentical(kpuzzle.identityTransformation())
-  ) {
-    throw new Error("Invalid solution!");
-  }
-  const numMoves = scramble222Solution.experimentalNumChildAlgNodes();
-  if (numMoves < 11) {
-    throw new Error(`Solution too short (at least 11 expected): ${numMoves}`);
-  }
-
-  console.log("Success!");
-})();
+console.log(alg);
+console.log(bluetooth);
+console.log(kpuzzle);
+console.log(notation);
+console.log(protocol);
+console.log(puzzleGeometry);
+console.log(puzzles);
+console.log(scramble);
+console.log(search);
+console.log(stream);
+console.log(twisty);

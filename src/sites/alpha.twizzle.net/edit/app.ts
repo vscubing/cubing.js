@@ -12,9 +12,9 @@ import {
 import type { PuzzleStreamMoveEventRegisterCompatible } from "../../../cubing/stream/process/ReorientedStream";
 import "../../../cubing/twisty"; // For `<twisty-alg-editor>` custom elem registration.
 import {
+  TwistyPlayer,
   type ExperimentalStickering,
   type PuzzleID,
-  TwistyPlayer,
   type TwistyPlayerConfig,
 } from "../../../cubing/twisty";
 import {
@@ -117,10 +117,117 @@ export class App {
   private initializeTwisty(initialConfig: TwistyPlayerConfig): void {
     initialConfig.viewerLink = "none";
     this.twistyPlayer = new TwistyPlayer(initialConfig);
-    this.twistyPlayer.experimentalModel.twistySceneModel.initialHintFaceletsAnimation.set(
-      "none",
-    );
     this.puzzlePane.appendChild(this.twistyPlayer);
+
+    this.twistyPlayer.experimentalModel.puzzleSetupAlg.addFreshListener(() =>
+      this.#onSetupOrAlgChange(),
+    );
+    this.twistyPlayer.experimentalModel.puzzleAlg.addFreshListener(() =>
+      this.#onSetupOrAlgChange(),
+    );
+    this.element
+      .querySelector(".auto-notation-undo")!
+      .addEventListener("click", () => {
+        this.controlPane.puzzleSelect.value = this.#autoNotationPuzzleOld!;
+        this.controlPane.puzzleSelectChanged();
+        this.element.querySelector<HTMLSpanElement>(
+          ".auto-notation-change-back",
+        )!.hidden = true;
+        this.element.querySelector<HTMLSpanElement>(
+          ".auto-notation-change-redo",
+        )!.hidden = false;
+        this.#autofixEnabled = false;
+      });
+    this.element
+      .querySelector(".auto-notation-redo")!
+      .addEventListener("click", () => {
+        this.controlPane.puzzleSelect.value = this.#autoNotationPuzzleNew!;
+        this.controlPane.puzzleSelectChanged();
+        this.element.querySelector<HTMLSpanElement>(
+          ".auto-notation-change-back",
+        )!.hidden = false;
+        this.element.querySelector<HTMLSpanElement>(
+          ".auto-notation-change-redo",
+        )!.hidden = true;
+        this.#autofixEnabled = true;
+      });
+  }
+
+  #autoNotationPuzzleOld: PuzzleID | undefined;
+  #autoNotationPuzzleNew: PuzzleID | undefined;
+  #autofixEnabled: boolean = true;
+  // TODO: factor this out into a class
+  async #onSetupOrAlgChange() {
+    (async () => {
+      const [originalPuzzleID, puzzleAlgWithIssue, puzzleSetupAlgWithIssue] =
+        await Promise.all([
+          this.twistyPlayer.experimentalModel.puzzleID.get(),
+          this.twistyPlayer.experimentalModel.puzzleAlg.get(),
+          this.twistyPlayer.experimentalModel.puzzleSetupAlg.get(),
+        ]);
+      if (
+        puzzleAlgWithIssue.issues.errors.length > 0 ||
+        puzzleSetupAlgWithIssue.issues.errors.length > 0
+      ) {
+        const [algWithIssue, setupAlgWithIssue] = await Promise.all([
+          this.twistyPlayer.experimentalModel.alg.get(),
+          this.twistyPlayer.experimentalModel.setupAlg.get(),
+        ]);
+        for (const puzzleID of [
+          "3x3x3",
+          "square1",
+          "clock",
+          "megaminx",
+        ] satisfies PuzzleID[]) {
+          const puzzleLoader = puzzles[puzzleID];
+          const kpuzzle = await puzzleLoader.kpuzzle();
+          try {
+            if (
+              algWithIssue.issues.errors.length === 0 &&
+              setupAlgWithIssue.issues.errors.length === 0 &&
+              kpuzzle.defaultPattern().applyAlg(algWithIssue.alg) &&
+              kpuzzle.defaultPattern().applyAlg(setupAlgWithIssue.alg) // TODO: This ignores e.g. bandaging
+            ) {
+              this.#autoNotationPuzzleOld = originalPuzzleID;
+              this.#autoNotationPuzzleNew = puzzleID;
+
+              if (this.#autofixEnabled) {
+                for (const elem of this.element.querySelectorAll(
+                  ".auto-notation-puzzle-old",
+                )) {
+                  elem.textContent = puzzles[originalPuzzleID].fullName;
+                }
+                for (const elem of this.element.querySelectorAll(
+                  ".auto-notation-puzzle-new",
+                )) {
+                  elem.textContent = puzzleLoader.fullName;
+                }
+
+                this.element.querySelector<HTMLSpanElement>(
+                  ".auto-notation",
+                )!.hidden = false;
+                this.element.querySelector<HTMLSpanElement>(
+                  ".auto-notation-change-back",
+                )!.hidden = false;
+                this.element.querySelector<HTMLSpanElement>(
+                  ".auto-notation-change-redo",
+                )!.hidden = true;
+
+                this.controlPane.puzzleSelect.value = puzzleID;
+                this.controlPane.puzzleSelectChanged();
+              } else {
+                for (const elem of this.element.querySelectorAll(
+                  ".auto-notation-puzzle-new-new",
+                )) {
+                  elem.textContent = puzzleLoader.fullName;
+                }
+              }
+              return;
+            }
+          } catch {}
+        }
+      }
+    })();
   }
 
   async solve(): Promise<void> {
@@ -533,9 +640,9 @@ class ControlPane {
       for (const puzzleOptInfo of puzzles) {
         const option = document.createElement("option");
         option.value = puzzleOptInfo.name;
-        option.textContent = `${puzzleOptInfo.symbol} ${supportedPuzzles[
+        option.textContent = `${supportedPuzzles[
           puzzleOptInfo.name
-        ].displayName()}`;
+        ].displayName()} ${puzzleOptInfo.symbol}`;
         optgroup.appendChild(option);
         if (puzzleOptInfo.name === initialPuzzleName) {
           option.selected = true;
@@ -548,7 +655,7 @@ class ControlPane {
     );
   }
 
-  private puzzleSelectChanged(): void {
+  puzzleSelectChanged(): void {
     const option = this.puzzleSelect.selectedOptions[0];
     this.twistyPlayer.puzzle = option.value as PuzzleID;
   }
@@ -640,6 +747,7 @@ class ControlPane {
       "redi_cube",
       "loopover",
       "melindas2x2x2x2",
+      "tri_quad",
       "loopover",
     ].includes(puzzle);
     this.toolGrid.setButtonEnabled(

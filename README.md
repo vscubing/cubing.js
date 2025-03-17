@@ -15,7 +15,7 @@ Twizzle</a> is the spiritual successor to [alg.cubing.net](https://alg.cubing.ne
 If you're just getting started, the easiest way to use `cubing.js` is through `cdn.cubing.net`:
 
 ```html
-<script src="https://cdn.cubing.net/js/cubing/twisty" type="module"></script>
+<script src="https://cdn.cubing.net/v0/js/cubing/twisty" type="module"></script>
 <twisty-player alg="R U R' U R U2' R'"></twisty-player>
 ```
 
@@ -78,6 +78,18 @@ We recommend using Microsoft's [Windows Subsystem for Linux (WSL)](https://learn
 
 For release versions and release notes, view the release history on GitHub: <https://github.com/cubing/cubing.js/releases>
 
+## License
+
+This project is licensed under the Mozilla Public License. This means that `cubing.js` is **free to use** in any public or private project. We've selected this license so that `cubing.js` can be used in a large variety of use cases.
+
+However, if you modify the source code of `cubing.js` to fit your needs then you **must publish your modifications to the `cubing.js` source code** (e.g. publish a fork put it on GitHub). See [the full license](./LICENSE-MPL.md) for exact details.
+
+Although you are no longer required to publish code that uses `cubing.js`, we encourage you to develop your projects as open-source. This way, others can learn from your work and build on it far into the future. It also allows us to tell how features are being used by projects in the community, and what new features are needed.
+
+### Fine Print
+
+All original code in this project is dual-licensed as both [GPL](./LICENSE-GPL.md) and [MPL](./LICENSE-MPL.md), but the codebase contains additional vendored code under the [Apache](./src/cubing/vendor/apache/), [MIT](./src/cubing/vendor/mit/), and [Ubuntu Font](./src/sites/experiments.cubing.net/cubing.js/vendor/fonts/ubuntu/) licenses. This may affect you if you are forking the source code, as certain parts are not MPL-licensed on their own. But if you are just using `cubing.js` as a library, you can effectively treat all of `cubing.js` as if it was MPL-licensed.
+
 ## Acknowledgments
 
 As of this time, `cubing.js` primarily contains code by [Lucas Garron (@lgarron)](https://github.com/lgarron) and [Tom Rokicki (@rokicki)](https://github.com/rokicki). Significant parts of the cubing code also are from:
@@ -86,9 +98,3 @@ As of this time, `cubing.js` primarily contains code by [Lucas Garron (@lgarron)
 - [`xyxxy` (@torchlight)](https://github.com/torchlight): Scramblers for unofficial events
 
 It also uses the [`three.js`](https://github.com/mrdoob/three.js), [`comlink`](https://github.com/GoogleChromeLabs/comlink), and [`p-lazy`](https://github.com/sindresorhus/p-lazy) libraries. Twizzle also uses the [Ubuntu font](https://design.ubuntu.com/font/).
-
-## License
-
-This project is licensed under the GPL license (version 3 or later). This means that this library is **free to use**, although you **must publish any code that uses it** (e.g. also put it on GitHub). See [the full license](./LICENSE.md) for exact details.
-
-We've selected this license in order to encourage the cubing community to work on software in a way so that everyone can contribute and extend each other's work.

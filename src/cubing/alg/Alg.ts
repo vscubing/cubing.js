@@ -1,15 +1,16 @@
 // https://js.cubing.net/cubing/alg/
 
-import { AlgCommon, Comparable } from "./common";
-import { experimentalIs, experimentalIsAlgNode } from "./is";
-import { direct, IterationDirection, reverse } from "./iteration";
-import { parseAlg } from "./parseAlg";
-import { simplify, type SimplifyOptions } from "./simplify";
 import { Grouping, Pause } from "./alg-nodes";
+import type { AlgLeaf, AlgNode } from "./alg-nodes/AlgNode";
 import { LineComment } from "./alg-nodes/leaves/LineComment";
 import { Move } from "./alg-nodes/leaves/Move";
 import { Newline } from "./alg-nodes/leaves/Newline";
-import type { AlgLeaf, AlgNode } from "./alg-nodes/AlgNode";
+import { AlgCommon, type Comparable } from "./common";
+import { experimentalIs, experimentalIsAlgNode } from "./is";
+import { IterationDirection, direct, reverse } from "./iteration";
+import { parseAlg } from "./parseAlg";
+import type { ExperimentalSerializationOptions } from "./SerializationOptions";
+import { simplify, type SimplifyOptions } from "./simplify";
 import { warnOnce } from "./warnOnce";
 
 export type FlexibleAlgSource = string | Iterable<AlgNode> | Alg;
@@ -247,7 +248,9 @@ export class Alg extends AlgCommon<Alg> {
    *     // R U2 L
    *     console.log(alg.toString())
    */
-  toString(): string {
+  toString(
+    experimentalSerializationOptions?: ExperimentalSerializationOptions,
+  ): string {
     let output = "";
     let previousVisibleAlgNode: AlgNode | null = null;
     for (const algNode of this.#algNodes) {
@@ -259,11 +262,11 @@ export class Alg extends AlgCommon<Alg> {
         if (nissGrouping.amount !== -1) {
           throw new Error("Invalid NISS Grouping amount!");
         }
-        output += `^(${nissGrouping.alg.toString()})`;
+        output += `^(${nissGrouping.alg.toString(experimentalSerializationOptions)})`;
       } else if (algNode.as(Grouping)?.experimentalNISSPlaceholder) {
         // do not serialize (rely on the placeholder instead)
       } else {
-        output += algNode.toString();
+        output += algNode.toString(experimentalSerializationOptions);
       }
       previousVisibleAlgNode = algNode;
     }

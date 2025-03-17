@@ -1,15 +1,15 @@
 import {
   LineComment,
-  Commutator,
-  Conjugate,
-  Pause,
-  TraversalUp,
   Move,
-  Alg,
-  Grouping,
   Newline,
+  TraversalUp,
+  functionFromTraversal,
+  type Alg,
+  type Commutator,
+  type Conjugate,
+  type Grouping,
+  type Pause,
 } from "../../../../alg";
-import { functionFromTraversal } from "../../../../alg";
 import type { MillisecondTimestamp } from "../../AnimationTypes";
 import { defaultDurationForAmount } from "../AlgDuration";
 
@@ -64,14 +64,20 @@ export class LocalSimulMoves extends TraversalUp<LocalAnimLeavesWithRange[]> {
       return [];
     }
 
+    const moves: Move[] = [];
     for (const algNode of alg.childAlgNodes()) {
-      if (!algNode.is(Move)) {
+      if (
+        !(algNode.is(Move) || algNode.is(LineComment) || algNode.is(Newline))
+      ) {
         // TODO: define the type statically on the class?
         return this.traverseAlg(alg);
       }
+      const asMove = algNode.as(Move);
+      if (asMove) {
+        moves.push(asMove);
+      }
     }
 
-    const moves = Array.from(alg.childAlgNodes()) as Move[];
     let maxSimulDur = defaultDurationForAmount(moves[0].amount);
     for (let i = 0; i < moves.length - 1; i++) {
       for (let j = 1; j < moves.length; j++) {

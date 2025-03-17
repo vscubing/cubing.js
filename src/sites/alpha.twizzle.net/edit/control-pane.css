@@ -45,7 +45,7 @@ control-pane .metadata-url {
 }
 
 control-pane .move-count-header {
-  display: grid ;
+  display: grid;
   grid-template-columns: auto 1fr;
 }
 
@@ -75,10 +75,6 @@ control-pane .alg-features p {
   padding: 0.5em 1em;
   color: rgba(0, 0, 0, 0.75);
   border-top: 1px solid rgba(0, 0, 0, 0.5);
-}
-
-control-pane textarea.experimental-setup-alg {
-  min-height: 2em;
 }
 
 control-pane textarea.status-warning {

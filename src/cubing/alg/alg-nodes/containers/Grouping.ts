@@ -1,11 +1,12 @@
+import type { ExperimentalSerializationOptions } from "cubing/alg/SerializationOptions";
+import { Commutator, Conjugate } from "..";
 import { Alg, experimentalEnsureAlg, type FlexibleAlgSource } from "../../Alg";
-import { AlgCommon, Comparable } from "../../common";
+import { AlgCommon, type Comparable } from "../../common";
 import { IterationDirection } from "../../iteration";
+import type { AlgLeaf, AlgNode } from "../AlgNode";
 import { Move, QuantumMove } from "../leaves/Move";
 import type { Pause } from "../leaves/Pause";
 import { QuantumWithAmount } from "../QuantumWithAmount";
-import type { AlgLeaf, AlgNode } from "../AlgNode";
-import { Commutator, Conjugate } from "..";
 
 // This is a workaround for `jest`, which doesn't handle cycles of imports inside `cubing/alg`.
 // We need to lazy-initialize the reusable quantum moves for Square-1, so we create this wrapper for it.
@@ -13,7 +14,14 @@ class Square1TupleFormatter {
   quantumU_SQ_: QuantumMove | null = null;
   quantumD_SQ_: QuantumMove | null = null;
 
-  format(grouping: Grouping): string | null {
+  format(
+    grouping: Grouping,
+    experimentalSerializationOptions?: ExperimentalSerializationOptions,
+  ): string | null {
+    if (experimentalSerializationOptions?.notation === "LGN") {
+      return null;
+    }
+
     if (grouping.amount !== 1) {
       return null;
     }
@@ -107,8 +115,12 @@ export class Grouping extends AlgCommon<Grouping> {
     throw new Error("unimplemented");
   }
 
-  #unrepeatedString(): string | null {
-    const insideString = this.#quantumWithAmount.quantum.toString();
+  #unrepeatedString(
+    experimentalSerializationOptions?: ExperimentalSerializationOptions,
+  ): string | null {
+    const insideString = this.#quantumWithAmount.quantum.toString(
+      experimentalSerializationOptions,
+    );
     const iter = this.alg.childAlgNodes();
     const { value } = iter.next() as {
       value: AlgNode;
@@ -120,10 +132,15 @@ export class Grouping extends AlgCommon<Grouping> {
     return `(${insideString})`;
   }
 
-  toString(): string {
+  toString(
+    experimentalSerializationOptions?: ExperimentalSerializationOptions,
+  ): string {
     return (
-      square1TupleFormatterInstance.format(this) ??
-      `${this.#unrepeatedString()}${this.#quantumWithAmount.suffix()}`
+      square1TupleFormatterInstance.format(
+        this,
+        experimentalSerializationOptions,
+      ) ??
+      `${this.#unrepeatedString(experimentalSerializationOptions)}${this.#quantumWithAmount.suffix()}`
     );
   }
 

@@ -2,11 +2,11 @@
 // bun run src/bin/puzzle-geometry-bin.ts -- <program args>
 
 import {
-  type ExperimentalPuzzleBaseShape,
-  type ExperimentalPuzzleCutType,
+  PuzzleGeometry,
   getPG3DNamedPuzzles,
   parsePuzzleDescription,
-  PuzzleGeometry,
+  type ExperimentalPuzzleBaseShape,
+  type ExperimentalPuzzleCutType,
   type ExperimentalPuzzleGeometryOptions,
 } from "@vscubing/cubing/puzzle-geometry";
 import type { PuzzleDescriptionString } from "@vscubing/cubing/puzzle-geometry/PGPuzzles";
@@ -23,12 +23,9 @@ export function asstructured(v: any): any {
 }
 export function asboolean(v: any): boolean {
   if (typeof v === "string") {
-    if (v === "false") {
-      return false;
-    }
-    return true;
+    return v !== "false";
   } else {
-    return v ? true : false;
+    return !!v;
   }
 }
 export function parsePGOptionList(
@@ -145,8 +142,8 @@ little chop, pyramorphix, mastermorphix, pyraminx, Jing pyraminx,
 master paramorphix, megaminx, gigaminx, pentultimate, starminx,
 starminx 2, pyraminx crystal, chopasaurus, big chop, skewb diamond,
 FTO, Christopher's jewel, octastar, Trajber's octahedron, radio chop,
-icosamate, icosahedron 2, icosahedron 3, icosahedron static faces,
-icosahedron moving faces, and Eitan's star.
+icosamate, Regular Astrominx, Regular Astrominx + Big Chop,
+Redicosahedron, Redicosahedron with centers,Icosaminx, and Eitan's star.
 
 Examples:
    puzzlegeometry --ss 2x2x2

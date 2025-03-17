@@ -1,5 +1,10 @@
-import { Alg, experimentalEnsureAlg, type FlexibleAlgSource } from "../../Alg";
-import { AlgCommon, Comparable } from "../../common";
+import type { ExperimentalSerializationOptions } from "cubing/alg/SerializationOptions";
+import {
+  experimentalEnsureAlg,
+  type Alg,
+  type FlexibleAlgSource,
+} from "../../Alg";
+import { AlgCommon, type Comparable } from "../../common";
 import { IterationDirection } from "../../iteration";
 import type { AlgLeaf } from "../AlgNode";
 
@@ -48,7 +53,9 @@ export class Conjugate extends AlgCommon<Conjugate> {
     }
   }
 
-  toString(): string {
-    return `[${this.A}: ${this.B}]`;
+  toString(
+    experimentalSerializationOptions?: ExperimentalSerializationOptions,
+  ): string {
+    return `[${this.A.toString(experimentalSerializationOptions)}: ${this.B.toString(experimentalSerializationOptions)}]`;
   }
 }

@@ -1,10 +1,10 @@
 {
   "name": "@vscubing/cubing",
-  "version": "0.46.1-vscubing.2",
+  "version": "0.53.9-vscubing.3",
   "description": "A collection of JavaScript cubing libraries.",
   "author": "The js.cubing.net team",
   "type": "module",
-  "license": "GPL-3.0-or-later",
+  "license": "MPL-2.0 OR GPL-3.0-or-later",
   "repository": "github:vscubing/cubing.js",
   "exports": {
     "./alg": {
@@ -56,50 +56,43 @@
     "scramble": "./dist/bin/scramble.js"
   },
   "dependencies": {
-    "@types/three": "^0.160.0",
+    "@types/three": "^0.169.0",
     "@types/web-bluetooth": "^0.0.20",
+    "cmd-ts-too": "^0.15.3",
     "comlink": "^4.4.1",
-    "random-uint-below": "^2.0.0",
-    "three": "^0.160.0"
+    "random-uint-below": "v3.3.0",
+    "three": "^0.170.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.5.2",
+    "@biomejs/biome": "^1.9.3",
+    "@cubing/deploy": "v0.1.8",
     "@esm-bundle/chai": "^4.3.4-fix.0",
-    "@types/chai": "^4.3.11",
+    "@types/chai": "^5.0.0",
     "@types/dom-speech-recognition": "^0.0.4",
-    "@types/mocha": "^10.0.6",
-    "@types/node": "^20.11.5",
-    "@types/node-fetch": "^2.6.11",
-    "@types/yargs": "^17.0.32",
-    "@web/dev-server-esbuild": "^1.0.1",
-    "@web/test-runner": "^0.18.0",
+    "@types/mocha": "^10.0.8",
+    "@types/node": "^22.7.4",
+    "@web/dev-server-esbuild": "^1.0.2",
+    "@web/test-runner": "^0.19.0",
     "@web/test-runner-playwright": "^0.11.0",
-    "barely-a-dev-server": "^0.6.0",
-    "chai": "^5.0.0",
-    "esbuild": "^0.19.11",
+    "barely-a-dev-server": "latest",
+    "chai": "^5.1.1",
+    "esbuild": "latest",
+    "getbuiltinmodule-ponyfill": "^1.0.1",
     "jszip": "^3.10.1",
-    "mocha": "^10.2.0",
-    "node-fetch": "^3.3.2",
-    "peggy": "^3.0.2",
-    "playwright": "^1.41.0",
-    "tsup": "^8.0.1",
-    "typedoc": "^0.25.7",
-    "typescript": "^5.3.3",
-    "yargs": "^17.7.2"
+    "mocha": "^10.7.3",
+    "playwright": "^1.47.2",
+    "tsup": "^8.3.0",
+    "typedoc": "^0.26.7",
+    "typescript": "^5.6.2"
   },
-  "minimalDevDependencies": [
-    "barely-a-dev-server",
-    "esbuild",
-    "jszip",
-    "@biomejs/biome",
-    "yargs"
-  ],
   "engines": {
-    "node": ">=19"
+    "node": ">=20.16.0",
+    "bun": ">=1.0.30"
   },
   "files": [
     "./dist/bin/",
-    "./dist/lib/"
+    "./dist/lib/",
+    "*/index.d.ts"
   ],
   "scripts": {
     "default": "make default",
@@ -112,12 +105,11 @@
     "build-site-twizzle": "make build-site-twizzle",
     "build-site-experiments": "make build-site-experiments",
     "build-site-docs": "make build-site-docs",
-    "generate-js": "make generate-js",
-    "generate-js-parsers": "make generate-js-parsers",
-    "generate-js-svg": "make generate-js-svg",
     "dev": "make dev",
     "link": "make link",
     "clean": "make clean",
+    "reset": "make reset",
+    "audit": "make audit",
     "test": "make test",
     "test-info": "make test-info",
     "test-fast": "make test-fast",
@@ -138,6 +130,7 @@
     "test-dist": "make test-dist",
     "test-dist-lib": "make test-dist-lib",
     "test-dist-lib-node-import": "make test-dist-lib-node-import",
+    "test-dist-lib-node-scramble": "make test-dist-lib-node-scramble",
     "test-dist-lib-bun-scramble-all-events": "make test-dist-lib-bun-scramble-all-events",
     "test-dist-lib-perf": "make test-dist-lib-perf",
     "test-dist-lib-plain-esbuild-compat": "make test-dist-lib-plain-esbuild-compat",
@@ -148,6 +141,7 @@
     "test-dist-bin-npm-exec": "make test-dist-bin-npm-exec",
     "format": "make format",
     "setup": "make setup",
+    "update-dependencies": "make update-dependencies",
     "quick-setup": "make quick-setup",
     "lint": "make lint",
     "lint-ci": "make lint-ci",
@@ -171,5 +165,11 @@
     "bluetooth",
     "rubik",
     "rubik's"
-  ]
+  ],
+  "@cubing/deploy": {
+    "$schema": "./node_modules/@cubing/deploy/config-schema.json",
+    "https://experiments.cubing.net/cubing.js/": {
+      "fromLocalDir": "./dist/sites/experiments.cubing.net/cubing.js/"
+    }
+  }
 }
