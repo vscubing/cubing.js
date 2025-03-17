@@ -20,6 +20,10 @@ a {
   border-radius: 0.1em;
 }
 
+twisty-alg-leaf-elem.twisty-alg-comment {
+  color: rgba(0, 0, 0, 0.4);
+}
+
 .current-move a {
   background: #7272CB;
 }
