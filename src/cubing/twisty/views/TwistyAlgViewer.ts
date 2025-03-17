@@ -50,6 +50,7 @@ class TwistyAlgLeafElem extends ManagedCustomElement {
     public algOrAlgNode: Alg | AlgNode,
     offsetIntoMove: boolean,
     clickable: boolean,
+    comment = false,
   ) {
     super({ mode: "open" });
     this.classList.add(className);
@@ -70,9 +71,11 @@ class TwistyAlgLeafElem extends ManagedCustomElement {
         );
       });
     } else {
-      this.contentWrapper.appendChild(
-        document.createElement("span"),
-      ).textContent = text;
+      const span = document.createElement("span");
+      if (comment) {
+        span.classList.add("twisty-alg-line-comment__span");
+      }
+      this.contentWrapper.appendChild(span).textContent = text;
     }
   }
 
@@ -370,6 +373,7 @@ class AlgToDOMTree extends TraversalDownUp<DataDown, DataUp, DataUp> {
         lineComment,
         false,
         false,
+        true,
       ),
     };
   }
@@ -387,7 +391,7 @@ class MoveHighlighter {
 
   set(move: Parsed<Move> | null): void {
     const newElem = move
-      ? this.moveCharIndexMap.get(move.startCharIndex) ?? null
+      ? (this.moveCharIndexMap.get(move.startCharIndex) ?? null)
       : null;
     if (this.currentElem === newElem) {
       return;
