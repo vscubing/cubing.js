@@ -1,6 +1,6 @@
 {
   "name": "@vscubing/cubing",
-  "version": "0.53.9-vscubing.3",
+  "version": "0.54.4-vscubing.3",
   "description": "A collection of JavaScript cubing libraries.",
   "author": "The js.cubing.net team",
   "type": "module",
@@ -74,9 +74,9 @@
     "@web/dev-server-esbuild": "^1.0.2",
     "@web/test-runner": "^0.19.0",
     "@web/test-runner-playwright": "^0.11.0",
-    "barely-a-dev-server": "latest",
+    "barely-a-dev-server": "^0.7.1",
     "chai": "^5.1.1",
-    "esbuild": "latest",
+    "esbuild": "^0.25.0",
     "getbuiltinmodule-ponyfill": "^1.0.1",
     "jszip": "^3.10.1",
     "mocha": "^10.7.3",
@@ -87,11 +87,12 @@
   },
   "engines": {
     "node": ">=20.16.0",
-    "bun": ">=1.0.30"
+    "bun": ">=1.2.0"
   },
   "files": [
     "./dist/bin/",
     "./dist/lib/",
+    "./experimental-json-schema",
     "*/index.d.ts"
   ],
   "scripts": {
@@ -108,6 +109,7 @@
     "dev": "make dev",
     "link": "make link",
     "clean": "make clean",
+    "clean-types": "make clean-types",
     "reset": "make reset",
     "audit": "make audit",
     "test": "make test",
@@ -142,7 +144,6 @@
     "format": "make format",
     "setup": "make setup",
     "update-dependencies": "make update-dependencies",
-    "quick-setup": "make quick-setup",
     "lint": "make lint",
     "lint-ci": "make lint-ci",
     "prepack": "make prepack",

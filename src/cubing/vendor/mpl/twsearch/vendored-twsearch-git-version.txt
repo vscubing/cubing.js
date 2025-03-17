@@ -1,1 +1,1 @@
-https://github.com/cubing/twsearch/tree/4544d81b7a95f3eb83349b1d247e5b6f2a6012f0
+https://github.com/cubing/twsearch/tree/b402ce85e22f053369698abb294ef96eac9e71fb
