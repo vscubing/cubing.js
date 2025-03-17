@@ -391,7 +391,7 @@ class MoveHighlighter {
 
   set(move: Parsed<Move> | null): void {
     const newElem = move
-      ? (this.moveCharIndexMap.get(move.startCharIndex) ?? null)
+      ? this.moveCharIndexMap.get(move.startCharIndex) ?? null
       : null;
     if (this.currentElem === newElem) {
       return;
