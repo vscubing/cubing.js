@@ -38,5 +38,5 @@ export { TwistyAnimatedSVG as ExperimentalSVGAnimator } from "./views/2D/TwistyA
 
 // NOTE: @vscubing
 export { Alg, LineComment, Newline } from "../alg";
-export { getMultiCheck } from "./patternChecker";
+export { getSolveAnalyzer } from "./patternChecker";
 export { TwistyScrubber } from "./views/control-panel/TwistyScrubber";

@@ -14,7 +14,8 @@ import {
 } from "../puzzles/stickerings/mask";
 import type { ExperimentalStickering } from "../twisty";
 
-export const getMultiCheck = async (puzzleLoader: PuzzleLoader) => {
+// stolen from `src/sites/experiments.cubing.net/cubing.js/live-reconstruction/index.ts`
+export const getSolveAnalyzer = async (puzzleLoader: PuzzleLoader) => {
   const kpuzzle = await puzzleLoader.kpuzzle();
 
   const IGNORED_PIECE_VALUE = 9999; // TODO: This should really be set to the lowest otherwise unused piece number in the orbit.
@@ -396,7 +397,6 @@ export const getMultiCheck = async (puzzleLoader: PuzzleLoader) => {
 
   let lastI = patternCheckers.length + 1;
   return function multiCheck(pattern: KPattern): string | null {
-    console.log("--------");
     for (const [i, patternChecker] of patternCheckers.entries()) {
       if (i >= lastI) {
         return null;
@@ -409,17 +409,9 @@ export const getMultiCheck = async (puzzleLoader: PuzzleLoader) => {
       // }
       const isSolvedInfo = patternChecker.check(pattern);
       if (isSolvedInfo.isSolved) {
-        console.log(
-          `[${patternChecker.name}] Solved, orient using: ${
-            isSolvedInfo.algToNormalize.experimentalIsEmpty()
-              ? "(empty alg)"
-              : isSolvedInfo.algToNormalize
-          }`,
-        );
         lastI = i;
         obviated.add(patternChecker.name);
         for (const newlyObviated of patternChecker.obviates) {
-          console.log("obviating", newlyObviated);
           obviated.add(newlyObviated);
         }
         return patternChecker.name;
