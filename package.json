@@ -1,6 +1,6 @@
 {
   "name": "@vscubing/cubing",
-  "version": "0.54.5-vscubing.8",
+  "version": "0.55.0-vscubing.9",
   "description": "A collection of JavaScript cubing libraries.",
   "author": "The js.cubing.net team",
   "type": "module",
@@ -81,6 +81,7 @@
     "jszip": "^3.10.1",
     "mocha": "^10.7.3",
     "playwright": "^1.47.2",
+    "printable-shell-command": "^0.1.2",
     "tsup": "^8.3.0",
     "typedoc": "^0.26.7",
     "typescript": "^5.6.2"

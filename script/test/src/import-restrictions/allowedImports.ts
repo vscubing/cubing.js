@@ -36,6 +36,7 @@ export const mainAllowedImports: AllowedImports = {
       "node-fetch",
       "playwright",
       "cmd-ts-too",
+      "printable-shell-command",
     ],
     dynamic: ["@vscubing/cubing", "node:repl"],
   },
