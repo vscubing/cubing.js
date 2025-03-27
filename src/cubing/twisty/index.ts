@@ -25,7 +25,6 @@ export type { VisualizationFormat } from "./model/props/viewer/VisualizationProp
 export { TwizzleLink } from "./views/twizzle/TwizzleLink";
 
 export type { MillisecondTimestamp as ExperimentalMillisecondTimestamp } from "./controllers/AnimationTypes";
-export { BoundaryType } from "./controllers/AnimationTypes";
 
 // Older
 // export { Cube3D } from "./views/3D/puzzles/Cube3D";
@@ -37,6 +36,7 @@ export { TreeAlgIndexer } from "./controllers/indexer/tree/TreeAlgIndexer";
 export { TwistyAnimatedSVG as ExperimentalSVGAnimator } from "./views/2D/TwistyAnimatedSVG";
 
 // NOTE: @vscubing
-export { Alg, LineComment, Newline } from "../alg";
 export { getSolveAnalyzer } from "./patternChecker";
 export { TwistyScrubber } from "./views/control-panel/TwistyScrubber";
+export { BoundaryType } from "./controllers/AnimationTypes";
+export type { AnimationTimelineLeaf } from "./model/props/puzzle/state/AnimationTimelineLeavesRequestProp";
