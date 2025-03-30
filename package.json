@@ -149,7 +149,6 @@
     "lint-ci": "make lint-ci",
     "prepack": "make prepack",
     "prepublishOnly": "make prepublishOnly",
-    "postpublish": "make postpublish",
     "deploy": "make deploy",
     "deploy-twizzle": "make deploy-twizzle",
     "deploy-experiments": "make deploy-experiments",
