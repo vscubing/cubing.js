@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [19.x]
+        node-version: [20.16, latest]
 
     steps:
       - uses: actions/checkout@v4
@@ -36,7 +36,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [19.x]
+        node-version: [20.16, latest]
 
     steps:
       - uses: actions/checkout@v4
@@ -62,7 +62,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [19.x]
+        node-version: [20.16, latest]
 
     steps:
       - uses: actions/checkout@v4
@@ -86,11 +86,15 @@ jobs:
       - run: make build-bin
       - run: make test-dist-bin
       - run: make build-sites
-      - run: make test-dist-sites-experiments
+      - run: make test-dist-sites-twizzle
       - run: make clean
 
   test-make-test-fast:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.16, latest]
 
     steps:
       - uses: actions/checkout@v4
@@ -99,9 +103,9 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: "latest"
-      - run: make setup
-      - name: Set up `node`
+      - name: Use `node` v${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
-          node-version: v19
+          node-version: ${{ matrix.node-version }}
+      - run: make setup
       - run: time make test-fast

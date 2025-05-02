@@ -1,4 +1,4 @@
-import { Quaternion } from "three";
+import { Quaternion } from "three/src/math/Quaternion.js";
 import { Alg, experimentalAppendMove, Move } from "../../alg";
 import { debugLog } from "../debug";
 import { type BluetoothConfig, BluetoothPuzzle } from "./bluetooth-puzzle";
@@ -114,7 +114,7 @@ export class GoCube extends BluetoothPuzzle {
   }
 
   private onCubeCharacteristicChanged(event: any): void {
-    const buffer: DataView = event.target.value;
+    const buffer: DataView<ArrayBuffer> = event.target.value;
     this.recorded.push([event.timeStamp, buf2hex(buffer.buffer)]);
     // TODO: read bytes from buffer instead of guessing meaning based on length.
     if (buffer.byteLength < 16) {

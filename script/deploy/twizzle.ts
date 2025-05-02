@@ -1,14 +1,13 @@
+import { $ } from "bun";
 import * as assert from "node:assert";
 import { readFile } from "node:fs/promises";
+import { PrintableShellCommand } from "printable-shell-command";
 import type { VersionJSON } from "../build/sites/barelyServeSite";
-import { execPromise, execPromiseLogged } from "../lib/execPromise";
 import { rsync } from "./rsync";
 
-const gitDescribeVersion = (await execPromise("git describe --tags")).trim();
+const gitDescribeVersion = (await $`git describe --tags`.text()).trim();
 const versionFolderName = (
-  await execPromise(
-    `date "+%Y-%m-%d@%H-%M-%S-%Z@${gitDescribeVersion}@unixtime%s"`,
-  )
+  await $`date "+%Y-%m-%d@%H-%M-%S-%Z@${gitDescribeVersion}@unixtime%s"`.text()
 ).trim();
 const twizzleSSHServer = "cubing_deploy@twizzle.net";
 const twizzleSFTPPath = "~/alpha.twizzle.net";
@@ -17,9 +16,11 @@ const twizzleSFTPVersionPath = `${twizzleSFTPVersionsPath}/${versionFolderName}`
 const twizzleSFTPUploadPath = `${twizzleSFTPVersionsPath}/rsync-incomplete/${versionFolderName}`;
 const twizzleURL = "https://alpha.twizzle.net/";
 
-await execPromiseLogged(
-  `ssh "${twizzleSSHServer}" "mkdir -p ${twizzleSFTPUploadPath} && [ ! -d ${twizzleSFTPPath} ] || { cp -R ${twizzleSFTPPath}/* ${twizzleSFTPUploadPath} && rm -f ${twizzleSFTPUploadPath}/deploy-versions }"`,
-);
+await new PrintableShellCommand("ssh", [
+  twizzleSSHServer,
+  // TODO: implement escaping in `PrintableShellCommand`.
+  `mkdir -p ${twizzleSFTPUploadPath} && [ ! -d ${twizzleSFTPPath} ] || { cp -R ${twizzleSFTPPath}/* ${twizzleSFTPUploadPath} && rm -f ${twizzleSFTPUploadPath}/deploy-versions }`,
+]).shellOutBun();
 
 await rsync(
   "./dist/sites/alpha.twizzle.net/",
@@ -27,9 +28,11 @@ await rsync(
   { exclude: [".DS_Store", ".git"], delete: true },
 );
 
-await execPromiseLogged(
-  `ssh "${twizzleSSHServer}" "mkdir -p ${twizzleSFTPVersionsPath} && mv ${twizzleSFTPUploadPath} ${twizzleSFTPVersionPath} && ln -s ${twizzleSFTPVersionsPath} ${twizzleSFTPVersionPath}/deploy-versions && rm ${twizzleSFTPPath} && ln -s ${twizzleSFTPVersionPath} ${twizzleSFTPPath}"`,
-);
+await new PrintableShellCommand("ssh", [
+  twizzleSSHServer,
+  // TODO: implement escaping in `PrintableShellCommand`.
+  `mkdir -p ${twizzleSFTPVersionsPath} && mv ${twizzleSFTPUploadPath} ${twizzleSFTPVersionPath} && ln -s ${twizzleSFTPVersionsPath} ${twizzleSFTPVersionPath}/deploy-versions && rm ${twizzleSFTPPath} && ln -s ${twizzleSFTPVersionPath} ${twizzleSFTPPath}`,
+]).shellOutBun();
 
 const response = await fetch("https://alpha.twizzle.net/version.json");
 const responseJSON = (await response.json()) as VersionJSON;

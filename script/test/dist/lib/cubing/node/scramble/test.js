@@ -34,4 +34,7 @@ setSearchDebug({ disableStringWorker: true });
   }
 
   console.log("Success!");
+
+  // TODO(https://github.com/cubing/cubing.js/issues/358): this shouldn't be needed.
+  (await import("node:process")).exit(0);
 })();

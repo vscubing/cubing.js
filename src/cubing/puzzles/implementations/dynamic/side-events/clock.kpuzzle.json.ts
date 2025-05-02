@@ -15,7 +15,6 @@ export const clockJSON: KPuzzleDefinition = {
     { orbitName: "FACES", numPieces: 18, numOrientations: 1 },
     { orbitName: "FRAME", numPieces: 1, numOrientations: 2 },
     { orbitName: "HOUR_MARKS", numPieces: 18, numOrientations: 4 },
-    { orbitName: "PEG_CAPS", numPieces: 8, numOrientations: 12 },
   ],
   defaultPattern: {
     DIALS: {
@@ -31,10 +30,6 @@ export const clockJSON: KPuzzleDefinition = {
       pieces: p18,
       orientation: o18,
     },
-    PEG_CAPS: {
-      pieces: [0, 1, 2, 3, 4, 5, 6, 7],
-      orientation: [0, 0, 0, 0, 0, 0, 0, 0],
-    },
   },
   moves: {
     UL_PLUS_: {
@@ -47,10 +42,6 @@ export const clockJSON: KPuzzleDefinition = {
       FACES: t18,
       FRAME: { permutation: [0], orientationDelta: [0] },
       HOUR_MARKS: t18,
-      PEG_CAPS: {
-        permutation: [0, 1, 2, 3, 4, 5, 6, 7],
-        orientationDelta: [1, 0, 0, 0, 0, 0, 0, 0],
-      },
     },
     U_PLUS_: {
       DIALS: {
@@ -62,10 +53,6 @@ export const clockJSON: KPuzzleDefinition = {
       FACES: t18,
       FRAME: { permutation: [0], orientationDelta: [0] },
       HOUR_MARKS: t18,
-      PEG_CAPS: {
-        permutation: [0, 1, 2, 3, 4, 5, 6, 7],
-        orientationDelta: [1, 1, 0, 0, 0, 0, 0, 0],
-      },
     },
     ALL_PLUS_: {
       DIALS: {
@@ -77,10 +64,6 @@ export const clockJSON: KPuzzleDefinition = {
       FACES: t18,
       FRAME: { permutation: [0], orientationDelta: [0] },
       HOUR_MARKS: t18,
-      PEG_CAPS: {
-        permutation: [0, 1, 2, 3, 4, 5, 6, 7],
-        orientationDelta: [1, 1, 1, 1, 0, 0, 0, 0],
-      },
     },
     y2: {
       DIALS: {
@@ -102,10 +85,6 @@ export const clockJSON: KPuzzleDefinition = {
         ],
         orientationDelta: o18,
       },
-      PEG_CAPS: {
-        permutation: [4, 5, 6, 7, 0, 1, 2, 3],
-        orientationDelta: [0, 0, 0, 0, 0, 0, 0, 0],
-      },
     },
     z: {
       DIALS: {
@@ -113,7 +92,7 @@ export const clockJSON: KPuzzleDefinition = {
           6, 3, 0, 7, 4, 1, 8, 5, 2, 11, 14, 17, 10, 13, 16, 9, 12, 15,
         ],
         orientationDelta: [
-          3, 3, 3, 3, 3, 3, 3, 3, 3, -3, -3, -3, -3, -3, -3, -3, -3, -3,
+          3, 3, 3, 3, 3, 3, 3, 3, 3, 9, 9, 9, 9, 9, 9, 9, 9, 9,
         ],
       },
       FACES: {
@@ -130,10 +109,6 @@ export const clockJSON: KPuzzleDefinition = {
         orientationDelta: [
           1, 1, 1, 1, 1, 1, 1, 1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
         ],
-      },
-      PEG_CAPS: {
-        permutation: [3, 0, 1, 2, 5, 6, 7, 4],
-        orientationDelta: [0, 0, 0, 0, 0, 0, 0, 0],
       },
     },
   },
@@ -178,8 +153,8 @@ export const clockJSON: KPuzzleDefinition = {
 
     BMUL_PLUS_: "[y2: MUR_PLUS_']",
     BMUR_PLUS_: "[y2: MUL_PLUS_']",
-    BMDR_PLUS_: "[y2: MDR_PLUS_']",
-    BMDL_PLUS_: "[y2: MDL_PLUS_']",
+    BMDR_PLUS_: "[y2: MDL_PLUS_']",
+    BMDL_PLUS_: "[y2: MDR_PLUS_']",
 
     UL: ".",
     UR: ".",
