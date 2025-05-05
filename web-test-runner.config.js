@@ -1,5 +1,4 @@
 import { esbuildPlugin } from "@web/dev-server-esbuild";
-import { chromeLauncher } from "@web/test-runner-chrome";
 
 export default {
   files: ["src/**/*.spec.dom.ts"],
@@ -8,11 +7,4 @@ export default {
   coverageConfig: {
     reportDir: ".temp/coverage",
   },
-  browsers: [
-    chromeLauncher({
-      launchOptions: {
-        executablePath: "/usr/bin/google-chrome",
-      },
-    }),
-  ],
 };
