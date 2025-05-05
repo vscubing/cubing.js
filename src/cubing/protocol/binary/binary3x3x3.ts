@@ -24,7 +24,7 @@ export function reorientPuzzle(
   );
 }
 
-type Binary3x3x3Pattern = Uint8Array;
+export type Binary3x3x3Pattern = Uint8Array;
 
 // Bit lengths of the encoded components, in order.
 const BIT_LENGTHS = [29, 12, 16, 13, 3, 2, 1, 12];
