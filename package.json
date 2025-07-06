@@ -1,6 +1,6 @@
 {
   "name": "@vscubing/cubing",
-  "version": "0.56.1-vscubing.13",
+  "version": "0.57.0-vscubing.1",
   "description": "A collection of JavaScript cubing libraries.",
   "author": "The js.cubing.net team",
   "type": "module",
