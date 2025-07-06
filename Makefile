@@ -78,7 +78,7 @@ link: build
 .PHONY: clean
 clean: clean-types
 	rm -rf \
-		dist .temp coverage ./package-lock.json \
+		./dist ./.temp ./coverage ./package-lock.json \
 		./alg ./bluetooth ./kpuzzle ./notation ./protocol ./puzzle-geometry ./puzzles ./scramble ./search ./stream ./twisty
 
 .PHONY: clean-types
@@ -87,7 +87,7 @@ clean-types:
 
 .PHONY: reset
 reset: clean
-	rm -rf node_modules
+	rm -rf ./node_modules
 	@echo ""
 	@echo "To reinstall dependencies, run:"
 	@echo ""
@@ -250,12 +250,19 @@ format: update-dependencies
 	${BIOME} check --write
 
 .PHONY: setup
-setup: update-dependencies
+setup: bun-required update-dependencies check-engines
+
+.PHONY: bun-required
+bun-required:
+	@command -v ${BUN} > /dev/null || { echo "\nPlease install \`bun\` to work on this project:\n\n    # from npm\n    npm install --global bun\n\n    # macOS (Homebrew)\n    brew install oven-sh/bun/bun\n\n    # For other options, see: https://bun.sh/\n" && exit 1 ; }
 
 .PHONY: update-dependencies
 update-dependencies:
-	@command -v ${BUN} > /dev/null || { echo "\nPlease install \`bun\` to work on this project:\n\n    # from npm\n    npm install --global bun\n\n    # macOS (Homebrew)\n    brew install oven-sh/bun/bun\n\n    # For other options, see: https://bun.sh/\n" && exit 1 ; }
 	${BUN} install --frozen-lockfile
+
+.PHONY: check-engines
+check-engines: update-dependencies
+	@${BUN_RUN} "./script/check-engine-versions.ts"
 
 .PHONY: lint
 lint: update-dependencies

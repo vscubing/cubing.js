@@ -40,7 +40,7 @@ export class Twisty3DPuzzleWrapper extends EventTarget implements Schedulable {
         try {
           (await this.twisty3DPuzzle()).onPositionChange(position);
           this.scheduleRender();
-        } catch (e) {
+        } catch {
           // TODO
           // console.warn(
           //   "Bad position (this doesn't necessarily mean something is wrong). Pre-emptively disconnecting:",

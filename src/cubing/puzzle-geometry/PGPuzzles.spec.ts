@@ -1,11 +1,9 @@
 import { expect, test } from "bun:test";
-
+import { SKIP_SLOW_TESTS } from "../../test/SKIP_SLOW_TESTS";
 import { Alg, type Move } from "../alg";
 import { KPuzzle } from "../kpuzzle";
 import { PGPuzzles } from "./PGPuzzles";
-import { PGNotation, getPuzzleGeometryByDesc } from "./PuzzleGeometry";
-
-import { SKIP_SLOW_TESTS } from "../../test/SKIP_SLOW_TESTS";
+import { getPuzzleGeometryByDesc, PGNotation } from "./PuzzleGeometry";
 
 function slow(s: string): string | null {
   return SKIP_SLOW_TESTS ? null : s;
@@ -130,9 +128,9 @@ for (const [name, desc] of Object.entries(PGPuzzles)) {
     const dat = [
       name,
       sep,
-      pg.baseplanerot.length,
+      pg.basePlaneRotations.length,
       sep,
-      pg.stickersperface,
+      pg.stickersPerFace,
       sep,
       pg.cubies.length,
       sep,

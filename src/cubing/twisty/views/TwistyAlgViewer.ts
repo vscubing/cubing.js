@@ -1,44 +1,44 @@
 import {
   Alg,
-  Grouping,
-  Pause,
-  TraversalDownUp,
-  functionFromTraversal,
   type AlgNode,
   type Commutator,
   type Conjugate,
+  functionFromTraversal,
+  Grouping,
   type LineComment,
   type Move,
   type Newline,
+  Pause,
+  TraversalDownUp,
 } from "../../alg";
 import {
   ExperimentalIterationDirection,
   experimentalDirect,
 } from "../../alg/cubing-private";
-import { startCharIndexKey, type Parsed } from "../../alg/parseAlg";
+import { type Parsed, startCharIndexKey } from "../../alg/parseAlg";
 import type { MillisecondTimestamp } from "../controllers/AnimationTypes";
 import type { CurrentMoveInfo } from "../controllers/indexer/AlgIndexer";
 import type { AlgWithIssues } from "../model/props/puzzle/state/AlgProp";
 import type { DetailedTimelineInfo } from "../model/props/timeline/DetailedTimelineInfoProp";
+import { firstElementWithId } from "./firstElementWithId";
 import { ManagedCustomElement } from "./ManagedCustomElement";
+import {
+  customElementsShim,
+  HTMLElementShim,
+} from "./node-custom-element-shims";
 import { twistyAlgViewerCSS } from "./TwistyAlgViewer.css";
 import { TwistyPlayer } from "./TwistyPlayer";
-import { firstElementWithId } from "./firstElementWithId";
-import {
-  HTMLElementShim,
-  customElementsShim,
-} from "./node-custom-element-shims";
 
 // TODO: dynamically adjust the fraction to take into account moves that rotate a lot (e.g. `R100`).
 const DEFAULT_OFFSET_FRACTION = 0.25;
 
-class DataDown {
+interface DataDown {
   earliestMoveIndex: number;
   twistyAlgViewer: TwistyAlgViewer;
   direction: ExperimentalIterationDirection;
 }
 
-class DataUp {
+interface DataUp {
   moveCount: number;
   element: TwistyAlgWrapperElem | TwistyAlgLeafElem;
 }
@@ -408,7 +408,7 @@ class MoveHighlighter {
 /** @category Other Custom Elements */
 export class TwistyAlgViewer extends HTMLElementShim {
   highlighter: MoveHighlighter = new MoveHighlighter();
-  #domTree: TwistyAlgWrapperElem | TwistyAlgLeafElem;
+  #domTree?: TwistyAlgWrapperElem | TwistyAlgLeafElem;
   #twistyPlayer: TwistyPlayer | null = null;
   lastClickTimestamp: number | null = null;
   constructor(options?: { twistyPlayer?: TwistyPlayer }) {

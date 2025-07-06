@@ -1,12 +1,11 @@
 // To run this file directly:
 // bun run src/bin/order.ts -- 3x3x3 "R U R' U R U2' R'"
 
+import type { Type } from "cmd-ts-too";
 import { Alg } from "@vscubing/cubing/alg";
 import { KPuzzle } from "@vscubing/cubing/kpuzzle";
 import { getPuzzleGeometryByName } from "@vscubing/cubing/puzzle-geometry";
 import { puzzles } from "@vscubing/cubing/puzzles";
-
-import type { Type } from "cmd-ts-too";
 import "./guards/cmd-ts-too-guard";
 
 const {

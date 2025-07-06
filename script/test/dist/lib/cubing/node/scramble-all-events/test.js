@@ -11,6 +11,7 @@ import "@vscubing/cubing/stream";
 import "@vscubing/cubing/twisty";
 
 import { setSearchDebug } from "@vscubing/cubing/search";
+
 setSearchDebug({ disableStringWorker: true, scramblePrefetchLevel: "none" });
 
 import { randomScrambleForEvent } from "@vscubing/cubing/scramble";

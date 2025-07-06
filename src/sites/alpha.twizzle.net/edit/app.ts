@@ -13,9 +13,9 @@ import {
 import type { PuzzleStreamMoveEventRegisterCompatible } from "../../../cubing/stream/process/ReorientedStream";
 import "../../../cubing/twisty"; // For `<twisty-alg-editor>` custom elem registration.
 import {
-  TwistyPlayer,
   type ExperimentalStickering,
   type PuzzleID,
+  TwistyPlayer,
   type TwistyPlayerConfig,
 } from "../../../cubing/twisty";
 import {
@@ -34,6 +34,7 @@ import { findOrCreateChild, findOrCreateChildWithClass } from "./dom";
 import { examples } from "./examples";
 import { APP_TITLE } from "./strings";
 import { puzzleGroups, supportedPuzzles } from "./supported-puzzles";
+
 // import { setURLParams } from "./url-params";
 
 // TODO: introduce concepts in `cubing/twisty` for "this is a valid twisty-player value, but not for the current puzzle".
@@ -77,7 +78,7 @@ const SCRAMBLE_EVENTS: Partial<Record<PuzzleID, EventID>> = {
 };
 
 export class App {
-  public twistyPlayer: TwistyPlayer;
+  public twistyPlayer!: TwistyPlayer; // TODO: https://github.com/microsoft/TypeScript/issues/30462
   private puzzlePane: HTMLElement;
   public controlPane: ControlPane;
   constructor(
@@ -501,7 +502,10 @@ class ControlPane {
       "tool-grid",
       "button-grid",
     );
-    this.toolGrid.addEventListener("action", this.onToolAction.bind(this));
+    this.toolGrid.addEventListener(
+      "action",
+      this.onToolAction.bind(this) as any as EventListener, // TODO: https://github.com/microsoft/TypeScript/issues/28357
+    );
 
     this.examplesGrid = findOrCreateChildWithClass(
       this.element,
@@ -510,13 +514,16 @@ class ControlPane {
     );
     this.examplesGrid.addEventListener(
       "action",
-      this.onExampleAction.bind(this),
+      this.onExampleAction.bind(this) as any as EventListener, // TODO: https://github.com/microsoft/TypeScript/issues/28357
     );
 
     this.twistyStreamSource = app.element.querySelector(
       "twisty-stream-source",
     ) as TwistyStreamSource;
-    this.twistyStreamSource.addEventListener("move", this.onMove.bind(this));
+    this.twistyStreamSource.addEventListener(
+      "move",
+      this.onMove.bind(this) as any as EventListener, // TODO: https://github.com/microsoft/TypeScript/issues/28357
+    );
   }
 
   private async onMove(
@@ -527,7 +534,7 @@ class ControlPane {
       this.twistyPlayer.experimentalAddMove(move, {
         cancel: true,
       }); // TODO
-    } catch (e) {
+    } catch {
       console.info("Ignoring move:", move.toString());
     }
     // setURLParams({ alg });
@@ -771,9 +778,9 @@ const exclusiveExpandButtons: ExpandButton[] = [];
 
 class ExpandButton extends HTMLElement {
   associatedElem: HTMLElement | null = null;
-  expanded: boolean;
-  expandIcon: HTMLAnchorElement;
-  exclusive: boolean;
+  expanded?: boolean;
+  expandIcon?: HTMLAnchorElement;
+  exclusive?: boolean;
   connectedCallback() {
     const forID = this.getAttribute("for");
     this.associatedElem = forID ? document.getElementById(forID) : null;
@@ -805,13 +812,15 @@ class ExpandButton extends HTMLElement {
     if (this.associatedElem) {
       this.associatedElem.hidden = !this.expanded;
     }
-    this.expandIcon.textContent = this.exclusive
-      ? this.expanded
-        ? "▿"
-        : "▹"
-      : this.expanded
-        ? "▾"
-        : "▸";
+    if (this.expandIcon) {
+      this.expandIcon.textContent = this.exclusive
+        ? this.expanded
+          ? "▿"
+          : "▹"
+        : this.expanded
+          ? "▾"
+          : "▸";
+    }
   }
 }
 

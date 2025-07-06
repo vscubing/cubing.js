@@ -64,8 +64,9 @@
     "three": "^0.170.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "v1.9.4",
-    "@cubing/deploy": "v0.1.8",
+    "@biomejs/biome": "v2.0.6",
+    "@cubing/deploy": "v0.2.1",
+    "@cubing/dev-config": "v0.3.5",
     "@esm-bundle/chai": "^4.3.4-fix.0",
     "@types/bun": "^1.2.11",
     "@types/chai": "^5.0.0",
@@ -75,19 +76,21 @@
     "@web/dev-server-esbuild": "^1.0.2",
     "@web/test-runner": "^0.19.0",
     "@web/test-runner-playwright": "^0.11.0",
-    "barely-a-dev-server": "^0.7.1",
+    "barely-a-dev-server": "v0.8.0",
     "chai": "^5.1.1",
+    "compare-versions": "^6.1.1",
     "esbuild": "^0.25.0",
     "jszip": "^3.10.1",
     "mocha": "^10.7.3",
     "playwright": "^1.47.2",
-    "printable-shell-command": "v0.3.2",
+    "printable-shell-command": "v1.0.0",
     "tsup": "^8.3.0",
     "typedoc": "v0.28.2",
     "typescript": "v5.8.3"
   },
+  "engines-comment": "`node` 22.3.0 and `bun` 1.2.7 are needed for `globalThis.process.getBuiltinModule(…)`, which helps bundlers avoid thinking our `node` shims require packages from a package manager.",
   "engines": {
-    "node": ">=20.16.0",
+    "node": ">=22.3.0",
     "bun": ">=1.2.7"
   },
   "files": [
@@ -144,7 +147,9 @@
     "test-dist-bin-npm-exec": "make test-dist-bin-npm-exec",
     "format": "make format",
     "setup": "make setup",
+    "bun-required": "make bun-required",
     "update-dependencies": "make update-dependencies",
+    "check-engines": "make check-engines",
     "lint": "make lint",
     "lint-ci": "make lint-ci",
     "prepack": "make prepack",

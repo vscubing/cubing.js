@@ -1,5 +1,4 @@
 import { expect, test } from "bun:test";
-
 import {
   type PuzzleID,
   PuzzleIDRequestProp,

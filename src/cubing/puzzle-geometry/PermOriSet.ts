@@ -621,7 +621,7 @@ export class PGTransformBase {
   }
 
   public toPerm(): Perm {
-    const perms = new Array<Perm>();
+    const perms: Perm[] = [];
     let n = 0;
     for (const orbit of this.orbits) {
       const p = orbit.toPerm();

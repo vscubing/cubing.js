@@ -6,6 +6,6 @@ export * as protocol from "@vscubing/cubing/protocol";
 export * as puzzleGeometry from "@vscubing/cubing/puzzle-geometry";
 export * as puzzles from "@vscubing/cubing/puzzles";
 export * as scramble from "@vscubing/cubing/scramble";
-export * as stream from "@vscubing/cubing/stream";
 export * as search from "@vscubing/cubing/search";
+export * as stream from "@vscubing/cubing/stream";
 export * as twisty from "@vscubing/cubing/twisty";

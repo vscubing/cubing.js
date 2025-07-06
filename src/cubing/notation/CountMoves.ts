@@ -1,15 +1,15 @@
 // TODO: move this file somewhere permanent.
 import {
-  TraversalUp,
-  functionFromTraversal,
   type Alg,
   type Commutator,
   type Conjugate,
+  functionFromTraversal,
   type Grouping,
   type LineComment,
   type Move,
   type Newline,
   type Pause,
+  TraversalUp,
 } from "../alg";
 import type { PuzzleLoader } from "../puzzles";
 import { CommonMetric } from "./commonMetrics";
@@ -81,7 +81,7 @@ class CountLeavesInExpansionForSimultaneousMoveIndexer extends TraversalUp<numbe
     return this.traverseAlg(alg) * Math.abs(grouping.amount);
   }
 
-  public traverseMove(move: Move): number {
+  public traverseMove(_move: Move): number {
     return 1;
   }
 
@@ -165,9 +165,7 @@ export const countRangeBlockMovesPG = functionFromTraversal(CountMoves, [
 ]);
 
 export const countLeavesInExpansionForSimultaneousMoveIndexer =
-  functionFromTraversal(CountLeavesInExpansionForSimultaneousMoveIndexer, [
-    baseMetric,
-  ]);
+  functionFromTraversal(CountLeavesInExpansionForSimultaneousMoveIndexer, []);
 
 /**
  * Only implemented so far:

@@ -1,18 +1,18 @@
 import { Alg, Move } from "../../../../cubing/alg";
 import {
+  type BluetoothPuzzle,
   connectSmartPuzzle,
   debugKeyboardConnect,
-  type BluetoothPuzzle,
   type GoCube,
   type OrientationEvent,
 } from "../../../../cubing/bluetooth";
 import type { AlgLeafEvent } from "../../../../cubing/bluetooth/smart-puzzle/bluetooth-puzzle";
 import {
-  ExperimentalWebSocketProxySender,
   type ExperimentalProxyEvent,
+  ExperimentalWebSocketProxySender,
 } from "../../../../cubing/stream";
 import { setTwistyDebug } from "../../../../cubing/twisty";
-import { SwipeyPuzzle, type Action } from "./input/SwipeyPuzzle";
+import { type Action, SwipeyPuzzle } from "./input/SwipeyPuzzle";
 import {
   DEFAULT_PUZZLE_ID,
   debugShowRenderStats,
@@ -20,9 +20,9 @@ import {
   getStickering,
   getTempoScale,
   getVisualizationFormat,
+  type PuzzleID,
   receivingSocketOrigin,
   sendingSocketOrigin,
-  type PuzzleID,
 } from "./url-params";
 import { CallbackProxyReceiver } from "./websocket-proxy";
 
@@ -47,7 +47,7 @@ function puzzleName(puzzleID: PuzzleID): string {
 const fn = async (
   fromMouse: boolean,
   fromKeyboard: boolean,
-  e: KeyboardEvent,
+  e?: KeyboardEvent,
 ) => {
   if (!fromMouse && fromKeyboard) {
     if (e?.which && e.which !== 32) {
@@ -215,8 +215,14 @@ const fn = async (
   kbp.addAlgLeafListener(algLeafListener);
 
   window.removeEventListener("keydown", keyboardCallback);
-  document.body.removeEventListener("mousedown", mouseCallback);
-  document.body.removeEventListener("touchstart", swipeCallback);
+  document.body.removeEventListener(
+    "mousedown",
+    mouseCallback as any as EventListener,
+  ); // TODO: https://github.com/microsoft/TypeScript/issues/28357
+  document.body.removeEventListener(
+    "touchstart",
+    swipeCallback as any as EventListener,
+  ); // TODO: https://github.com/microsoft/TypeScript/issues/28357
 
   function space() {
     resetCamera();
@@ -334,8 +340,14 @@ const swipeCallback = fn.bind(fn, false, false);
 
 window.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("keydown", keyboardCallback);
-  document.body.addEventListener("mousedown", mouseCallback);
-  document.body.addEventListener("touchstart", swipeCallback);
+  document.body.addEventListener(
+    "mousedown",
+    mouseCallback as any as EventListener, // TODO: https://github.com/microsoft/TypeScript/issues/28357
+  );
+  document.body.addEventListener(
+    "touchstart",
+    swipeCallback as any as EventListener, // TODO: https://github.com/microsoft/TypeScript/issues/28357
+  );
 
   const go = new URL(document.location.href).searchParams.get("go");
   switch (go) {

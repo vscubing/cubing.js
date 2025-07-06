@@ -1,10 +1,10 @@
 import type { Object3D } from "three/src/Three.js";
-import type { ExperimentalStickering } from "..";
 import type { Alg, Move } from "../../alg";
 import type { AlgLeaf } from "../../alg/alg-nodes/AlgNode";
 import type { AppendCancelOptions, AppendOptions } from "../../alg/simplify";
 import type { PuzzleDescriptionString } from "../../puzzle-geometry/PGPuzzles";
 import type { ExperimentalStickeringMask } from "../../puzzles/cubing-private";
+import type { ExperimentalStickering } from "..";
 import { RenderScheduler } from "../controllers/RenderScheduler";
 import type { TwistyAnimationControllerDelegate } from "../controllers/TwistyAnimationController";
 import { TwistyPlayerController } from "../controllers/TwistyPlayerController";
@@ -213,7 +213,7 @@ export class TwistyPlayer
     this,
   );
 
-  buttons: TwistyButtons;
+  buttons?: TwistyButtons;
 
   experimentalCanvasClickCallback: (...args: any) => void = () => {};
   // #onCanvasClick() {
@@ -534,7 +534,7 @@ export class TwistyPlayer
         .currentTwisty2DPuzzleWrapper()!
         .twisty2DPuzzle();
       const str = new XMLSerializer().serializeToString(
-        twisty2DPuzzle.svgWrapper.svgElement,
+        twisty2DPuzzle.svgWrapper!.svgElement,
       );
       const url = URL.createObjectURL(new Blob([str]));
       downloadURL(
