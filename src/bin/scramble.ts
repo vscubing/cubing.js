@@ -43,7 +43,6 @@ import { eventInfo, twizzleEvents } from "cubing/puzzles";
 import { randomScrambleForEvent } from "cubing/scramble";
 import { setSearchDebug } from "cubing/search";
 import { packageVersion } from "../metadata/packageVersion";
-import type { EventID } from "cubing/puzzles/events";
 
 const outputFormats = ["auto", "text", "link", "json-text"] as const;
 const notationTypes = ["auto", "LGN"] as const;
@@ -115,7 +114,7 @@ function scrambleText(scramble: Alg): string {
 
 function scrambleLink(scramble: Alg): string {
   const url = new URL("https://alpha.twizzle.net/edit/");
-  const puzzleID = eventInfo(eventID as EventID)?.puzzleID;
+  const puzzleID = eventInfo(eventID)?.puzzleID;
   puzzleID && url.searchParams.set("puzzle", puzzleID);
   url.searchParams.set("alg", scrambleText(scramble));
   return url.toString();
@@ -157,7 +156,7 @@ function nodeForgetTopLevelAwaitWorkaround(
 await nodeForgetTopLevelAwaitWorkaround(
   (async () => {
     if (format !== "json-text" && amount === 1) {
-      const scramble = await randomScrambleForEvent(eventID as EventID);
+      const scramble = await randomScrambleForEvent(eventID);
 
       switch (format) {
         case "auto": {

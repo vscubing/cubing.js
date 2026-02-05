@@ -1,4 +1,4 @@
-import { type Alg, Move, AlgBuilder } from "../alg";
+import { type Alg, AlgBuilder, Move } from "../alg";
 import {
   KPattern,
   type KPatternData,
@@ -7,10 +7,10 @@ import {
 } from "../kpuzzle";
 import type { PuzzleLoader } from "../puzzles";
 import {
+  type PieceSet,
   PieceStickering,
   PuzzleStickering,
   StickeringManager,
-  type PieceSet,
 } from "../puzzles/stickerings/mask";
 import type { ExperimentalStickering } from "../twisty";
 

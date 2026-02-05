@@ -8,7 +8,7 @@ import {
 
 setSearchDebug({ disableStringWorker: true });
 
-(async () => {
+void (async () => {
   (await randomScrambleForEvent("222")).log();
   (await randomScrambleForEvent("333")).log();
 
