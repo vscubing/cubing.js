@@ -6,6 +6,7 @@ import {
   type Parsed,
   startCharIndexKey,
 } from "../../../alg/parseAlg";
+import type { LeafCount } from "../../controllers/indexer/AlgIndexer";
 import {
   type AlgWithIssues,
   algWithIssuesFromString,
@@ -100,7 +101,7 @@ class LeafTokensProp extends TwistyPropDerived<
 > {
   derive(inputs: LeafTokensPropInputs): OrderedLeafTokens {
     return leafTokens(inputs.algWithIssues.alg as Parsed<Alg>, {
-      numMovesSofar: 0,
+      numMovesSoFar: 0 as LeafCount,
     }).tokens;
   }
 }

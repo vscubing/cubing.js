@@ -6,8 +6,9 @@ import {
   type GoCube,
   type OrientationEvent,
 } from "../../../../cubing/bluetooth";
-import type { AlgLeafEvent } from "../../../../cubing/bluetooth/smart-puzzle/bluetooth-puzzle";
+
 import {
+  type ExperimentalAlgLeafEvent,
   type ExperimentalProxyEvent,
   ExperimentalWebSocketProxySender,
 } from "../../../../cubing/stream";
@@ -72,7 +73,7 @@ const fn = async (
   controlBar.classList.add("control-bar");
   swipeWrapper.appendChild(controlBar);
 
-  function algLeafListener(e: AlgLeafEvent) {
+  function algLeafListener(e: ExperimentalAlgLeafEvent) {
     // TODO: This is a total hack. Needs to be pushed down into the keyboard map.
     if (getPuzzleID() !== "3x3x3") {
       const move = e.latestAlgLeaf.as(Move);
@@ -107,7 +108,7 @@ const fn = async (
       sender.sendMoveEvent(e);
     }
 
-    updateAlgLink();
+    void updateAlgLink();
   }
 
   const clearButton = document.createElement("button");
@@ -214,7 +215,7 @@ const fn = async (
   const kbp = await debugKeyboardConnect(document.body, getPuzzleID());
   kbp.addAlgLeafListener(algLeafListener);
 
-  window.removeEventListener("keydown", keyboardCallback);
+  globalThis.removeEventListener("keydown", keyboardCallback);
   document.body.removeEventListener(
     "mousedown",
     mouseCallback as any as EventListener,
@@ -227,7 +228,7 @@ const fn = async (
   function space() {
     resetCamera();
     swipeyPuzzle.twistyPlayer.alg = new Alg();
-    updateAlgLink();
+    void updateAlgLink();
 
     if (sender) {
       console.log("resetting!");
@@ -242,18 +243,21 @@ const fn = async (
 
   function backspace() {
     swipeyPuzzle.twistyPlayer.experimentalRemoveFinalChild();
-    updateAlgLink();
+    void updateAlgLink();
   }
 
-  async function enter() {
-    const url = await swipeyPuzzle.twistyPlayer.experimentalModel.twizzleLink();
-    // const seq = maybeCoalesce(swipeyPuzzle.twistyPlayer.alg);
-    const a = document.createElement("a");
-    a.href = url;
-    a.click();
+  function enter() {
+    void (async () => {
+      const url =
+        await swipeyPuzzle.twistyPlayer.experimentalModel.twizzleLink();
+      // const seq = maybeCoalesce(swipeyPuzzle.twistyPlayer.alg);
+      const a = document.createElement("a");
+      a.href = url;
+      a.click();
+    })();
   }
 
-  window.addEventListener("keydown", (e: KeyboardEvent) => {
+  globalThis.addEventListener("keydown", (e: KeyboardEvent) => {
     if (e.which === 32) {
       space();
     }
@@ -338,8 +342,8 @@ const keyboardCallback = fn.bind(fn, false, true);
 const mouseCallback = fn.bind(fn, true, false);
 const swipeCallback = fn.bind(fn, false, false);
 
-window.addEventListener("DOMContentLoaded", () => {
-  window.addEventListener("keydown", keyboardCallback);
+globalThis.addEventListener("DOMContentLoaded", () => {
+  globalThis.addEventListener("keydown", keyboardCallback);
   document.body.addEventListener(
     "mousedown",
     mouseCallback as any as EventListener, // TODO: https://github.com/microsoft/TypeScript/issues/28357

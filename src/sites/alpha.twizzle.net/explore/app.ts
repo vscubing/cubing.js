@@ -9,7 +9,7 @@ import {
   getPuzzleDescriptionString,
   type PuzzleGeometry,
 } from "../../../cubing/puzzle-geometry";
-import type { PuzzleDescriptionString } from "../../../cubing/puzzle-geometry/PGPuzzles";
+import type { PuzzleDescriptionString } from "../../../cubing/puzzle-geometry/pgPuzzles";
 import type { PuzzleLoader } from "../../../cubing/puzzles";
 import type { TwistyAlgEditor, TwistyPlayer } from "../../../cubing/twisty";
 import { constructMoveCountDisplay } from "../../../cubing/twisty/cubing-private";
@@ -74,6 +74,16 @@ export class TwizzleExplorerApp {
       throw new Error("could not get PG from puzzle loader");
     }
     return puzzleLoader.pg();
+  }
+
+  async basePuzzleGeometry(): Promise<PuzzleGeometry> {
+    const puzzleLoader =
+      await this.twistyPlayer.experimentalModel.puzzleLoader.get();
+
+    if (!puzzleLoader.basePG) {
+      throw new Error("could not get base PG from puzzle loader");
+    }
+    return puzzleLoader.basePG();
   }
 
   setPuzzleName(puzzleName: string): void {
@@ -221,16 +231,18 @@ class SelectUI {
       "";
     switch (action) {
       case "gap": {
-        this.app.showText((await this.app.puzzleGeometry()).writegap());
+        this.app.showText((await this.app.basePuzzleGeometry()).writegap());
         break;
       }
       case "mathematica": {
-        this.app.showText((await this.app.puzzleGeometry()).writemathematica());
+        this.app.showText(
+          (await this.app.basePuzzleGeometry()).writemathematica(),
+        );
         break;
       }
       case "ss": {
         const lines: string[] = [];
-        (await this.app.puzzleGeometry()).writeSchreierSims((line) =>
+        (await this.app.basePuzzleGeometry()).writeSchreierSims((line) =>
           lines.push(line),
         );
         this.app.showText(lines.join("\n"));
@@ -238,13 +250,15 @@ class SelectUI {
       }
       case "canon": {
         const lines: string[] = [];
-        (await this.app.puzzleGeometry()).showcanon((line) => lines.push(line));
+        (await this.app.basePuzzleGeometry()).showcanon((line) =>
+          lines.push(line),
+        );
         this.app.showText(lines.join("\n"));
         break;
       }
       case "ksolve": {
         this.app.showText(
-          (await this.app.puzzleGeometry()).writeksolve("TwizzlePuzzle"),
+          (await this.app.basePuzzleGeometry()).writeksolve("TwizzlePuzzle"),
         );
         break;
       }
@@ -269,12 +283,12 @@ class SelectUI {
       }
       case "screenshot":
       case "screenshot-back": {
-        this.app.twistyPlayer.experimentalDownloadScreenshot(); // TODO: back!
+        void this.app.twistyPlayer.experimentalDownloadScreenshot(); // TODO: back!
         break;
       }
       case "bluetooth":
       case "keyboard": {
-        (async (): Promise<void> => {
+        void (async (): Promise<void> => {
           const inputPuzzle = await (action === "bluetooth"
             ? connectSmartPuzzle
             : debugKeyboardConnect)();

@@ -18,6 +18,7 @@ import {
   type Parsed,
   startCharIndexKey,
 } from "../../../alg/parseAlg";
+import type { MillisecondTimestamp } from "../../controllers/AnimationTypes";
 import type {
   AlgProp,
   AlgWithIssues,
@@ -250,7 +251,7 @@ export class TwistyAlgEditor extends ManagedCustomElement {
     if (!twistyPlayer) {
       return;
     }
-    (async () => {
+    void (async () => {
       this.algString = this.#algProp
         ? (await this.#algProp.get()).alg.toString()
         : "";
@@ -310,7 +311,7 @@ export class TwistyAlgEditor extends ManagedCustomElement {
           );
           const duration = indexer.moveDuration(highlightInfo.leafInfo.idx);
 
-          let newTimestamp: number;
+          let newTimestamp: MillisecondTimestamp;
           switch (highlightInfo.where) {
             case "before": {
               newTimestamp = moveStartTimestamp;
@@ -318,12 +319,14 @@ export class TwistyAlgEditor extends ManagedCustomElement {
             }
             case "start":
             case "inside": {
-              newTimestamp = moveStartTimestamp + duration / 4;
+              newTimestamp = (moveStartTimestamp +
+                duration / 4) as MillisecondTimestamp;
               break;
             }
             case "end":
             case "after": {
-              newTimestamp = moveStartTimestamp + duration;
+              newTimestamp = (moveStartTimestamp +
+                duration) as MillisecondTimestamp;
               break;
             }
             default:

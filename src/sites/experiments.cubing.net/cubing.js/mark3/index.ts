@@ -1,4 +1,3 @@
-import type { EventID } from "@vscubing/cubing/puzzles/events";
 import { eventInfo, twizzleEvents } from "../../../../cubing/puzzles";
 import { randomScrambleForEvent } from "../../../../cubing/scramble";
 import { TwistyPlayer } from "../../../../cubing/twisty";
@@ -7,8 +6,9 @@ const currentEventID =
   new URL(location.href).searchParams.get("event") ?? "333";
 const numScrambles = (() => {
   try {
-    return Number.parseInt(
+    return parseInt(
       new URL(location.href).searchParams.get("amount") ?? "5",
+      10,
     );
   } catch {
     console.error("Could not parse amount, defaulting to 5");
@@ -17,8 +17,9 @@ const numScrambles = (() => {
 })();
 const numExtraScrambles = (() => {
   try {
-    return Number.parseInt(
+    return parseInt(
       new URL(location.href).searchParams.get("extra-amount") ?? "2",
+      10,
     );
   } catch {
     console.error("Could not parse extra amount, defaulting to 2");
@@ -28,6 +29,9 @@ const numExtraScrambles = (() => {
 const eventSelect = document.querySelector("select")!;
 
 for (const [eventID, eventInfo] of Object.entries(twizzleEvents)) {
+  if (!eventInfo.scramblesImplemented) {
+    continue;
+  }
   const option = eventSelect.appendChild(document.createElement("option"));
   option.value = eventID;
   option.textContent = eventInfo.eventName;
@@ -47,12 +51,12 @@ additionalInfoInput.value =
 additionalInfoInput.addEventListener("input", () => {
   const url = new URL(location.href);
   url.searchParams.set("additional-info", additionalInfoInput.value);
-  window.history.replaceState("", "", url.toString());
+  globalThis.history.replaceState("", "", url.toString());
 });
 
 const table = document.querySelector("table")!;
 
-async function addScramble(
+function addScramble(
   tbody: HTMLTableSectionElement,
   i: number,
   extra: boolean,
@@ -65,20 +69,23 @@ async function addScramble(
   scrambleTD.textContent = "Generating…";
   const playerTD = tr.appendChild(document.createElement("td"));
   const player = new TwistyPlayer({
-    puzzle: eventInfo(currentEventID as EventID)?.puzzleID,
+    puzzle: eventInfo(currentEventID)?.puzzleID,
     visualization: "2D",
     controlPanel: "none",
     background: "none",
   });
   player.classList.add("dim");
   playerTD.appendChild(player);
-  const scramble = await randomScrambleForEvent(currentEventID as EventID);
-  scrambleTD.textContent = "";
-  const a = scrambleTD.appendChild(document.createElement("a"));
-  a.textContent = scramble.toString();
-  player.alg = scramble;
-  player.classList.remove("dim");
-  a.href = await player.experimentalModel.twizzleLink();
+
+  void (async () => {
+    const scramble = await randomScrambleForEvent(currentEventID);
+    scrambleTD.textContent = "";
+    const a = scrambleTD.appendChild(document.createElement("a"));
+    a.textContent = scramble.toString();
+    player.alg = scramble;
+    player.classList.remove("dim");
+    a.href = await player.experimentalModel.twizzleLink();
+  })();
 }
 
 function addBody(num: number, extra: boolean) {

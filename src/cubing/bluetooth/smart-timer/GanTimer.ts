@@ -103,7 +103,7 @@ export class GanTimer extends EventTarget {
 
     this.previousDetail = detail;
 
-    this.poll();
+    void this.poll();
   }
 
   onDisconnect(): void {
@@ -119,13 +119,15 @@ export class GanTimer extends EventTarget {
     return this.decodeTimeMs(value.slice(0, 4));
   }
 
-  decodeTimeMs(bytes: Uint8Array) {
-    return (bytes[0] * 60 + bytes[1]) * 1000 + bytes[2] + bytes[3] * 256;
+  decodeTimeMs(bytes: Uint8Array): MillisecondTimestamp {
+    return ((bytes[0] * 60 + bytes[1]) * 1000 +
+      bytes[2] +
+      bytes[3] * 256) as MillisecondTimestamp;
   }
 
   startPolling() {
     this.polling = true;
-    this.poll();
+    void this.poll();
   }
 
   stopPolling() {

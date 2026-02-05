@@ -1,6 +1,6 @@
 import * as assert from "node:assert";
-import { readFile } from "node:fs/promises";
 import { $ } from "bun";
+import { Path } from "path-class";
 import { PrintableShellCommand } from "printable-shell-command";
 import type { VersionJSON } from "../build/sites/barelyServeSite";
 import { rsync } from "./rsync";
@@ -20,7 +20,7 @@ await new PrintableShellCommand("ssh", [
   twizzleSSHServer,
   // TODO: implement escaping in `PrintableShellCommand`.
   `mkdir -p ${twizzleSFTPUploadPath} && [ ! -d ${twizzleSFTPPath} ] || { cp -R ${twizzleSFTPPath}/* ${twizzleSFTPUploadPath} && rm -f ${twizzleSFTPUploadPath}/deploy-versions }`,
-]).shellOutBun();
+]).shellOut();
 
 await rsync(
   "./dist/sites/alpha.twizzle.net/",
@@ -32,14 +32,14 @@ await new PrintableShellCommand("ssh", [
   twizzleSSHServer,
   // TODO: implement escaping in `PrintableShellCommand`.
   `mkdir -p ${twizzleSFTPVersionsPath} && mv ${twizzleSFTPUploadPath} ${twizzleSFTPVersionPath} && ln -s ${twizzleSFTPVersionsPath} ${twizzleSFTPVersionPath}/deploy-versions && rm ${twizzleSFTPPath} && ln -s ${twizzleSFTPVersionPath} ${twizzleSFTPPath}`,
-]).shellOutBun();
+]).shellOut();
 
 const response = await fetch("https://alpha.twizzle.net/version.json");
 const responseJSON = (await response.json()) as VersionJSON;
 
-const distVersionJSON = JSON.parse(
-  await readFile("./dist/sites/alpha.twizzle.net/version.json", "utf-8"),
-);
+const distVersionJSON = await new Path(
+  "./dist/sites/alpha.twizzle.net/version.json",
+).readJSON<VersionJSON>();
 assert.equal(
   distVersionJSON.gitDescribeVersion,
   responseJSON.gitDescribeVersion,

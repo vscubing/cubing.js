@@ -1,4 +1,8 @@
-import { BoundaryType, Direction } from "../../controllers/AnimationTypes";
+import {
+  BoundaryType,
+  Direction,
+  type MillisecondTimestamp,
+} from "../../controllers/AnimationTypes";
 import type { TwistyPlayerController } from "../../controllers/TwistyPlayerController";
 import type { DetailedTimelineInfo } from "../../model/props/timeline/DetailedTimelineInfoProp";
 import type { ColorScheme } from "../../model/props/viewer/ColorSchemeRequestProp";
@@ -118,7 +122,7 @@ export class TwistyScrubber extends ManagedCustomElement {
     const inputElem = await this.inputElem();
     await this.slowDown(e, inputElem); // TODO
 
-    const value = parseInt(inputElem.value);
+    const value = parseInt(inputElem.value, 10) as MillisecondTimestamp;
     // console.log("on input", value);
     this.model?.playingInfo.set({ playing: false });
     this.model?.timestampRequest.set(value);
@@ -160,7 +164,7 @@ export class TwistyScrubber extends ManagedCustomElement {
       if (yDist > 64) {
         scale = Math.max(2 ** (-(yDist - 64) / 64), 1 / 32);
       }
-      const preVal = parseInt(inputElem.value);
+      const preVal = parseInt(inputElem.value, 10);
       console.log("cl", currentClickNum, clickNum, preVal);
       if (currentClickNum === clickNum) {
         const delta = (preVal - lastPreval) * scale;

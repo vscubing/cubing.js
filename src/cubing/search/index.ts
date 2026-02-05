@@ -7,5 +7,17 @@ export {
   solveMegaminx,
   solvePyraminx,
   solveSkewb,
-  solveTwsearch as experimentalSolveTwsearch,
+  solveTwips as experimentalSolveTwips,
 } from "./outside";
+
+import { solveTwips as experimentalSolveTwips } from "./outside";
+
+/** @deprecated */
+export const experimentalSolveTwsearch: typeof experimentalSolveTwips = (
+  ...args
+) => {
+  console.error(
+    "`experimentalSolveTwsearch(…)` is deprecated. Please call `experimentalSolveTwips(…)` instead.",
+  );
+  return experimentalSolveTwips(...args);
+};

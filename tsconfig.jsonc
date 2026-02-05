@@ -1,0 +1,56 @@
+{
+  "schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./node_modules/@cubing/dev-config/ts/es2022-types/tsconfig.json",
+  "compilerOptions": {
+    "module": "preserve",
+    "lib": ["es2022", "DOM", "DOM.Iterable"],
+    "noEmit": true,
+    "rootDir": "./",
+    "types": ["web-bluetooth", "dom-speech-recognition"],
+    "resolveJsonModule": true
+  },
+  "include": ["script", "src"],
+  "exclude": [
+    "./.temp/",
+    "./dist/",
+    // Avoid indexing `dist`.
+    "./script/test/dist/lib/cubing/build-size/src/total.js",
+    "./script/test/dist/lib/cubing/node/",
+    "./script/test/dist/lib/cubing/perf/",
+    "./src/bin/",
+    "./vendor/"
+  ],
+  "typedocOptions": {
+    "out": "dist/sites/js.cubing.net/cubing/api",
+    "categorizeByGroup": false,
+    "categoryOrder": [
+      // alg
+      "Alg",
+      "Alg Nodes",
+      // bluetooth
+      "Smart Puzzles",
+      "Keyboard Puzzles",
+      "Timers",
+      "Robots",
+      // puzzle-geometry
+      "PuzzleGeometry",
+      // twisty
+      "TwistyPlayer",
+      "Other Custom Elements",
+      // puzzles
+      "All Puzzles",
+      "Specific Puzzles",
+      // Other
+      "*"
+    ],
+    "customCss": "./src/docs/js.cubing.net/typedoc-theme.css",
+    "name": "cubing.js — API Reference",
+    "titleLink": "/cubing/api/",
+    "readme": "./src/cubing/typedoc-readme.md",
+    "includeVersion": true,
+    "hideGenerator": true,
+    "navigationLinks": {
+      "Go to main documentation 🔗": "/cubing/"
+    }
+  }
+}

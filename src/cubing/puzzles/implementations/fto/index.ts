@@ -1,6 +1,7 @@
 import type { ExperimentalStickering } from "../../../twisty";
 import { PGPuzzleLoader } from "../../async/async-pg3d";
 import { getCached } from "../../async/lazy-cached";
+import type { AlgTransformData } from "../../cubing-private";
 import {
   ftoStickering,
   ftoStickerings,
@@ -27,6 +28,29 @@ class FTOPuzzleLoader extends PGPuzzleLoader {
       .ftoSVG;
   });
   keyMapping = async () => ftoKeyMapping;
+  algTransformData: AlgTransformData = {
+    "↔ Mirror (x)": {
+      replaceMovesByFamily: {
+        L: "R",
+        R: "L",
+        l: "r",
+        r: "l",
+        Lw: "Rw",
+        Rw: "Lw",
+        Lv: "Rv",
+        Rv: "Lv",
+        BL: "BR",
+        BR: "BL",
+        bl: "br",
+        br: "bl",
+        BLw: "BRw",
+        BRw: "BLw",
+        BLv: "BRv",
+        BRv: "BLv",
+      },
+      invertExceptByFamily: new Set(["x"]),
+    },
+  };
 }
 
 export const fto = new FTOPuzzleLoader();

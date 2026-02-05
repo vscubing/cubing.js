@@ -7,7 +7,8 @@ import { KPuzzle, type KPuzzleDefinition } from "../../kpuzzle";
 import type { PuzzleGeometry } from "../../puzzle-geometry";
 import type { ExperimentalStickering, PuzzleID } from "../../twisty";
 import { PLazy } from "../../vendor/mit/p-lazy/p-lazy";
-import type { PuzzleLoader } from "../PuzzleLoader";
+import { cubeMirrorTransforms } from "../implementations/3x3x3";
+import type { AlgTransformData, PuzzleLoader } from "../PuzzleLoader";
 import {
   cubeLikeStickeringList,
   cubeLikeStickeringMask,
@@ -25,6 +26,19 @@ export async function asyncGetPuzzleGeometry(
     orientCenters: true,
     addRotations: true,
   });
+}
+
+// When we need a base puzzle (when a user wants GAP or Mathematica
+// or KSolve output), or if we want to run Schreier-Sims or such,
+// we need a default base puzzle to work with (for instance, 333
+// without slice moves or oriented centers  is what people expect).
+// This function lets those operations behave more in line with
+// what people want.
+async function asyncGetBasePuzzleGeometry(
+  puzzleName: string,
+): Promise<PuzzleGeometry> {
+  const puzzleGeometry = await import("../../puzzle-geometry");
+  return puzzleGeometry.getPuzzleGeometryByName(puzzleName);
 }
 
 // TODO: can we cache the puzzleGeometry to avoid duplicate calls, without
@@ -100,6 +114,13 @@ export class PGPuzzleLoader implements PuzzleLoader {
     return (this.#cachedPG ??= asyncGetPuzzleGeometry(this.pgId ?? this.id));
   }
 
+  #cachedBasePG: Promise<PuzzleGeometry> | undefined;
+  basePG(): Promise<PuzzleGeometry> {
+    return (this.#cachedBasePG ??= asyncGetBasePuzzleGeometry(
+      this.pgId ?? this.id,
+    ));
+  }
+
   #cachedKPuzzle: Promise<KPuzzle> | undefined;
   kpuzzle(): Promise<KPuzzle> {
     return (this.#cachedKPuzzle ??= asyncGetKPuzzle(
@@ -126,6 +147,7 @@ export class CubePGPuzzleLoader extends PGPuzzleLoader {
   }
   stickerings = () =>
     cubeLikeStickeringList(this.id as PuzzleID, { use3x3x3Fallbacks: true });
+  algTransformData: AlgTransformData = cubeMirrorTransforms;
 }
 
 export function puzzleSpecificSimplifyOptionsPromise(

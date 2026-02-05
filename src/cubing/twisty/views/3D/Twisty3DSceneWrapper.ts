@@ -23,7 +23,7 @@ export class Twisty3DSceneWrapper
   extends ManagedCustomElement
   implements Schedulable
 {
-  // @ts-ignore TypeScript type inference appears to be borked: ts(2322)
+  // @ts-expect-error TypeScript type inference appears to be borked: ts(2322)
   #backViewClassListManager: ClassListManager<BackViewLayoutWithAuto> =
     new ClassListManager(this, "back-view-", [
       "auto",
@@ -52,7 +52,7 @@ export class Twisty3DSceneWrapper
       );
       this.#freshListenerManager.addListener(
         this.model.backView,
-        // @ts-ignore TypeScript type inference appears to be borked: ts(2322)
+        // @ts-expect-error TypeScript type inference appears to be borked: ts(2322)
         this.setBackView.bind(this),
       );
     }
@@ -204,7 +204,7 @@ export class Twisty3DSceneWrapper
         ]),
       );
 
-    this.setCurrentTwisty3DPuzzleWrapper(scene, twisty3DPuzzleWrapper);
+    void this.setCurrentTwisty3DPuzzleWrapper(scene, twisty3DPuzzleWrapper);
   }
 }
 

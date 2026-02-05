@@ -28,10 +28,11 @@ import { solvePyraminx } from "./solve/puzzles/pyraminx";
 import { randomRediCubeScramble } from "./solve/puzzles/redi_cube";
 import { solveSkewb } from "./solve/puzzles/skewb";
 import {
-  type TwsearchOptions,
+  type TwipsOptions,
+  wasmDeriveScrambleForEvent,
   wasmRandomScrambleForEvent,
-  wasmTwsearch,
-} from "./solve/twsearch";
+  wasmTwips,
+} from "./solve/twips";
 
 const IDLE_PREFETCH_TIMEOUT_MS = 1000;
 
@@ -109,7 +110,7 @@ async function randomScrambleForEvent(
       // case "333bf":
       case "333fm":
       // case "333oh":
-      // case "clock":
+      case "clock":
       case "minx":
       case "pyram":
       case "skewb":
@@ -232,6 +233,23 @@ export const insideAPI = {
     return (await insideAPI.randomScrambleForEvent(eventID)).toString();
   },
 
+  deriveScrambleStringForEvent: async (
+    derivationSeedHex: string,
+    derivationSaltHierarchy: string[],
+    eventID: string,
+  ): Promise<string> => {
+    const scramble = await measurePerf(
+      `deriveScrambleForEvent(…, ${JSON.stringify(eventID)})`,
+      () =>
+        wasmDeriveScrambleForEvent(
+          derivationSeedHex,
+          derivationSaltHierarchy,
+          eventID,
+        ),
+    );
+    return scramble.toString();
+  },
+
   solve333ToString: async (patternData: KPatternData): Promise<string> => {
     const pattern = new KPattern(await puzzles["3x3x3"].kpuzzle(), patternData);
     return (await solve333(pattern)).toString();
@@ -267,15 +285,15 @@ export const insideAPI = {
     setDebugMeasurePerf(measure);
   },
 
-  solveTwsearchToString: async (
+  solveTwipsToString: async (
     def: KPuzzleDefinition,
     patternData: KPatternData,
-    options?: TwsearchOptions,
+    options?: TwipsOptions,
   ): Promise<string> => {
     const kpuzzle = new KPuzzle(def);
     const pattern = new KPattern(kpuzzle, patternData);
-    return (await wasmTwsearch(def, pattern, options)).toString();
+    return (await wasmTwips(def, pattern, options)).toString();
   },
 };
 
-export type WorkerInsideAPI = typeof insideAPI;
+export type WorkerAPI = typeof insideAPI;

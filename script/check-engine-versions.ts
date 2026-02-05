@@ -1,14 +1,17 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S bun run --
 
 // TOOD: remove this once https://github.com/oven-sh/bun/issues/5846 is implemented.
 // TODO: turn this into a package?
 
 import { exit } from "node:process";
-import { file, type SystemError, spawn } from "bun";
-import { satisfies } from "compare-versions";
+import type { JSONSchemaForNPMPackageJsonFiles } from "@schemastore/package";
+import { type SystemError, semver } from "bun";
+import { Path } from "path-class";
 import { PrintableShellCommand } from "printable-shell-command";
 
-const { engines } = await file("./package.json").json();
+const { engines } = await new Path(
+  "./package.json",
+).readJSON<JSONSchemaForNPMPackageJsonFiles>();
 
 let exitCode = 0;
 
@@ -16,14 +19,12 @@ async function checkEngine(
   engineID: string,
   versionCommand: PrintableShellCommand,
 ) {
-  const engineRequirement = engines[engineID];
+  const engineRequirement = engines![engineID]!;
   try {
-    const command = spawn(versionCommand.forBun(), {
-      stdout: "pipe",
-      stderr: "ignore",
-    });
-
-    if ((await command.exited) !== 0) {
+    let engineVersion: string;
+    try {
+      engineVersion = await versionCommand.stdout().text();
+    } catch {
       console.error(
         `Command failed while getting version:
 
@@ -33,8 +34,7 @@ async function checkEngine(
       return;
     }
 
-    const engineVersion = (await new Response(command.stdout).text()).trim();
-    if (!satisfies(engineVersion, engineRequirement)) {
+    if (!semver.satisfies(engineVersion, engineRequirement)) {
       console.error(
         `Current version of \`${engineID}\` is out of date: ${engineVersion}`,
       );
@@ -46,9 +46,8 @@ async function checkEngine(
     }
   } catch (e) {
     if ((e as any as SystemError).code === "ENOENT") {
-      const [binary, ..._] = versionCommand.forBun();
       console.error(
-        `Binary is missing for engine version check: \`${binary}\``,
+        `Binary is missing for engine version check: \`${versionCommand.commandName}\``,
       );
     } else {
       console.error(`Unexpected error while trying to run version check: ${e}`);

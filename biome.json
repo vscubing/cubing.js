@@ -4,42 +4,32 @@
   "files": {
     "includes": [
       "**",
-      "!.temp",
+      "!!.temp",
       "!dist",
       "!**/*/index.d.ts",
       "!src/cubing/vendor/mit/cs0x7f/**/*",
-      "!src/cubing/vendor/mpl/twsearch/**/*.js",
+      "!src/cubing/vendor/mpl/twips/**/*.js",
       "!src/cubing/vendor/mpl/xyzzy/**/*.js",
       "!src/sites/experiments.cubing.net/cubing.js/rust/wasm/**/*.js",
-      "!src/sites/experiments.cubing.net/cubing.js/rust/wasm/**/*.d.ts"
+      "!src/sites/experiments.cubing.net/cubing.js/rust/wasm/**/*.d.ts",
+      "!vendor"
     ]
   },
   "linter": {
     "rules": {
-      "nursery": {},
+      "nursery": {
+        "noFloatingPromises": "error"
+      },
       "complexity": {
         "useLiteralKeys": "off"
       },
       "style": {
-        "noNegationElse": "off",
-        "noShoutyConstants": "off",
-        "noInferrableTypes": "off",
         "noNonNullAssertion": "off",
-        "noParameterAssign": "off",
-        "useEnumInitializers": "off",
-        "noUselessElse": "off",
-        "useNumberNamespace": "off",
-        "useBlockStatements": "error"
+        "noUselessElse": "off"
       },
       "suspicious": {
         "noAssignInExpressions": "off",
         "noExplicitAny": "off"
-      },
-      "performance": {
-        "noDelete": "off"
-      },
-      "correctness": {
-        "noUnusedImports": "error"
       }
     }
   }

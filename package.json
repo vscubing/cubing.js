@@ -1,166 +1,119 @@
 {
   "name": "@vscubing/cubing",
-  "version": "0.57.0-vscubing.1",
+  "version": "0.63.1-vscubing.1",
   "description": "A collection of JavaScript cubing libraries.",
   "author": "The js.cubing.net team",
-  "type": "module",
   "license": "MPL-2.0 OR GPL-3.0-or-later",
-  "repository": "github:vscubing/cubing.js",
-  "exports": {
-    "./alg": {
-      "import": "./dist/lib/cubing/alg/index.js",
-      "types": "./dist/lib/cubing/alg/index.d.ts"
-    },
-    "./bluetooth": {
-      "import": "./dist/lib/cubing/bluetooth/index.js",
-      "types": "./dist/lib/cubing/bluetooth/index.d.ts"
-    },
-    "./kpuzzle": {
-      "import": "./dist/lib/cubing/kpuzzle/index.js",
-      "types": "./dist/lib/cubing/kpuzzle/index.d.ts"
-    },
-    "./notation": {
-      "import": "./dist/lib/cubing/notation/index.js",
-      "types": "./dist/lib/cubing/notation/index.d.ts"
-    },
-    "./protocol": {
-      "import": "./dist/lib/cubing/protocol/index.js",
-      "types": "./dist/lib/cubing/protocol/index.d.ts"
-    },
-    "./puzzle-geometry": {
-      "import": "./dist/lib/cubing/puzzle-geometry/index.js",
-      "types": "./dist/lib/cubing/types/puzzle-geometry/index.d.ts"
-    },
-    "./puzzles": {
-      "import": "./dist/lib/cubing/puzzles/index.js",
-      "types": "./dist/lib/cubing/types-geometry/index.d.ts"
-    },
-    "./scramble": {
-      "import": "./dist/lib/cubing/scramble/index.js",
-      "types": "./dist/lib/cubing/scramble/index.d.ts"
-    },
-    "./search": {
-      "import": "./dist/lib/cubing/search/index.js",
-      "types": "./dist/lib/cubing/search/index.d.ts"
-    },
-    "./stream": {
-      "import": "./dist/lib/cubing/stream/index.js",
-      "types": "./dist/lib/cubing/stream/index.d.ts"
-    },
-    "./twisty": {
-      "import": "./dist/lib/cubing/twisty/index.js",
-      "types": "./dist/lib/cubing/twisty/index.d.ts"
-    }
-  },
-  "bin": {
-    "scramble": "./dist/bin/scramble.js"
-  },
-  "dependencies": {
-    "@types/three": "^0.169.0",
-    "@types/web-bluetooth": "^0.0.20",
-    "cmd-ts-too": "^0.15.3",
-    "comlink": "^4.4.1",
-    "random-uint-below": "v3.3.0",
-    "three": "^0.170.0"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "v2.0.6",
-    "@cubing/deploy": "v0.2.1",
-    "@cubing/dev-config": "v0.3.5",
-    "@esm-bundle/chai": "^4.3.4-fix.0",
-    "@types/bun": "^1.2.11",
-    "@types/chai": "^5.0.0",
-    "@types/dom-speech-recognition": "^0.0.4",
-    "@types/mocha": "^10.0.8",
-    "@types/node": "^22.15.3",
-    "@web/dev-server-esbuild": "^1.0.2",
-    "@web/test-runner": "^0.19.0",
-    "@web/test-runner-playwright": "^0.11.0",
-    "barely-a-dev-server": "v0.8.0",
-    "chai": "^5.1.1",
-    "compare-versions": "^6.1.1",
-    "esbuild": "^0.25.0",
-    "jszip": "^3.10.1",
-    "mocha": "^10.7.3",
-    "playwright": "^1.47.2",
-    "printable-shell-command": "v1.0.0",
-    "tsup": "^8.3.0",
-    "typedoc": "v0.28.2",
-    "typescript": "v5.8.3"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vscubing/cubing.js.git"
   },
   "engines-comment": "`node` 22.3.0 and `bun` 1.2.7 are needed for `globalThis.process.getBuiltinModule(…)`, which helps bundlers avoid thinking our `node` shims require packages from a package manager.",
   "engines": {
     "node": ">=22.3.0",
-    "bun": ">=1.2.7"
+    "bun": ">=1.3.0"
+  },
+  "type": "module",
+  "exports": {
+    "./alg": {
+      "types": "./dist/lib/cubing/alg/index.d.ts",
+      "import": "./dist/lib/cubing/alg/index.js"
+    },
+    "./bluetooth": {
+      "types": "./dist/lib/cubing/bluetooth/index.d.ts",
+      "import": "./dist/lib/cubing/bluetooth/index.js"
+    },
+    "./kpuzzle": {
+      "types": "./dist/lib/cubing/kpuzzle/index.d.ts",
+      "import": "./dist/lib/cubing/kpuzzle/index.js"
+    },
+    "./notation": {
+      "types": "./dist/lib/cubing/notation/index.d.ts",
+      "import": "./dist/lib/cubing/notation/index.js"
+    },
+    "./protocol": {
+      "types": "./dist/lib/cubing/protocol/index.d.ts",
+      "import": "./dist/lib/cubing/protocol/index.js"
+    },
+    "./puzzle-geometry": {
+      "types": "./dist/lib/cubing/puzzle-geometry/index.d.ts",
+      "import": "./dist/lib/cubing/puzzle-geometry/index.js"
+    },
+    "./puzzles": {
+      "types": "./dist/lib/cubing/puzzles/index.d.ts",
+      "import": "./dist/lib/cubing/puzzles/index.js"
+    },
+    "./scramble": {
+      "types": "./dist/lib/cubing/scramble/index.d.ts",
+      "import": "./dist/lib/cubing/scramble/index.js"
+    },
+    "./search": {
+      "types": "./dist/lib/cubing/search/index.d.ts",
+      "import": "./dist/lib/cubing/search/index.js"
+    },
+    "./stream": {
+      "types": "./dist/lib/cubing/stream/index.d.ts",
+      "import": "./dist/lib/cubing/stream/index.js"
+    },
+    "./twisty": {
+      "types": "./dist/lib/cubing/twisty/index.d.ts",
+      "import": "./dist/lib/cubing/twisty/index.js"
+    }
+  },
+  "bin": {
+    "scramble": "dist/bin/scramble.js"
+  },
+  "dependencies": {
+    "@optique/core": ">=0.9.1",
+    "@optique/run": ">=0.9.1",
+    "@types/three": "^0.169.0",
+    "@types/web-bluetooth": "^0.0.20",
+    "random-uint-below": "v3.3.0",
+    "three": "^0.170.0",
+    "type-fest": "^5.2.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.11",
+    "@cubing/deploy": ">=0.4.10",
+    "@cubing/dev-config": ">=0.9.2",
+    "@esm-bundle/chai": "^4.3.4-fix.0",
+    "@schemastore/package": "^0.0.10",
+    "@types/bun": "^1.3.5",
+    "@types/chai": "^5.0.0",
+    "@types/dom-speech-recognition": "^0.0.4",
+    "@types/mocha": "^10.0.8",
+    "@types/node": "^25.0.3",
+    "@web/dev-server-esbuild": "^1.0.2",
+    "@web/test-runner": "^0.19.0",
+    "@web/test-runner-playwright": "^0.11.0",
+    "barely-a-dev-server": ">=0.8.3",
+    "bun-dx": ">=0.1.3",
+    "chai": "^5.1.1",
+    "esbuild": "^0.25.0",
+    "jszip": "^3.10.1",
+    "mocha": "^10.7.3",
+    "path-class": ">=0.11.0",
+    "playwright": "^1.58.0",
+    "printable-shell-command": "^4.0.3",
+    "tsup": "^8.3.0",
+    "typedoc": "^0.28.10",
+    "typescript": "5.9.3",
+    "typescript-json-schema": "^0.67.1"
+  },
+  "overrides": {
+    "typescript": "5.9.3"
   },
   "files": [
     "./dist/bin/",
     "./dist/lib/",
     "./experimental-json-schema",
-    "*/index.d.ts"
+    "./*/index.d.ts"
   ],
   "scripts": {
-    "default": "make default",
     "build": "make build",
-    "build-lib": "make build-lib",
-    "build-lib-js": "make build-lib-js",
-    "build-lib-types": "make build-lib-types",
-    "build-bin": "make build-bin",
-    "build-sites": "make build-sites",
-    "build-site-twizzle": "make build-site-twizzle",
-    "build-site-experiments": "make build-site-experiments",
-    "build-site-docs": "make build-site-docs",
     "dev": "make dev",
-    "link": "make link",
-    "clean": "make clean",
-    "clean-types": "make clean-types",
-    "reset": "make reset",
-    "audit": "make audit",
-    "test": "make test",
-    "test-info": "make test-info",
-    "test-fast": "make test-fast",
-    "test-all": "make test-all",
-    "test-src": "make test-src",
-    "test-spec": "make test-spec",
-    "test-spec-bun": "make test-spec-bun",
-    "test-spec-bun-fast": "make test-spec-bun-fast",
-    "test-spec-bun-with-coverage": "make test-spec-bun-with-coverage",
-    "test-spec-dom": "make test-spec-dom",
-    "test-spec-dom-with-coverage": "make test-spec-dom-with-coverage",
-    "playwright-install": "make playwright-install",
-    "test-src-import-restrictions": "make test-src-import-restrictions",
-    "test-src-tsc": "make test-src-tsc",
-    "test-src-scripts-consistency": "make test-src-scripts-consistency",
-    "fix-src-scripts-consistency": "make fix-src-scripts-consistency",
-    "test-build": "make test-build",
-    "test-dist": "make test-dist",
-    "test-dist-lib": "make test-dist-lib",
-    "test-dist-lib-node-import": "make test-dist-lib-node-import",
-    "test-dist-lib-node-scramble": "make test-dist-lib-node-scramble",
-    "test-dist-lib-bun-scramble-all-events": "make test-dist-lib-bun-scramble-all-events",
-    "test-dist-lib-perf": "make test-dist-lib-perf",
-    "test-dist-lib-plain-esbuild-compat": "make test-dist-lib-plain-esbuild-compat",
-    "test-dist-lib-build-size": "make test-dist-lib-build-size",
-    "test-dist-sites-twizzle": "make test-dist-sites-twizzle",
-    "test-dist-bin": "make test-dist-bin",
-    "test-dist-bin-shebang": "make test-dist-bin-shebang",
-    "test-dist-bin-npm-exec": "make test-dist-bin-npm-exec",
-    "format": "make format",
-    "setup": "make setup",
-    "bun-required": "make bun-required",
-    "update-dependencies": "make update-dependencies",
-    "check-engines": "make check-engines",
-    "lint": "make lint",
-    "lint-ci": "make lint-ci",
-    "prepack": "make prepack",
     "prepublishOnly": "make prepublishOnly",
-    "postpublish": "make postpublish",
-    "deploy": "make deploy",
-    "deploy-twizzle": "make deploy-twizzle",
-    "deploy-experiments": "make deploy-experiments",
-    "roll-vendored-twsearch": "make roll-vendored-twsearch",
-    "update-create-cubing-app": "make update-create-cubing-app",
-    "update-cdn": "make update-cdn"
+    "postpublish": "make postpublish"
   },
   "keywords": [
     "cubing",
@@ -168,15 +121,20 @@
     "puzzle",
     "visualization",
     "kpuzzle",
-    "cuble",
     "bluetooth",
     "rubik",
-    "rubik's"
+    "rubik's",
+    "Twizzle",
+    "scramble",
+    "scrambles",
+    "alg",
+    "algs"
   ],
   "@cubing/deploy": {
-    "$schema": "./node_modules/@cubing/deploy/config-schema.json",
     "https://experiments.cubing.net/cubing.js/": {
+      "username": "cubing_deploy",
       "fromLocalDir": "./dist/sites/experiments.cubing.net/cubing.js/"
     }
-  }
+  },
+  "$schema": "./node_modules/@cubing/deploy/config-schema.package.json"
 }

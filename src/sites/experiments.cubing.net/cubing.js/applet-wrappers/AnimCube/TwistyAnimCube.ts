@@ -175,7 +175,7 @@ export class TwistyAnimCube extends ManagedCustomElement {
 
 customElementsShim.define("twisty-anim-cube", TwistyAnimCube);
 
-window.addEventListener("DOMContentLoaded", () => {
+globalThis.addEventListener("DOMContentLoaded", () => {
   const applets = document.querySelectorAll("applet");
   for (const applet of Array.from(applets)) {
     const attributeContains = (attrName: string, substr: string): boolean => {
@@ -192,12 +192,14 @@ window.addEventListener("DOMContentLoaded", () => {
         if (width) {
           twistyAnimCube.twistyPlayer!.style.width = `${parseInt(
             width,
+            10,
           ).toString()}px`;
         }
         const height = applet.getAttribute("height");
         if (height) {
           twistyAnimCube.twistyPlayer!.style.height = `${parseInt(
             height,
+            10,
           ).toString()}px`;
         }
       });

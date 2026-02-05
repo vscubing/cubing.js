@@ -32,11 +32,6 @@ import {
   VisibleState,
 } from "./PermOriSet";
 import {
-  PGPuzzles,
-  type PuzzleDescriptionString,
-  type PuzzleName,
-} from "./PGPuzzles";
-import {
   closure,
   cube,
   dodecahedron,
@@ -46,6 +41,11 @@ import {
   tetrahedron,
   uniqueplanes,
 } from "./PlatonicGenerator";
+import {
+  type PuzzleDescriptionString,
+  type PuzzleName,
+  pgPuzzle,
+} from "./pgPuzzles";
 import { centermassface, Quat } from "./Quat";
 import { schreierSims } from "./SchreierSims";
 
@@ -498,14 +498,14 @@ export function getPG3DNamedPuzzles(): {
   [s: string]: PuzzleDescriptionString;
 } {
   // get some simple definitions of basic puzzles
-  return PGPuzzles;
+  return pgPuzzle;
 }
 
 export function getPuzzleDescriptionString(
   puzzleName: PuzzleName,
 ): PuzzleDescriptionString {
   // get some simple definitions of basic puzzles
-  return PGPuzzles[puzzleName];
+  return pgPuzzle[puzzleName];
 }
 
 export const PUZZLE_BASE_SHAPES = ["c", "t", "o", "d", "i"] as const;
@@ -572,7 +572,7 @@ export function getPuzzleGeometryByName(
   puzzleName: PuzzleName,
   options?: PuzzleGeometryOptions,
 ): PuzzleGeometry {
-  return getPuzzleGeometryByDesc(PGPuzzles[puzzleName], options);
+  return getPuzzleGeometryByDesc(pgPuzzle[puzzleName], options);
 }
 
 function getmovename(
@@ -1866,6 +1866,7 @@ export class PuzzleGeometry {
     return newmv.modified({ family: this.swizzler.unswizzle(newmv.family) });
   }
 
+  // TODO: remove this in favor of `Move.fromString(…)`
   // We use an extremely permissive parse here; any character but
   // digits are allowed in a family name.
   private stringToBlockMove(mv: string): Move {
@@ -1994,8 +1995,11 @@ export class PuzzleGeometry {
   }
 
   private parsemove(
-    mv: string,
+    mv: string | Move,
   ): [string | undefined, number, number, number, boolean, number] {
+    if (mv instanceof Move) {
+      mv = mv.toString();
+    }
     const r = this.parseMove(this.stringToBlockMove(mv));
     r[0] = mv;
     return r;
@@ -2375,7 +2379,11 @@ export class PuzzleGeometry {
     const r = [];
     const mvs = [];
     for (let i = 0; i < os.moveops.length; i++) {
-      let movename = `M_${externalName(this.notationMapper, os.movenames[i])}`;
+      let movename = os.movenames[i];
+      if (!os.forcenames[i]) {
+        movename = `M_${externalName(this.notationMapper, movename)}`;
+      }
+      movename = `M_${movename}`;
       let doinv = false;
       if (movename[movename.length - 1] === "'") {
         movename = movename.substring(0, movename.length - 1);

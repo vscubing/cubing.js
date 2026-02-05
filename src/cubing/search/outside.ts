@@ -1,20 +1,24 @@
-import type { EventID } from "@vscubing/cubing/puzzles/events";
 import { Alg } from "../alg";
 import type { KPuzzle } from "../kpuzzle";
 // import { preInitialize222 } from "../implementations/2x2x2";
 import type { KPattern } from "../kpuzzle/KPattern";
-import type { PrefetchLevel } from "./inside/api";
-import { randomClockScrambleString } from "./inside/solve/puzzles/clock"; // TODO: don't reach into `inside` code.
-import type { TwsearchOptions } from "./inside/solve/twsearch";
-import {
-  type InsideOutsideAPI,
-  instantiateWorker,
-  mapToAllWorkers,
-} from "./instantiator";
+import type { PrefetchLevel, WorkerAPI } from "./inside/api";
+import type { TwipsOptions } from "./inside/solve/twips";
+import { allWorkerAPIPromises, instantiateWorkerAPI } from "./instantiator";
 
-let cachedWorkerInstance: Promise<InsideOutsideAPI> | undefined;
-function getCachedWorkerInstance(): Promise<InsideOutsideAPI> {
-  return (cachedWorkerInstance ??= instantiateWorker());
+let cachedWorkerInstance: Promise<WorkerAPI> | undefined;
+function getCachedWorkerInstance(): Promise<WorkerAPI> {
+  return (cachedWorkerInstance ??= instantiateWorkerAPI());
+}
+
+export async function mapToAllWorkers(
+  f: (worker: WorkerAPI) => void,
+): Promise<void> {
+  await Promise.all(
+    allWorkerAPIPromises.map(async (worker) => {
+      f(await worker);
+    }),
+  );
 }
 
 // Pre-initialize the scrambler for the given event. (Otherwise, an event is
@@ -35,7 +39,7 @@ function getCachedWorkerInstance(): Promise<InsideOutsideAPI> {
 // pre-initialize multiple events will initialize them consecutively. Scrambles
 // for a given event cannot be computed while another event is being initialized.
 export function _preInitializationHintForEvent(
-  eventID: EventID,
+  eventID: string,
   // callback?: () => void
 ): void {
   switch (eventID) {
@@ -43,128 +47,120 @@ export function _preInitializationHintForEvent(
       _preInitializationHintForEvent("333");
       return;
   }
-  (async () => {
-    await (await getCachedWorkerInstance()).insideAPI.initialize(eventID);
+  void (async () => {
+    await (await getCachedWorkerInstance()).initialize(eventID);
   })();
 }
 
-export async function randomScrambleForEvent(eventID: EventID): Promise<Alg> {
-  switch (eventID) {
-    case "clock":
-      return Alg.fromString(await randomClockScrambleString());
-  }
-  const prom = _randomScrambleStringForEvent(eventID);
-  const wat = await prom;
-  return Alg.fromString(wat);
+export async function randomScrambleForEvent(eventID: string): Promise<Alg> {
+  const worker = searchOutsideDebugGlobals.forceNewWorkerForEveryScramble
+    ? await instantiateWorkerAPI()
+    : await getCachedWorkerInstance();
+  const scrambleString = await worker.randomScrambleStringForEvent(eventID);
+
+  return Alg.fromString(scrambleString);
 }
 
-export async function _randomScrambleStringForEvent(
-  eventID: EventID,
-): Promise<string> {
-  if (searchOutsideDebugGlobals.forceNewWorkerForEveryScramble) {
+export async function deriveScrambleForEvent(
+  derivationSeedHex: string,
+  derivationSaltHierarchy: string[],
+  eventID: string,
+): Promise<Alg> {
+  if (!searchOutsideDebugGlobals.allowDerivedScrambles) {
+    throw new Error("Derived scrambles are not allowed.");
   }
   const worker = searchOutsideDebugGlobals.forceNewWorkerForEveryScramble
-    ? await instantiateWorker()
+    ? await instantiateWorkerAPI()
     : await getCachedWorkerInstance();
-  return worker.insideAPI.randomScrambleStringForEvent(eventID);
-}
-
-export async function randomScrambleStringForEvent(
-  eventID: EventID,
-): Promise<string> {
-  switch (eventID) {
-    case "clock":
-      return randomClockScrambleString();
-  }
-  return await _randomScrambleStringForEvent(eventID);
+  const scrambleString = await worker.deriveScrambleStringForEvent(
+    derivationSeedHex,
+    derivationSaltHierarchy,
+    eventID,
+  );
+  return Alg.fromString(scrambleString);
 }
 
 export async function experimentalSolve3x3x3IgnoringCenters(
   pattern: KPattern,
 ): Promise<Alg> {
   const cwi = await getCachedWorkerInstance();
-  return Alg.fromString(
-    await cwi.insideAPI.solve333ToString(pattern.patternData),
-  );
+  return Alg.fromString(await cwi.solve333ToString(pattern.patternData));
 }
 
 export async function experimentalSolve2x2x2(pattern: KPattern): Promise<Alg> {
   const cwi = await getCachedWorkerInstance();
-  return Alg.fromString(
-    await cwi.insideAPI.solve222ToString(pattern.patternData),
-  );
+  return Alg.fromString(await cwi.solve222ToString(pattern.patternData));
 }
 
 export async function solveSkewb(pattern: KPattern): Promise<Alg> {
   const cwi = await getCachedWorkerInstance();
-  return Alg.fromString(
-    await cwi.insideAPI.solveSkewbToString(pattern.patternData),
-  );
+  return Alg.fromString(await cwi.solveSkewbToString(pattern.patternData));
 }
 
 export async function solvePyraminx(pattern: KPattern): Promise<Alg> {
   const cwi = await getCachedWorkerInstance();
-  return Alg.fromString(
-    await cwi.insideAPI.solvePyraminxToString(pattern.patternData),
-  );
+  return Alg.fromString(await cwi.solvePyraminxToString(pattern.patternData));
 }
 
 export async function solveMegaminx(pattern: KPattern): Promise<Alg> {
   const cwi = await getCachedWorkerInstance();
-  return Alg.fromString(
-    await cwi.insideAPI.solveMegaminxToString(pattern.patternData),
-  );
+  return Alg.fromString(await cwi.solveMegaminxToString(pattern.patternData));
 }
 
-export interface SolveTwsearchOptions {
+export interface SolveTwipsOptions {
   generatorMoves?: string[];
   targetPattern?: KPattern;
   minDepth?: number;
   maxDepth?: number;
 }
 
-export async function solveTwsearch(
+export async function solveTwips(
   kpuzzle: KPuzzle,
   pattern: KPattern,
-  options?: SolveTwsearchOptions,
+  options?: SolveTwipsOptions,
 ): Promise<Alg> {
   const { targetPattern, ...otherOptions } = options ?? {};
-  const apiOptions: TwsearchOptions = otherOptions;
+  const apiOptions: TwipsOptions = otherOptions;
   if (targetPattern) {
     apiOptions.targetPattern = targetPattern.patternData;
   }
   const { ...def } = kpuzzle.definition;
   delete def.experimentalIsPatternSolved;
   // delete def.derivedMoves;
-  const dedicatedWorker = await instantiateWorker();
+  const dedicatedWorker = await instantiateWorkerAPI();
   try {
     return Alg.fromString(
-      await dedicatedWorker.insideAPI.solveTwsearchToString(
+      // TODO: unnecessary because we terminate the worker?
+      await dedicatedWorker.solveTwipsToString(
         def,
         pattern.patternData,
         apiOptions,
       ),
     );
   } finally {
-    console.log("Search ended, terminating dedicated `twsearch` worker.");
+    console.log("Search ended, terminating dedicated `twips` worker.");
     // TODO: support re-using the same worker for multiple searches..
-    await dedicatedWorker.outsideAPI.terminate();
+    // dedicatedWorker.terminate?.(); // TODO
   }
 }
 
 interface SearchOutsideDebugGlobals {
   logPerf: boolean;
   scramblePrefetchLevel: `${PrefetchLevel}`;
-  disableStringWorker: boolean;
   forceNewWorkerForEveryScramble: boolean;
   showWorkerInstantiationWarnings: boolean;
+  // This can prevent a request to `search-worker-entry.js` when it doesn't exist, if the library semantics have been mangled by `esbuild`.
+  prioritizeEsbuildWorkaroundForWorkerInstantiation: boolean;
+  allowDerivedScrambles: boolean;
 }
+
 export const searchOutsideDebugGlobals: SearchOutsideDebugGlobals = {
   logPerf: true,
   scramblePrefetchLevel: "auto",
-  disableStringWorker: false,
   forceNewWorkerForEveryScramble: false,
   showWorkerInstantiationWarnings: true,
+  prioritizeEsbuildWorkaroundForWorkerInstantiation: false,
+  allowDerivedScrambles: false,
 };
 
 export function setSearchDebug(
@@ -173,26 +169,23 @@ export function setSearchDebug(
   const { logPerf, scramblePrefetchLevel } = options;
   if (typeof logPerf !== "undefined") {
     searchOutsideDebugGlobals.logPerf = logPerf;
-    mapToAllWorkers((worker) => worker.insideAPI.setDebugMeasurePerf(logPerf));
+    void mapToAllWorkers((worker) => worker.setDebugMeasurePerf(logPerf));
   }
   if (typeof scramblePrefetchLevel !== "undefined") {
     searchOutsideDebugGlobals.scramblePrefetchLevel = scramblePrefetchLevel;
-    mapToAllWorkers((worker) =>
-      worker.insideAPI.setScramblePrefetchLevel(
-        scramblePrefetchLevel as PrefetchLevel,
-      ),
+    void mapToAllWorkers((worker) =>
+      worker.setScramblePrefetchLevel(scramblePrefetchLevel as PrefetchLevel),
     );
   }
-  if ("disableStringWorker" in options) {
-    searchOutsideDebugGlobals.disableStringWorker =
-      !!options.disableStringWorker;
-  }
-  if ("forceNewWorkerForEveryScramble" in options) {
-    searchOutsideDebugGlobals.forceNewWorkerForEveryScramble =
-      !!options.forceNewWorkerForEveryScramble;
-  }
-  if ("showWorkerInstantiationWarnings" in options) {
-    searchOutsideDebugGlobals.showWorkerInstantiationWarnings =
-      !!options.showWorkerInstantiationWarnings;
+  for (const booleanField of [
+    "forceNewWorkerForEveryScramble",
+    "showWorkerInstantiationWarnings",
+    "prioritizeEsbuildWorkaroundForWorkerInstantiation",
+    "allowDerivedScrambles",
+  ] as const) {
+    if (booleanField in options) {
+      searchOutsideDebugGlobals[booleanField] =
+        options[booleanField] ?? searchOutsideDebugGlobals[booleanField];
+    }
   }
 }
