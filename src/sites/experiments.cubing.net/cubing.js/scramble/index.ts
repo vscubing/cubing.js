@@ -1,4 +1,3 @@
-import type { EventID } from "@vscubing/cubing/puzzles/events";
 import { eventInfo } from "../../../../cubing/puzzles";
 import { randomScrambleForEvent } from "../../../../cubing/scramble";
 import "../../../../cubing/twisty";
@@ -14,7 +13,7 @@ const button = document.querySelector("button") as HTMLButtonElement;
 async function loadNewScramble() {
   scrambleStringDiv.textContent = "⏳";
   twistyPlayer.alg = "";
-  const scramble = await randomScrambleForEvent(select.value as EventID);
+  const scramble = await randomScrambleForEvent(select.value);
   scrambleStringDiv.textContent = scramble.toString();
   twistyPlayer.alg = scramble;
 }
@@ -24,7 +23,7 @@ globalThis.addEventListener("DOMContentLoaded", async () => {
   select.addEventListener("change", () => {
     twistyPlayer.alg = "";
     try {
-      twistyPlayer.puzzle = eventInfo(select.value as EventID)!.puzzleID;
+      twistyPlayer.puzzle = eventInfo(select.value)!.puzzleID;
     } finally {
       // TODO
     }

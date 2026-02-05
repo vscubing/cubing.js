@@ -1,4 +1,3 @@
-import type { EventID } from "@vscubing/cubing/puzzles/events";
 import { Alg, AlgBuilder, LineComment, Newline } from "../../../cubing/alg";
 import { experimentalEnsureAlg } from "../../../cubing/alg/Alg";
 import { puzzles } from "../../../cubing/puzzles";
@@ -61,7 +60,7 @@ function algAppend(oldAlg: Alg, comment: string, newAlg: Alg): Alg {
   return newAlgBuilder.toAlg();
 }
 
-const SCRAMBLE_EVENTS: Partial<Record<PuzzleID, EventID>> = {
+const SCRAMBLE_EVENTS: Partial<Record<PuzzleID, string>> = {
   "3x3x3": "333",
   "2x2x2": "222",
   "4x4x4": "444",
